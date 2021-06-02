@@ -2,15 +2,21 @@ import firebase from "firebase/app"
 import 'firebase/firestore';
 import "firebase/auth"
 import "firebase/firebase-functions"
+import dotenv from 'dotenv'
+
+/*
+File To Initialise the Firebase app according to credentials in the local.env file.
+*/
+dotenv.config();
 
 const app = firebase.initializeApp({
-    apiKey: "AIzaSyBt4JvUhj7-M7Zn0VCqGOlROYd25nIBUvQ",
-    authDomain: "enrollment-system-cdad7.firebaseapp.com",
-    projectId: "enrollment-system-cdad7",
-    storageBucket: "enrollment-system-cdad7.appspot.com",
-    messagingSenderId: "616434913177",
-    appId: "1:616434913177:web:55bf51fbf15914bdea8d08",
-    measurementId: "G-Q0V1TT414F"
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain:process.env.REACT_APP_FIREBASE_AUTH_DOMAIN ,
+    projectId:process.env.REACT_APP_FIREBASE_PROJECT_ID ,
+    storageBucket:process.env.REACT_APP_FIREBASE_STORAGE_BUCKET ,
+    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID ,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID ,
+    measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID ,
 
 })
 export const auth = app.auth()

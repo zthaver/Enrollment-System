@@ -14,8 +14,14 @@ async function handleSubmit(e)
 {
     e.preventDefault();
     try{
-        await login(email.current.value,password.current.value)
-        history.push("/")
+         login(email.current.value,password.current.value)
+         .then((value)=>{
+            history.push("/admin")
+         })
+         .catch((err)=>{
+             console.log("broke")
+         })
+   
     }
     catch
     {
@@ -24,31 +30,31 @@ async function handleSubmit(e)
  
 }
     return(
-        <article>
-     <h2>Login</h2>
-     <form onSubmit={handleSubmit}>
+    <article>
+         <h2>Login</h2>
+        <form onSubmit={handleSubmit}>
         <label>
-         Email
+           Email
         </label>
-        <br></br>        
-        <input 
-        ref={email}/>
         <br></br>
+
+        <input ref={email}/>
+        <br></br>
+
         <label>
-         Password
+           Password
         </label>
-        <br></br>        
-        <input 
-        ref={password}
-        type="password"/>
-        <br></br>
-        <br></br>
+        <br></br> 
+
+        <input ref={password} type="password"/>
+        <br></br><br></br>
+
         <button>Login</button>
-        <br></br>
-        <br></br>
+        <br></br><br></br>
+
         <h1> {error}</h1>
-     </form>
- </article>
+        </form>
+    </article>
     )
 }
 

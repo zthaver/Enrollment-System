@@ -5,6 +5,8 @@ import SignUp from "./SignUp/SignUp"
 import Login from "./Login/Login"
 import AdminHomePage from "./AdminHomePage/AdminHomePage"
 import { AuthProvider } from "../Contexts/AuthContext"
+import ProtectedRoute from './ProtectedRoute';
+
 
 function App() {
   return (
@@ -17,10 +19,9 @@ function App() {
               <Route path="/login">
                 <Login></Login>
               </Route>
-              <Route path="/">
-                <AdminHomePage></AdminHomePage>
-              </Route>
+           <ProtectedRoute exact path ="/admin" component={AdminHomePage}></ProtectedRoute>
             </Switch>
+           
 
 </AuthProvider>
     </Router>
