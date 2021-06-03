@@ -21,8 +21,9 @@ export function AuthProvider({ children }) {
   const [isAdmin, setIsAdmin] = useState(false);
   const history = useHistory();
 
-  function signup(email, password) {
+  function signup(email, password, firstname,lastname) {
     const addAdminRole = functions.httpsCallable("addAdminRole");
+    console.log(firstname)
     return auth.createUserWithEmailAndPassword(email, password).then((user) => {
       addAdminRole({ email: email }).then(result => {
         console.log(result)
@@ -40,21 +41,23 @@ export function AuthProvider({ children }) {
 
 
 
-  function login(email, password) {
+  async function login(email, password) {
     let authResult = null;
-     auth.signInWithEmailAndPassword(email, password)
+     await auth.signInWithEmailAndPassword(email, password)
      .then((result)=>{
        authResult = result;
+       setIsAdmin(true);
+       console.log(authResult)
      })
   
    return new Promise((resolve,reject)=>{
      if(authResult)
      {
-       return authResult
+       resolve( authResult)
      }
      else
      {
-       return {error:"broke"}
+       return reject({error:"broke"})
      }
    })
   }
@@ -68,7 +71,6 @@ Function called when a user signs in or signs out.
       user.getIdTokenResult().then((val) => {
         //Checks the custom claim of the user (to see if they are admin)
         if (val.claims.admin) {
-          setIsAdmin(true);
           history.push("/admin")
         }
 

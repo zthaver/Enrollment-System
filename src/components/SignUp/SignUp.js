@@ -6,6 +6,8 @@ function SignUp()
 {
 
 let password = useRef();
+let firstName = useRef();
+let lastName = useRef();
 let email = useRef();
 const { signup } = useAuth();
 const [error,setError] = useState("");
@@ -27,6 +29,20 @@ function handleSubmit(e)
  <article>
      <h2>Sign Up</h2>
      <form onSubmit={handleSubmit}>
+        <label>
+         First Name
+        </label>
+        <br></br>        
+        <input 
+        ref={firstName}/>
+        <br></br>
+        <label>
+         Last Name
+        </label>
+        <br></br>        
+        <input 
+        ref={lastName}/>
+        <br></br>
         <label>
          Email
         </label>
