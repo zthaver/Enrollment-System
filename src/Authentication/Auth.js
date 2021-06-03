@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react"
-import { auth, firestore, functions } from "../firebase"
-import { useHistory } from "react-router-dom";
+import { auth , firebase ,functions } from "../firebase"
+// import { useHistory } from "react-router-dom";
 
 /*
 The file containing the context to deal with all aspects of authentication.
@@ -19,13 +19,13 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState()
   const [loading, setLoading] = useState(true)
   const [isAdmin, setIsAdmin] = useState(false);
-  const history = useHistory();
+//   const history = useHistory();
 
-  function signup(email, password, firstname,lastname) {
-    const addAdminRole = functions.httpsCallable("addAdminRole");
-    console.log(firstname)
+  function signup(email, password) {
+    const addStudentRole = functions.httpsCallable("addStudentRole");
+    
     return auth.createUserWithEmailAndPassword(email, password).then((user) => {
-      addAdminRole({ email: email }).then(result => {
+      addStudentRole({ email: email }).then(result => {
         console.log(result)
         
       }).catch((err) => {
@@ -35,9 +35,10 @@ export function AuthProvider({ children }) {
   }
 
   function logout() {
-    auth.signOut();
+
     setCurrentUser(null)
     setIsAdmin(false)
+    return auth.signOut();
   }
 
 
@@ -54,7 +55,7 @@ export function AuthProvider({ children }) {
      })
   
    return new Promise((resolve,reject)=>{
-     if(authResult)
+     if(authResult) 
      {
        resolve( authResult)
      }
@@ -65,16 +66,11 @@ export function AuthProvider({ children }) {
    })
   }
 
-/*
-Function called when a user signs in or signs out.
-*/
-
-
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
-      setCurrentUser(user)
-      setLoading(false)
+      setCurrentUser(user);
+      setLoading(false);
     })
 
     return unsubscribe

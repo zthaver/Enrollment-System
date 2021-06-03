@@ -1,0 +1,54 @@
+*{
+    margin:0;
+    padding:0;
+    line-height: 1.4rem;
+}
+
+body{
+    background-color: #e4e4e4;
+}
+
+.formContainer{
+    width:100%;
+
+}
+
+form{
+    width:50%;
+    background:#fff;
+    margin:0 auto;
+    text-align: center;
+}
+
+h1{
+    color:#D92A1D;
+    margin:20px 0;
+    padding:20px;
+    text-align: center;
+
+}
+
+label{
+    width:100px;
+    display: inline-block;
+    padding:20px 10px 20px 0;
+}
+
+input[type="submit"]{
+    padding:10px 15px;
+    margin-top:20px;
+}
+
+.text_logIn{
+    font-size: 1.3em;
+
+    padding:20px 0;
+}
+
+.btn_logIn{
+    color:blue;
+}
+
+.errorMsg{
+    color:#D92A1D;
+}
