@@ -1,6 +1,7 @@
 import { TextField } from '@material-ui/core';
 import { Button } from "react-bootstrap";
 import './CreateProfessor.css'
+import { useAuth } from "../../Contexts/AuthContext";
 import {useRef, useState} from 'react';
 
 
@@ -11,6 +12,7 @@ function CreateProfessor()
     let firstName = useRef();
     let lastName = useRef();
     let email = useRef();
+    const { signupProfessor } = useAuth();
     function handleSubmit(e)
     {
         e.preventDefault();

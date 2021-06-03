@@ -21,31 +21,36 @@ export function AuthProvider({ children }) {
   const [isAdmin, setIsAdmin] = useState(false);
   const history = useHistory();
 
-  function signup(email, password,) {
+  async function signup(email, password,) {
     //assigns the role to the user (admin in this case)
+    
     let signUpResult = null;
+    let signUpError = null;
     const addAdminRole = functions.httpsCallable("addAdminRole");
-     auth.createUserWithEmailAndPassword(email, password).then((user) => {
+     await auth.createUserWithEmailAndPassword(email, password).then((user) => {
+      signUpResult = user;
+      console.log("sucess is "+ signUpResult);
       addAdminRole({ email: email }).then(result => {
-        console.log(result)
-        signUpResult = user;
+        
         
       }).catch((err) => {
-        console.log(err);
       })
     }).catch((err)=>{
-      signUpResult = err;
+      signUpError = err;
+      console.log("fail is "+ signUpError);
       console.log(err);
     })
 
     return new Promise((resolve,reject) =>{
        if(signUpResult)
        {
+        console.log(signUpResult)
          resolve(signUpResult)
        }
        else
        {
-         reject(signUpResult)
+         console.log(signUpError)
+         reject(signUpError)
        }
     })
   }
@@ -73,13 +78,14 @@ export function AuthProvider({ children }) {
 
   async function login(email, password) {
     let authResult = null;
+    let loginError = null;
      await auth.signInWithEmailAndPassword(email, password)
      .then((result)=>{
        authResult = result;
        setIsAdmin(true);
        console.log(authResult)
      }).catch((err)=>{
-       authResult = err;
+       loginError = err;
      })
   
    return new Promise((resolve,reject)=>{
@@ -89,7 +95,8 @@ export function AuthProvider({ children }) {
      }
      else
      {
-       return reject({error:authResult})
+      console.log("reject")
+       return reject({error:loginError})
      }
    })
   }
@@ -114,6 +121,7 @@ Function called when a user signs in or signs out.
     signup,
     login,
     logout,
+    signupProfessor,
     isAdmin
   }
 

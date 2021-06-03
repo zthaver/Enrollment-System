@@ -20,12 +20,15 @@ const [error,setError] = useState("");
 async function handleSubmit(e)
 {
     e.preventDefault();
+    console.log("here1")
 
         await signup(email.current.value,password.current.value)
         .then((value)=>{
-            history.push("/login");
+            history.push("/login")
         }).catch((err)=>{
-            setError(err);
+            console.log("success" +err)
+            setError(err)
+            
         })
         //emailjs.sendForm('service_39awvvo','template_gkw4bkq',e.target,"user_oGearzYTZGyhVqlL710SX")
 }
@@ -58,7 +61,11 @@ const paperStyle={padding :20,height:'70vh',width:280, margin:"20px auto"}
         <button>Sign Up</button>
         <br></br>
         <br></br>
-        <h1>{error}</h1>
+        {
+            error?<h1>{error.message}</h1>
+            :<h1></h1>
+        }
+        
      </form>  
      </Paper>  
    </Grid>

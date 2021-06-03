@@ -28,6 +28,7 @@ async function handleSubmit(e)
          .catch((err)=>{
              console.log(err)
              setError(err)
+             setLoading(false)
          })
 
 
@@ -62,7 +63,10 @@ const paperStyle={padding :20,height:'70vh',width:280, margin:"20px auto"}
         <Button disabled={loading} type="submit">Login</Button>
         <br></br><br></br>
 
-        <h1> {error}</h1>
+        {
+           error? <h1> {error.error.message}</h1>: <h1></h1>
+        }   
+        
         </form>
         
         </Paper>  
