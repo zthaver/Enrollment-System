@@ -1,6 +1,10 @@
 import {useRef, useState} from 'react';
 import "./SignUp.css";
-import { useAuth } from "../../Contexts/AuthContext" 
+import { useAuth } from "../../Contexts/AuthContext";
+import emailjs from 'emailjs-com';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import { Paper } from '@material-ui/core';
 
 function SignUp()
 {
@@ -18,6 +22,8 @@ function handleSubmit(e)
     try
     {
         signup(email.current.value,password.current.value)
+        emailjs.sendForm('service_39awvvo','template_gkw4bkq',e.target,"user_oGearzYTZGyhVqlL710SX")
+        
     }
     catch
     {
@@ -25,36 +31,41 @@ function handleSubmit(e)
     }
     
 }
+const paperStyle={padding :20,height:'70vh',width:280, margin:"20px auto"}
  return(
  <article>
-     <h2>Sign Up</h2>
+   <Grid>
+     <Paper elavation="20" style={paperStyle}>
+     <Grid >
+         <h2>Sign Up</h2>
+     </Grid>
      <form onSubmit={handleSubmit}>
         <label>
          First Name
         </label>
         <br></br>        
-        <input 
+        <TextField 
         ref={firstName}/>
         <br></br>
         <label>
          Last Name
         </label>
         <br></br>        
-        <input 
+        <TextField 
         ref={lastName}/>
         <br></br>
         <label>
          Email
         </label>
         <br></br>        
-        <input 
-        ref={email}/>
+        <TextField 
+        ref={email} name="email"/>
         <br></br>
         <label>
          Password
         </label>
         <br></br>        
-        <input 
+        <TextField 
         ref={password}
         type="password"/>
         <br></br>
@@ -63,7 +74,9 @@ function handleSubmit(e)
         <br></br>
         <br></br>
         <h1>{error}</h1>
-     </form>
+     </form>  
+     </Paper>  
+   </Grid>
  </article>
  )
 }

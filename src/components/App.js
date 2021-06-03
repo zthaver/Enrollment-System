@@ -13,13 +13,13 @@ function App() {
     <Router>
           <AuthProvider>
             <Switch>
-              <Route path="/signUp">
-                <SignUp></SignUp>
-              </Route>
               <Route path="/login">
                 <Login></Login>
               </Route>
            <ProtectedRoute exact path ="/admin" component={AdminHomePage}></ProtectedRoute>
+           <Route path="/signUp">
+                <SignUp></SignUp>
+              </Route>
             </Switch>
            
 

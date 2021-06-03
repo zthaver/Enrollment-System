@@ -6,12 +6,11 @@ import { useAuth } from '../Contexts/AuthContext';
 
 function ProtectedRoute ({component:Component,...rest})
 {
-    const { isAdmin } =  useAuth();
-    console.log( "tamere" + isAdmin)
+    const { currentUser } =  useAuth();
     return <Route
     {...rest}
     render={(props)=>{
-        return isAdmin? <Component {...props}/> : <Redirect to="/login"/>
+        return currentUser? <Component {...props}/> : <Redirect to="/login"/>
     }}/>
 }
 

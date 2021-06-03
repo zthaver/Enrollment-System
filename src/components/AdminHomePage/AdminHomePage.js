@@ -1,5 +1,9 @@
 import { useAuth } from "../../Contexts/AuthContext";
 import { useHistory } from 'react-router';
+import './AdminHomePage.css';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import { Link } from "react-router-dom";
 
 function AdminHomePage()
 {
@@ -15,7 +19,12 @@ function AdminHomePage()
     }
 return(
     <div>
-    <h1> {currentUser.email}</h1>
+     <AppBar>
+        <Toolbar>
+         <Link> Home </Link>
+         <Link> Manage Users </Link>
+        </Toolbar>     
+    </AppBar>   
     <button onClick={handleLogout}> logout</button>
     </div>
 

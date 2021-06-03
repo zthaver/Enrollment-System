@@ -27,6 +27,7 @@ export function AuthProvider({ children }) {
     return auth.createUserWithEmailAndPassword(email, password).then((user) => {
       addAdminRole({ email: email }).then(result => {
         console.log(result)
+        
       }).catch((err) => {
         console.log(err);
       })
@@ -48,6 +49,8 @@ export function AuthProvider({ children }) {
        authResult = result;
        setIsAdmin(true);
        console.log(authResult)
+     }).catch((err)=>{
+       authResult = err;
      })
   
    return new Promise((resolve,reject)=>{
@@ -65,18 +68,7 @@ export function AuthProvider({ children }) {
 /*
 Function called when a user signs in or signs out.
 */
-  auth.onAuthStateChanged(user => {
 
-    if (user) {
-      user.getIdTokenResult().then((val) => {
-        //Checks the custom claim of the user (to see if they are admin)
-        if (val.claims.admin) {
-          history.push("/admin")
-        }
-
-      })
-    }
-  })
 
 
   useEffect(() => {
