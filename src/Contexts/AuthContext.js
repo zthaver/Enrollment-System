@@ -21,9 +21,39 @@ export function AuthProvider({ children }) {
   const [isAdmin, setIsAdmin] = useState(false);
   const history = useHistory();
 
-  function signup(email, password, firstname,lastname) {
+  function signup(email, password,) {
+    //assigns the role to the user (admin in this case)
+    let signUpResult = null;
     const addAdminRole = functions.httpsCallable("addAdminRole");
-    console.log(firstname)
+     auth.createUserWithEmailAndPassword(email, password).then((user) => {
+      addAdminRole({ email: email }).then(result => {
+        console.log(result)
+        signUpResult = user;
+        
+      }).catch((err) => {
+        console.log(err);
+      })
+    }).catch((err)=>{
+      signUpResult = err;
+      console.log(err);
+    })
+
+    return new Promise((resolve,reject) =>{
+       if(signUpResult)
+       {
+         resolve(signUpResult)
+       }
+       else
+       {
+         reject(signUpResult)
+       }
+    })
+  }
+
+
+  function signupProfessor(email, password) {
+    //assigns the role to the user (professor in this case)
+    const addAdminRole = functions.httpsCallable("addAdminRole");
     return auth.createUserWithEmailAndPassword(email, password).then((user) => {
       addAdminRole({ email: email }).then(result => {
         console.log(result)
@@ -33,7 +63,6 @@ export function AuthProvider({ children }) {
       })
     })
   }
-
   function logout() {
     auth.signOut();
     setCurrentUser(null)
@@ -60,7 +89,7 @@ export function AuthProvider({ children }) {
      }
      else
      {
-       return reject({error:"broke"})
+       return reject({error:authResult})
      }
    })
   }
