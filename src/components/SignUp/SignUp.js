@@ -44,7 +44,7 @@ const paperStyle={padding :20,height:'70vh',width:280, margin:"20px auto"}
          First Name
         </label>
         <br></br>        
-        <TextField 
+        <input 
         ref={firstName}/>
         <br></br>
         <label>
@@ -58,7 +58,7 @@ const paperStyle={padding :20,height:'70vh',width:280, margin:"20px auto"}
          Email
         </label>
         <br></br>        
-        <TextField 
+        <input 
         ref={email} name="email"/>
         <br></br>
         <label>
