@@ -22,10 +22,11 @@ return(
      <AppBar>
         <Toolbar>
          <Link> Home </Link>
-         <Link> Manage Users </Link>
+         <Link to="/createProfessor" > Create Professor </Link>
+         <button onClick={handleLogout}> logout</button>
         </Toolbar>     
     </AppBar>   
-    <button onClick={handleLogout}> logout</button>
+    
     </div>
 
 )

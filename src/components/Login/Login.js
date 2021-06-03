@@ -3,6 +3,7 @@ import { useHistory } from 'react-router';
 import { useAuth } from "../../Contexts/AuthContext" 
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+import { Button } from "react-bootstrap"
 import { Paper } from '@material-ui/core';
 
 function Login()
@@ -11,25 +12,26 @@ function Login()
 let email = useRef();
 const { login } = useAuth();
 const [error,setError] = useState("");
+const [loading,setLoading] = useState(false);
 const history = useHistory();
 
 async function handleSubmit(e)
 {
     e.preventDefault();
-    try{
-         login(email.current.value,password.current.value)
+
+        setError("");
+        setLoading(true);
+         await login(email.current.value,password.current.value)
          .then((value)=>{
             history.push("/admin")
          })
          .catch((err)=>{
-             console.log("broke")
+             console.log(err)
+             setError(err)
+             setLoading(false)
          })
-   
-    }
-    catch
-    {
-        setError("Failed To Log In")
-    }
+
+
  
 }
 const paperStyle={padding :20,height:'70vh',width:280, margin:"20px auto"}
@@ -58,10 +60,13 @@ const paperStyle={padding :20,height:'70vh',width:280, margin:"20px auto"}
         <input ref={password} type="password"/>
         <br></br><br></br>
 
-        <button>Login</button>
+        <Button disabled={loading} type="submit">Login</Button>
         <br></br><br></br>
 
-        <h1> {error}</h1>
+        {
+           error? <h1> {error.error.message}</h1>: <h1></h1>
+        }   
+        
         </form>
         
         </Paper>  

@@ -21,9 +21,44 @@ export function AuthProvider({ children }) {
   const [isAdmin, setIsAdmin] = useState(false);
   const history = useHistory();
 
-  function signup(email, password, firstname,lastname) {
+  async function signup(email, password,) {
+    //assigns the role to the user (admin in this case)
+    
+    let signUpResult = null;
+    let signUpError = null;
     const addAdminRole = functions.httpsCallable("addAdminRole");
-    console.log(firstname)
+     await auth.createUserWithEmailAndPassword(email, password).then((user) => {
+      signUpResult = user;
+      console.log("sucess is "+ signUpResult);
+      addAdminRole({ email: email }).then(result => {
+        
+        
+      }).catch((err) => {
+      })
+    }).catch((err)=>{
+      signUpError = err;
+      console.log("fail is "+ signUpError);
+      console.log(err);
+    })
+
+    return new Promise((resolve,reject) =>{
+       if(signUpResult)
+       {
+        console.log(signUpResult)
+         resolve(signUpResult)
+       }
+       else
+       {
+         console.log(signUpError)
+         reject(signUpError)
+       }
+    })
+  }
+
+
+  function signupProfessor(email, password) {
+    //assigns the role to the user (professor in this case)
+    const addAdminRole = functions.httpsCallable("addAdminRole");
     return auth.createUserWithEmailAndPassword(email, password).then((user) => {
       addAdminRole({ email: email }).then(result => {
         console.log(result)
@@ -33,7 +68,6 @@ export function AuthProvider({ children }) {
       })
     })
   }
-
   function logout() {
     auth.signOut();
     setCurrentUser(null)
@@ -44,13 +78,14 @@ export function AuthProvider({ children }) {
 
   async function login(email, password) {
     let authResult = null;
+    let loginError = null;
      await auth.signInWithEmailAndPassword(email, password)
      .then((result)=>{
        authResult = result;
        setIsAdmin(true);
        console.log(authResult)
      }).catch((err)=>{
-       authResult = err;
+       loginError = err;
      })
   
    return new Promise((resolve,reject)=>{
@@ -60,7 +95,8 @@ export function AuthProvider({ children }) {
      }
      else
      {
-       return reject({error:"broke"})
+      console.log("reject")
+       return reject({error:loginError})
      }
    })
   }
@@ -85,6 +121,7 @@ Function called when a user signs in or signs out.
     signup,
     login,
     logout,
+    signupProfessor,
     isAdmin
   }
 
