@@ -41,12 +41,13 @@ const paperStyle={padding :20,height:'70vh',width:280, margin:"20px auto"}
          <h2>Sign Up</h2>
      </Grid>
      <form onSubmit={handleSubmit}>
-    
+
         <label>
          Email
         </label>
         <br></br>        
         <input 
+
         ref={email} name="email" type="email"/>
         <br></br>
         <label>

@@ -1,3 +1,5 @@
+
+An enrollment system for a small online college. 
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
