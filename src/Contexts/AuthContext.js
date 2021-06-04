@@ -56,16 +56,30 @@ export function AuthProvider({ children }) {
   }
 
 
-  function signupProfessor(email, password) {
+  async function signupProfessor(email, password) {
     //assigns the role to the user (professor in this case)
-    const addAdminRole = functions.httpsCallable("addAdminRole");
-    return auth.createUserWithEmailAndPassword(email, password).then((user) => {
-      addAdminRole({ email: email }).then(result => {
+    let signUpResult = null;
+    let signUpError = null;
+    const addProfessorRole = functions.httpsCallable("addProfessorRole");
+     await auth.createUserWithEmailAndPassword(email, password).then((user) => {
+      signUpResult = user;
+      addProfessorRole({ email: email }).then(result => {
+       
         console.log(result)
-        
       }).catch((err) => {
-        console.log(err);
+        signUpError = err;
       })
+    })
+    return new Promise((resolve,reject) =>{
+     if(signUpResult)
+     {
+       resolve(signUpResult);
+     }
+     else
+     {
+       reject(signUpError);
+     }
+
     })
   }
   function logout() {

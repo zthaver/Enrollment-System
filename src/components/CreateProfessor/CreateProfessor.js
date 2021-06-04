@@ -3,6 +3,8 @@ import { Button } from "react-bootstrap";
 import './CreateProfessor.css'
 import { useAuth } from "../../Contexts/AuthContext";
 import {useRef, useState} from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import { firestore } from '../../firebase';
 
 
 function CreateProfessor()
@@ -20,13 +22,29 @@ function CreateProfessor()
         console.log("form submitted");
         if(/\S+@\S+\.\S+/.test(email.current.value))
         {
+            console.log("success in sign up 1")
+            let uniquePassword = uuidv4();
+             signupProfessor(email.current.value,uniquePassword)
+             .then((value)=>{
+                console.log(value)
+                console.log("success in sign up 2")
+                firestore.collection("professors").add({
+                    "email": email.current.value,
+                    "firstName": firstName.current.value,
+                    "lastName": lastName.current.value
+                }).then((val)=>{
+                    console.log("user added to db")
+                })
+             }).catch((err)=>{
+                console.log("success in sign up 3")
+                console.log(err)
+               setError(err)
+             })
             setLoading(false);
-            console.log("email not broke")
             setError("")
         }
         else
         {
-            console.log("email broke ")
             setError("email is not valid")
             setLoading(false);
         }

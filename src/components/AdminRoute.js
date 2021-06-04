@@ -4,7 +4,7 @@ import AdminHomePage from './AdminHomePage/AdminHomePage';
 import { useAuth } from '../Contexts/AuthContext';
 
 
-function ProtectedRoute ({component:Component,...rest})
+function AdminRoute ({component:Component,...rest})
 {
     const { isAdmin } =  useAuth();
     return <Route
@@ -15,4 +15,4 @@ function ProtectedRoute ({component:Component,...rest})
 }
 
 
-export default ProtectedRoute;
+export default AdminRoute;
