@@ -21,9 +21,43 @@ export function AuthProvider({ children }) {
   const [isAdmin, setIsAdmin] = useState(false);
 //   const history = useHistory();
 
-  function signup(email, password) {
-    const addStudentRole = functions.httpsCallable("addStudentRole");
+  async function signup(email, password,) {
+    //assigns the role to the user (admin in this case)
     
+    let signUpResult = null;
+    let signUpError = null;
+    const addAdminRole = functions.httpsCallable("addAdminRole");
+     await auth.createUserWithEmailAndPassword(email, password).then((user) => {
+      signUpResult = user;
+      console.log("sucess is "+ signUpResult);
+      addAdminRole({ email: email }).then(result => {
+        
+        
+      }).catch((err) => {
+      })
+    }).catch((err)=>{
+      signUpError = err;
+      console.log(err);
+    })
+
+    return new Promise((resolve,reject) =>{
+       if(signUpResult)
+       {
+        console.log(signUpResult)
+         resolve(signUpResult)
+       }
+       else
+       {
+         console.log(signUpError)
+         reject(signUpError)
+       }
+    })
+  }
+
+
+  function signupProfessor(email, password) {
+    //assigns the role to the user (professor in this case)
+    const addAdminRole = functions.httpsCallable("addAdminRole");
     return auth.createUserWithEmailAndPassword(email, password).then((user) => {
       addStudentRole({ email: email }).then(result => {
         console.log(result)
@@ -33,7 +67,6 @@ export function AuthProvider({ children }) {
       })
     })
   }
-
   function logout() {
 
     setCurrentUser(null)
@@ -45,13 +78,14 @@ export function AuthProvider({ children }) {
 
   async function login(email, password) {
     let authResult = null;
+    let loginError = null;
      await auth.signInWithEmailAndPassword(email, password)
      .then((result)=>{
        authResult = result;
        setIsAdmin(true);
        console.log(authResult)
      }).catch((err)=>{
-       authResult = err;
+       loginError = err;
      })
   
    return new Promise((resolve,reject)=>{
@@ -61,7 +95,8 @@ export function AuthProvider({ children }) {
      }
      else
      {
-       return reject({error:"broke"})
+      console.log("reject")
+       return reject({error:loginError})
      }
    })
   }
@@ -81,6 +116,7 @@ export function AuthProvider({ children }) {
     signup,
     login,
     logout,
+    signupProfessor,
     isAdmin
   }
 
