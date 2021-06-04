@@ -4,14 +4,13 @@ import "firebase/auth";
 import "firebase/firebase-functions"
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBt4JvUhj7-M7Zn0VCqGOlROYd25nIBUvQ",
-    authDomain: "enrollment-system-cdad7.firebaseapp.com",
-    databaseURL: "https://enrollment-system-cdad7-default-rtdb.firebaseio.com",
-    projectId: "enrollment-system-cdad7",
-    storageBucket: "enrollment-system-cdad7.appspot.com",
-    messagingSenderId: "616434913177",
-    appId: "1:616434913177:web:55bf51fbf15914bdea8d08",
-    measurementId: "G-Q0V1TT414F"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain:process.env.REACT_APP_FIREBASE_AUTH_DOMAIN ,
+  projectId:process.env.REACT_APP_FIREBASE_PROJECT_ID ,
+  storageBucket:process.env.REACT_APP_FIREBASE_STORAGE_BUCKET ,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID ,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID ,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID ,
   };
 
   firebase.initializeApp(firebaseConfig);
