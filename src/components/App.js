@@ -6,7 +6,9 @@ import Login from "./Login/Login"
 import AdminHomePage from "./AdminHomePage/AdminHomePage"
 import { AuthProvider } from "../Contexts/AuthContext"
 import AdminRoute from './AdminRoute';
+import ProfessorRoute from './ProfessorRoute';
 import CreateProfessor from './CreateProfessor/CreateProfessor';
+import ProfessorTestingPage from './ProfessorTestingPage/ProfessorTestingPage';
 
 
 function App() {
@@ -19,6 +21,7 @@ function App() {
               </Route>
            <AdminRoute exact path ="/admin" component={AdminHomePage}></AdminRoute>
            <AdminRoute exact path ="/createProfessor" component={CreateProfessor}></AdminRoute>
+           <ProfessorRoute exact path ="/professor" component={ProfessorTestingPage}></ProfessorRoute>
            <Route path="/signUp">
                 <SignUp></SignUp>
               </Route>

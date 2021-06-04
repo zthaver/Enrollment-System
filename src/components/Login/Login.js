@@ -23,7 +23,16 @@ async function handleSubmit(e)
         setLoading(true);
          await login(email.current.value,password.current.value)
          .then((value)=>{
-            history.push("/admin")
+             console.log("great sucks asss" + value.professor)
+             if(value.admin)
+             {
+                history.push("/admin")
+             }
+             if(value.professor)
+             {
+                history.push("/professor")
+             }
+              
          })
          .catch((err)=>{
              console.log(err)

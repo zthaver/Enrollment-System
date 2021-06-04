@@ -28,6 +28,7 @@ function CreateProfessor()
         {
             //generates a unique password for the professor
             let uniquePassword = uuidv4();
+            console.log("the password is"+uniquePassword)
              signupProfessor(email.current.value,uniquePassword)
              .then((value)=>{
                 //adds the professor to the database 
@@ -83,7 +84,7 @@ function CreateProfessor()
            </input>
            <br></br><br></br>
 
-           <h1> {error}</h1>
+           <h1> {error.message}</h1>
            <Button type="submit" disabled={loading}> Create Professor </Button>
 
          </form>
