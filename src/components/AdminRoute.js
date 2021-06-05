@@ -3,8 +3,12 @@ import {Route,Redirect} from 'react-router-dom';
 import AdminHomePage from './AdminHomePage/AdminHomePage';
 import { useAuth } from '../Contexts/AuthContext';
 
+/*
+A route that checks for authentication (only meant for the admin to view it)
+*/
 
-function ProtectedRoute ({component:Component,...rest})
+
+function AdminRoute ({component:Component,...rest})
 {
     const { isAdmin } =  useAuth();
     return <Route
@@ -15,4 +19,4 @@ function ProtectedRoute ({component:Component,...rest})
 }
 
 
-export default ProtectedRoute;
+export default AdminRoute;

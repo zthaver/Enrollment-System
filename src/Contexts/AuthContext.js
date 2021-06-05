@@ -16,10 +16,11 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState()
-  const [loading, setLoading] = useState(true)
-  const [isAdmin, setIsAdmin] = useState(false);
-  const history = useHistory();
+  let [currentUser, setCurrentUser] = useState();
+  let [loading, setLoading] = useState(true);
+  let [isAdmin, setIsAdmin] = useState(false);
+  let [isProfessor, setIsProfessor] = useState(false); 
+  
 
   async function signup(email, password,) {
     //assigns the role to the user (admin in this case)
@@ -56,16 +57,30 @@ export function AuthProvider({ children }) {
   }
 
 
-  function signupProfessor(email, password) {
+  async function signupProfessor(email, password) {
     //assigns the role to the user (professor in this case)
-    const addAdminRole = functions.httpsCallable("addAdminRole");
-    return auth.createUserWithEmailAndPassword(email, password).then((user) => {
-      addAdminRole({ email: email }).then(result => {
+    let signUpResult = null;
+    let signUpError = null;
+    const addProfessorRole = functions.httpsCallable("addProfessorRole");
+     await auth.createUserWithEmailAndPassword(email, password).then((user) => {
+      signUpResult = user;
+      addProfessorRole({ email: email }).then(result => {
+       
         console.log(result)
-        
       }).catch((err) => {
-        console.log(err);
+        signUpError = err;
       })
+    })
+    return new Promise((resolve,reject) =>{
+     if(signUpResult)
+     {
+       resolve(signUpResult);
+     }
+     else
+     {
+       reject(signUpError);
+     }
+
     })
   }
   function logout() {
@@ -78,11 +93,33 @@ export function AuthProvider({ children }) {
 
   async function login(email, password) {
     let authResult = null;
+    let tokenClaims;
     let loginError = null;
      await auth.signInWithEmailAndPassword(email, password)
      .then((result)=>{
+       result.user.getIdTokenResult().then((tokenResult)=>{
+         tokenClaims = tokenResult.claims
+         console.log(tokenClaims)
+         {
+          if(tokenResult && tokenResult.claims.admin)
+          {
+            console.log("admin is being set"+ tokenClaims.admin)
+            setIsAdmin(true);
+          }
+          if(tokenResult && tokenResult.claims.professor)
+          {
+            console.log("prof is being set"+ tokenClaims.professor)
+            setIsProfessor(true);
+          }
+         }
+      
+       
+       })
+  
        authResult = result;
-       setIsAdmin(true);
+       console.log("admin is " + isAdmin)
+       
+       
        console.log(authResult)
      }).catch((err)=>{
        loginError = err;
@@ -91,7 +128,8 @@ export function AuthProvider({ children }) {
    return new Promise((resolve,reject)=>{
      if(authResult)
      {
-       resolve( authResult)
+      console.log("rizolve"+tokenClaims)
+       resolve( tokenClaims)
      }
      else
      {
@@ -122,6 +160,7 @@ Function called when a user signs in or signs out.
     login,
     logout,
     signupProfessor,
+    isProfessor,
     isAdmin
   }
 

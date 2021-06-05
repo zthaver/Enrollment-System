@@ -3,6 +3,12 @@ import { Button } from "react-bootstrap";
 import './CreateProfessor.css'
 import { useAuth } from "../../Contexts/AuthContext";
 import {useRef, useState} from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import { firestore } from '../../firebase';
+
+/*
+The file to create a professor, add them to the database and then sned their credentials to them via email.
+*/
 
 
 function CreateProfessor()
@@ -17,16 +23,31 @@ function CreateProfessor()
     {
         e.preventDefault();
         setLoading(true)
-        console.log("form submitted");
+        //tests if email is a valid email
         if(/\S+@\S+\.\S+/.test(email.current.value))
         {
+            //generates a unique password for the professor
+            let uniquePassword = uuidv4();
+            console.log("the password is"+uniquePassword)
+             signupProfessor(email.current.value,uniquePassword)
+             .then((value)=>{
+                //adds the professor to the database 
+                firestore.collection("professors").add({
+                    "email": email.current.value,
+                    "firstName": firstName.current.value,
+                    "lastName": lastName.current.value
+                }).then((val)=>{
+                    console.log("user added to db")
+                    //todo: send password and username to user
+                })
+             }).catch((err)=>{
+               setError(err)
+             })
             setLoading(false);
-            console.log("email not broke")
             setError("")
         }
         else
         {
-            console.log("email broke ")
             setError("email is not valid")
             setLoading(false);
         }
@@ -63,7 +84,7 @@ function CreateProfessor()
            </input>
            <br></br><br></br>
 
-           <h1> {error}</h1>
+           <h1> {error.message}</h1>
            <Button type="submit" disabled={loading}> Create Professor </Button>
 
          </form>
