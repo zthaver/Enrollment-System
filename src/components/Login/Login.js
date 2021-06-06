@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import { Button } from "react-bootstrap"
 import { Paper } from '@material-ui/core';
+import Link from '@material-ui/core/Link';
 
 function Login()
 {
@@ -77,7 +78,7 @@ const paperStyle={padding :20,height:'70vh',width:280, margin:"20px auto"}
         }   
         
         </form>
-        
+        <p>Don't have an account <Link href="/signup">Sign Up</Link></p>
         </Paper>  
    </Grid>
     </article>
