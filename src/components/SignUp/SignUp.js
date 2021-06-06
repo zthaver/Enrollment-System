@@ -6,72 +6,122 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import { Paper } from '@material-ui/core';
 import { useHistory } from 'react-router';
+import firebase from '../../firebase';
+import { v4 as uuidv4 } from 'uuid';
+import Link from '@material-ui/core/Link';
 
 
 function SignUp()
 {
+    // reference variables
+    const password = useRef();
+    const email = useRef();
+    const fName = useRef();   
+    const lName = useRef();   
+    const history = useHistory();
 
-let password = useRef();
-let email = useRef();
-const history = useHistory();
-const { signup } = useAuth();
-const [error,setError] = useState("");
+    //use states
+    const [userEmail, setEmail] = useState("");
+    const [firstName, setfName] = useState("");
+    const [lastName, setlName] = useState("");
+    const [error,setError] = useState("");
 
-async function handleSubmit(e)
-{
-    e.preventDefault();
-    console.log("here1")
+    const { signup } = useAuth();
 
-        await signup(email.current.value,password.current.value)
-        .then((value)=>{
-            history.push("/login")
-        }).catch((err)=>{
-            console.log("success" +err)
-            setError(err)
-            
-        })
-        //emailjs.sendForm('service_39awvvo','template_gkw4bkq',e.target,"user_oGearzYTZGyhVqlL710SX")
-}
-const paperStyle={padding :20,height:'70vh',width:280, margin:"20px auto"}
- return(
- <article>
-   <Grid>
-     <Paper elavation="20" style={paperStyle}>
-     <Grid >
-         <h2>Sign Up</h2>
-     </Grid>
-     <form onSubmit={handleSubmit}>
+    // firebase student collection
+    const studentUser = firebase.firestore().collection("student");
 
-        <label>
-         Email
-        </label>
-        <br></br>        
-        <input 
+    async function handleSubmit(e)
+    {
 
-        ref={email} name="email" type="email"/>
-        <br></br>
-        <label>
-         Password
-        </label>
-        <br></br>        
-        <input
-        ref={password}
-        type="password"/>
-        <br></br>
-        <br></br>
-        <button>Sign Up</button>
-        <br></br>
-        <br></br>
-        {
-            error?<h1>{error.message}</h1>
-            :<h1></h1>
-        }
-        
-     </form>  
-     </Paper>  
-   </Grid>
- </article>
- )
+        e.preventDefault();
+        console.log("here1")
+
+            await signup(email.current.value,password.current.value)
+            .then((value)=>{
+                //add student info to the firestore database
+                studentUser.add({
+                    firstname: firstName,
+                    lastname: lastName,
+                    email: userEmail,
+                    id: uuidv4
+                })
+                .then(() => {
+                    alert('successful login')
+                    history.push("/login")
+                })
+                
+            }).catch((err)=>{
+                console.log("success" +err)
+                setError(err)
+                
+            })
+            //emailjs.sendForm('service_39awvvo','template_gkw4bkq',e.target,"user_oGearzYTZGyhVqlL710SX")
+    }
+
+    // function addUser(newStudent){
+
+    //     studentUser
+    //     //create new document with id
+    //         .doc(newStudent.id)
+    //         .set(newStudent)
+    //         .catch((err) => {
+    //             console.error(err);
+    //         })
+    // }
+
+    const paperStyle={padding :20,height:'70vh',width:280, margin:"20px auto"}
+
+    return(
+        <article>
+        <Grid>
+            <Paper elavation="20" style={paperStyle}>
+                <Grid >
+                    <h2>Sign Up</h2>
+                </Grid>
+                <form onSubmit={handleSubmit}>
+
+                    <label>First name:</label>
+                    <br />        
+                    <input ref={fName} name="firstName" value={firstName} type="text" onChange={(e)=> setfName(e.target.value) } required/>
+                    <br />
+                    <br />
+
+                    <label>Last name:</label>
+                    <br />        
+                    <input ref={lName} name="lastName" value={lastName} onChange={(e)=> setlName(e.target.value) } type="text" required/>
+                    <br />
+                    <br />
+
+                    <label>Email</label>
+                    <br />        
+                    <input ref={email} name="email" value={userEmail} onChange={(e)=> setEmail(e.target.value) } type="email"/>
+                    <br />
+                    <br />
+
+                    <label>Password</label>
+                    <br />
+                    <input ref={password} type="password"/>
+                    <br />
+                    <br />
+
+                    <br></br>
+
+                    <button>Sign Up</button>
+                    
+                    <br></br>
+                    <br></br>
+                    {
+                        error?<h1>{error.message}</h1>
+                        :<h1></h1>
+                    }
+                    
+                </form>  
+                <p>Already have an Acoount? <Link href="/login">Log In</Link></p>
+            </Paper>  
+        </Grid>
+        </article>
+    )
 }
 
 export default SignUp;
