@@ -22,7 +22,7 @@ export function AuthProvider({ children }) {
   let [isProfessor, setIsProfessor] = useState(false); 
   
 
-  async function signup(email, password,) {
+  async function signup(email, password) {
     //assigns the role to the user (admin in this case)
     
     let signUpResult = null;
