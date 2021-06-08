@@ -2,7 +2,7 @@ import { useAuth } from "../../Contexts/AuthContext";
 import { useHistory } from 'react-router';
 
 
-function ProfessorTestingPage()
+function ProfessorHomePage()
 {
     const { currentUser,logout } = useAuth();
     const history = useHistory();
@@ -21,4 +21,4 @@ function ProfessorTestingPage()
         )
 }
 
-export default ProfessorTestingPage;
+export default ProfessorHomePage;
