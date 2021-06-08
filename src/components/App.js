@@ -10,7 +10,9 @@ import ProfessorRoute from './ProfessorRoute';
 import CreateProfessor from './CreateProfessor/CreateProfessor';
 import CreateAdmin from './CreateAdmin/CreateAdmin';
 import ProfessorTestingPage from './ProfessorTestingPage/ProfessorTestingPage';
-import HomePage from './HomePage/HomePage'
+import HomePage from './HomePage/HomePage';
+import StudentHomePage from './StudentHomePage/StudentHomePage';
+import StudentRoute from './StudentRoute';
 
 function App() {
   return (
@@ -25,6 +27,7 @@ function App() {
            <AdminRoute exact path ="/admin" component={AdminHomePage}></AdminRoute>
            <AdminRoute exact path ="/createProfessor" component={CreateProfessor}></AdminRoute>
            <ProfessorRoute exact path ="/professor" component={ProfessorTestingPage}></ProfessorRoute>
+           <StudentRoute exact path ="/student" component={StudentHomePage}></StudentRoute>
            <Route path="/signUp">
                 <SignUp></SignUp>
               </Route>

@@ -26,7 +26,7 @@ function SignUp()
     const [lastName, setlName] = useState("");
     const [error,setError] = useState("");
 
-    const { signup } = useAuth();
+    const { signupStudent } = useAuth();
 
     // firebase student collection
     const studentUser = firebase.firestore().collection("student");
@@ -37,17 +37,17 @@ function SignUp()
         e.preventDefault();
         console.log("here1")
 
-            await signup(email.current.value,password.current.value)
+            await signupStudent(email.current.value,password.current.value)
             .then((value)=>{
                 //add student info to the firestore database
                 studentUser.add({
                     firstname: firstName,
                     lastname: lastName,
                     email: userEmail,
-                    id: uuidv4
                 })
                 .then(() => {
-                    alert('successful login')
+                    emailjs.sendForm('service_39awvvo','template_gkw4bkq',e.target,"user_oGearzYTZGyhVqlL710SX")
+                    alert('successful  sign up')
                     history.push("/login")
                 })
                 
@@ -56,7 +56,7 @@ function SignUp()
                 setError(err)
                 
             })
-            //emailjs.sendForm('service_39awvvo','template_gkw4bkq',e.target,"user_oGearzYTZGyhVqlL710SX")
+            
     }
 
     // function addUser(newStudent){
@@ -101,7 +101,7 @@ function SignUp()
 
                     <label>Password</label>
                     <br />
-                    <input ref={password} type="password"/>
+                    <input ref={password} type="password" name="password"/>
                     <br />
                     <br />
 
