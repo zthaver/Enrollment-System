@@ -11,6 +11,7 @@ A route that checks for authentication (only meant for the admin to view it)
 function AdminRoute ({component:Component,...rest})
 {
     const { isAdmin } =  useAuth();
+    console.log("admin is" + isAdmin)
     return <Route
     {...rest}
     render={(props)=>{

@@ -18,7 +18,7 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   let [currentUser, setCurrentUser] = useState();
   let [loading, setLoading] = useState(true);
-  let [isAdmin, setIsAdmin] = useState(false);
+  let [isAdmin, setIsAdmin] = useState();
   let [isProfessor, setIsProfessor] = useState(false); 
   let [isStudent, setIsStudent] = useState(false); 
   
@@ -130,21 +130,21 @@ export function AuthProvider({ children }) {
          console.log(tokenClaims)
          {
            // sets the type of user according to  the user's custom claims set by firebase
-          if(tokenResult && tokenResult.claims.admin)
-          {
-            console.log("admin is being set"+ tokenClaims.admin)
-            setIsAdmin(true);
-          }
-          if(tokenResult && tokenResult.claims.professor)
-          {
-            console.log("prof is being set"+ tokenClaims.professor)
-            setIsProfessor(true);
-          }
-          if(tokenResult && tokenResult.claims.student)
-          {
-            console.log("student is being set")
-            setIsStudent(true);
-          }
+          // if(tokenResult && tokenResult.claims.admin)
+          // {
+          //   console.log("admin is being set"+ tokenClaims.admin)
+          //   setIsAdmin(true);
+          // }
+          // if(tokenResult && tokenResult.claims.professor)
+          // {
+          //   console.log("prof is being set"+ tokenClaims.professor)
+          //   setIsProfessor(true);
+          // }
+          // if(tokenResult && tokenResult.claims.student)
+          // {
+          //   console.log("student is being set")
+          //   setIsStudent(true);
+          // }
          }
       
        
@@ -180,8 +180,29 @@ Function called when a user signs in or signs out.
 
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      setCurrentUser(user)
+    const unsubscribe = auth.onAuthStateChanged( async user => {
+      if(user)
+      
+       await user.getIdTokenResult().then((token)=>{
+        if(token.claims.admin)
+        {
+          setIsAdmin(true);
+          console.log(" set admin is " + isAdmin)
+          setLoading(false)
+        }
+        if(token.claims.professor)
+        {
+          setIsProfessor(true);
+          setLoading(false)
+        }
+        if(token.claims.student)
+        {
+
+          setIsStudent(true);
+          setLoading(false)
+        }
+      })
+      //setCurrentUser(user)
       setLoading(false)
     })
 
@@ -190,7 +211,7 @@ Function called when a user signs in or signs out.
 
   const value = {
     currentUser,
-    signup: signupAdmin,
+    signupAdmin,
     signupStudent,
     login,
     logout,
