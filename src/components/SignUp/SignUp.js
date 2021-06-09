@@ -37,7 +37,7 @@ function SignUp()
         e.preventDefault();
         console.log("here1")
 
-            await signupStudent(email.current.value,password.current.value)
+            await signupStudent(userEmail,password.current.value)
             .then((value)=>{
                 //add student info to the firestore database
                 studentUser.add({
@@ -83,19 +83,19 @@ function SignUp()
 
                     <label>First name:</label>
                     <br />        
-                    <input ref={fName} name="firstName" value={firstName} type="text" onChange={(e)=> setfName(e.target.value) } required/>
+                    <input  name="firstName" value={firstName} type="text" onChange={(e)=> setfName(e.target.value) } required/>
                     <br />
                     <br />
 
                     <label>Last name:</label>
                     <br />        
-                    <input ref={lName} name="lastName" value={lastName} onChange={(e)=> setlName(e.target.value) } type="text" required/>
+                    <input  name="lastName" value={lastName} onChange={(e)=> setlName(e.target.value) } type="text" required/>
                     <br />
                     <br />
 
                     <label>Email</label>
                     <br />        
-                    <input ref={email} name="email" value={userEmail} onChange={(e)=> setEmail(e.target.value) } type="email"/>
+                    <input  name="email" value={userEmail} onChange={(e)=> setEmail(e.target.value) } type="email"/>
                     <br />
                     <br />
 
