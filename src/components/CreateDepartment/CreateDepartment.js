@@ -1,42 +1,71 @@
-import { Form,Formik} from "formik";
-import Grid from '@material-ui/core/Grid';
+import { Formik } from "formik";
 import { Paper } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
+import { firestore } from "../../firebase";
+import * as Yup from "yup";
+import { useState } from "react";
 
-function createDepartment()
-{
-    const paperStyle={padding :20,height:'70vh',width:280, margin:"20px auto"}
-    return(
 
+function CreateDepartment() {
+    const paperStyle = { padding: 20, height: '70vh', width: 280, margin: "20px auto" }
+
+    
+           let [error,setError] = useState("");
+         
+     
+    return (
+
+        <article>
+            <Grid>
+                <Paper elavation="20" style={paperStyle}>
+                    <Grid >
+                        <h2>Create Department</h2>
+                    </Grid>
+                    <Formik initialValues={{ departmentName: '' }} onSubmit={async (values, props) => {
+                        console.log(values)
+                        firestore.collection("department").where("departmentName", "==", values.departmentName).get().then((queryResult) => {
+
+                            if (!queryResult.empty) {
+                                setError("The department name already exists")
+                            }
+                            else {
+                                console.log("thing bork")
+                                setError("")
+                                firestore.collection("department").add({
+                                    "departmentName": values.departmentName,
+                                    "id": ""
+                                }).then((value) => {
         
-                <Formik
-                    initialValues={{
-                    departmentName:""
-                    }} 
-                    onSubmit={async (values) => {
-                        await new Promise((r) => setTimeout(r, 500));
-                        alert(JSON.stringify(values, null, 2));
-                      }}
-                    >
-                        {({values,handleChange})=>(
-                        
-                    <Form>
+                                    value.update({ "id": value.id })
+        
+        
+                                })
+                            }
+                        });
+                
 
-                        <label>Department Name:</label>
-                        <br />        
-                        <input  name="Department Name"  onChange={handleChange} value={values.name} required/>
-                        <br />
-                        <br />
-
-                        <button>Create Department</button>
-                    
-                        <br></br>
-                        <br></br>
-                    
-                    </Form>  
-                    )});
-                </Formik>
-
+                    }} validateOnChange={true}
+                        validateOnBlur={true}>
+                        {props => (
+                            <form onSubmit={props.handleSubmit}>
+                                <label htmlFor="departmentName">Department Name</label>
+                                <input type="text"
+                                    name="departmentName"
+                                    onBlur={props.handleBlur}
+                                    onChange={props.handleChange}
+                                    value={props.values.name}
+                                    required>
+                                </input>
+                                <h1>{error}</h1>
+                                <button type="submit">Submit</button>
+                                <button type="reset">reeset</button>
+                            </form>
+                        )}
+                    </Formik>
+                </Paper>
+            </Grid>
+        </article>
     )
 }
 
-export default createDepartment;
+export default CreateDepartment;
