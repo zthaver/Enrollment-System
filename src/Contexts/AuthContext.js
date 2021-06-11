@@ -181,6 +181,7 @@ Function called when a user signs in or signs out.
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged( async user => {
+      console.log(user);
       if(user)
       
        await user.getIdTokenResult().then((token)=>{
@@ -200,9 +201,11 @@ Function called when a user signs in or signs out.
 
           setIsStudent(true);
           setLoading(false)
+
         }
       })
       //setCurrentUser(user)
+      
       setLoading(false)
     })
 
@@ -221,6 +224,8 @@ Function called when a user signs in or signs out.
     isStudent
   }
 
+
+  
   return (
     <AuthContext.Provider value={value}>
       {!loading && children}

@@ -28,6 +28,7 @@ function SignUp()
 
     const { signupStudent } = useAuth();
 
+
     // firebase student collection
     const studentUser = firebase.firestore().collection("student");
 
@@ -39,8 +40,10 @@ function SignUp()
 
             await signupStudent(userEmail,password.current.value)
             .then((value)=>{
+                //get Current user ID
+                const user = (firebase.auth().currentUser).uid;
                 //add student info to the firestore database
-                studentUser.add({
+                studentUser.doc(user).set({
                     firstname: firstName,
                     lastname: lastName,
                     email: userEmail,

@@ -5,6 +5,7 @@ import { useAuth } from "../../Contexts/AuthContext";
 import {useRef, useState} from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { firestore } from '../../firebase';
+import firebase from '../../firebase';
 
 /*
 The file to create a professor, add them to the database and then sned their credentials to them via email.
@@ -31,8 +32,13 @@ function CreateProfessor()
             console.log("the password is"+uniquePassword)
              signupProfessor(email.current.value,uniquePassword)
              .then((value)=>{
+
+                 //get Current user ID
+                const user = (firebase.auth().currentUser).uid;
+
                 //adds the professor to the database 
-                firestore.collection("professors").add({
+                //match uid with document id
+                firestore.collection("professors").doc(user).set({
                     "email": email.current.value,
                     "firstName": firstName.current.value,
                     "lastName": lastName.current.value

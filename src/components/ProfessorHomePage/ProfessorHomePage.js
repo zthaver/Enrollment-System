@@ -1,5 +1,6 @@
 import { useAuth } from "../../Contexts/AuthContext";
 import { useHistory } from 'react-router';
+import ProfNav from '../ProfessorNavbar/ProfNav'
 
 
 function ProfessorHomePage()
@@ -13,7 +14,8 @@ function ProfessorHomePage()
         
     }
     return(
-        <div>
+        <div style={{paddingTop: "100px"}}>
+            <ProfNav/>
             <h1>professor page</h1>
             <button onClick={handleLogout}> logout</button>
         </div>

@@ -15,6 +15,9 @@ import StudentHomePage from './StudentHomePage/StudentHomePage';
 import StudentRoute from './StudentRoute';
 import createDepartment from './CreateDepartment/CreateDepartment'
 
+import ViewStudent from './ViewStudent/ViewStudentInformation'
+import ProfessorAccount from './ViewProfessor/ProfessorAccount';
+
 function App() {
   return (
     <Router>
@@ -30,11 +33,12 @@ function App() {
             <ProfessorRoute exact path ="/professor" component={ProfessorHomePage}></ProfessorRoute>
             <AdminRoute exact path ="/createDepartment" component={createDepartment}></AdminRoute>
             <StudentRoute exact path ="/student" component={StudentHomePage}></StudentRoute>
+            <StudentRoute exact path="/viewStudent" component={ViewStudent} />
+            <Route exact path="/viewProf" component={ProfessorAccount}/>
             <Route path="/signUp">
                 <SignUp></SignUp>
               </Route>
-            </Switch>
-           
+            </Switch>  
 
 </AuthProvider>
     </Router>
