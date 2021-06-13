@@ -4,7 +4,7 @@ import AdminHomePage from './AdminHomePage/AdminHomePage';
 import { useAuth } from '../Contexts/AuthContext';
 
 /*
-A route that checks for authentication (only meant for the admin to view it)
+A route that checks for authentication (only meant for the professor to view it)
 */
 
 
