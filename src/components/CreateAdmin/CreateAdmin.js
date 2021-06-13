@@ -5,6 +5,7 @@ import {useRef, useState} from 'react';
 import { firestore } from '../../firebase';
 import { useAuth } from "../../Contexts/AuthContext";
 import { v4 as uuidv4 } from 'uuid';
+import emailjs from "emailjs-com";
 
 function CreateAdmin()
  {
@@ -27,9 +28,11 @@ function CreateAdmin()
             firestore.collection("admin").add({
               "email": email.current.value,
               "firstName": firstName.current.value,
-              "lastName": lastName.current.value
+              "lastName": lastName.current.value,
+              "isDepartmentHead" : false
             }).then((val)=>{
               console.log("Admin Created. Password: " + generatePassword)
+              //emailjs.sendForm('service_39awvvo','template_gkw4bkq',e.target,"user_oGearzYTZGyhVqlL710SX")
             })
           })
           .catch((error)=>{

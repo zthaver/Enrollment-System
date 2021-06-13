@@ -14,9 +14,11 @@ import HomePage from './HomePage/HomePage';
 import StudentHomePage from './StudentHomePage/StudentHomePage';
 import StudentRoute from './StudentRoute';
 import createDepartment from './CreateDepartment/CreateDepartment'
+import viewDepartment from './ViewDepartments/ViewDepartments';
 
 import ViewStudent from './ViewStudent/ViewStudentInformation'
 import ProfessorAccount from './ViewProfessor/ProfessorAccount';
+import ViewDepartments from './ViewDepartments/ViewDepartments';
 
 function App() {
   return (
@@ -32,6 +34,7 @@ function App() {
             <AdminRoute exact path ="/createProfessor" component={CreateProfessor}></AdminRoute>
             <ProfessorRoute exact path ="/professor" component={ProfessorHomePage}></ProfessorRoute>
             <AdminRoute exact path ="/createDepartment" component={createDepartment}></AdminRoute>
+            <AdminRoute exact path ="/viewDepartment" component={ViewDepartments}></AdminRoute>
             <StudentRoute exact path ="/student" component={StudentHomePage}></StudentRoute>
             <StudentRoute exact path="/viewStudent" component={ViewStudent} />
             <Route exact path="/viewProf" component={ProfessorAccount}/>
