@@ -18,11 +18,12 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   let [currentUser, setCurrentUser] = useState();
   let [loading, setLoading] = useState(true);
-  let [isAdmin, setIsAdmin] = useState(false);
+  let [isAdmin, setIsAdmin] = useState();
   let [isProfessor, setIsProfessor] = useState(false); 
+  let [isStudent, setIsStudent] = useState(false); 
   
 
-  async function signup(email, password) {
+  async function signupAdmin(email, password,) {
     //assigns the role to the user (admin in this case)
     
     let signUpResult = null;
@@ -56,6 +57,33 @@ export function AuthProvider({ children }) {
     })
   }
 
+
+  async function signupStudent(email, password) {
+    //assigns the role to the user (professor in this case)
+    let signUpResult = null;
+    let signUpError = null;
+    const addStudentRole = functions.httpsCallable("addStudentRole");
+     await auth.createUserWithEmailAndPassword(email, password).then((user) => {
+      signUpResult = user;
+      addStudentRole({ email: email }).then(result => {
+       
+        console.log(result)
+      }).catch((err) => {
+        signUpError = err;
+      })
+    })
+    return new Promise((resolve,reject) =>{
+     if(signUpResult)
+     {
+       resolve(signUpResult);
+     }
+     else
+     {
+       reject(signUpError);
+     }
+
+    })
+  }
 
   async function signupProfessor(email, password) {
     //assigns the role to the user (professor in this case)
@@ -101,16 +129,22 @@ export function AuthProvider({ children }) {
          tokenClaims = tokenResult.claims
          console.log(tokenClaims)
          {
-          if(tokenResult && tokenResult.claims.admin)
-          {
-            console.log("admin is being set"+ tokenClaims.admin)
-            setIsAdmin(true);
-          }
-          if(tokenResult && tokenResult.claims.professor)
-          {
-            console.log("prof is being set"+ tokenClaims.professor)
-            setIsProfessor(true);
-          }
+           // sets the type of user according to  the user's custom claims set by firebase
+          // if(tokenResult && tokenResult.claims.admin)
+          // {
+          //   console.log("admin is being set"+ tokenClaims.admin)
+          //   setIsAdmin(true);
+          // }
+          // if(tokenResult && tokenResult.claims.professor)
+          // {
+          //   console.log("prof is being set"+ tokenClaims.professor)
+          //   setIsProfessor(true);
+          // }
+          // if(tokenResult && tokenResult.claims.student)
+          // {
+          //   console.log("student is being set")
+          //   setIsStudent(true);
+          // }
          }
       
        
@@ -146,8 +180,32 @@ Function called when a user signs in or signs out.
 
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      setCurrentUser(user)
+    const unsubscribe = auth.onAuthStateChanged( async user => {
+      console.log(user);
+      if(user)
+      
+       await user.getIdTokenResult().then((token)=>{
+        if(token.claims.admin)
+        {
+          setIsAdmin(true);
+          console.log(" set admin is " + isAdmin)
+          setLoading(false)
+        }
+        if(token.claims.professor)
+        {
+          setIsProfessor(true);
+          setLoading(false)
+        }
+        if(token.claims.student)
+        {
+
+          setIsStudent(true);
+          setLoading(false)
+
+        }
+      })
+      //setCurrentUser(user)
+      
       setLoading(false)
     })
 
@@ -156,14 +214,18 @@ Function called when a user signs in or signs out.
 
   const value = {
     currentUser,
-    signup,
+    signupAdmin,
+    signupStudent,
     login,
     logout,
     signupProfessor,
     isProfessor,
-    isAdmin
+    isAdmin,
+    isStudent
   }
 
+
+  
   return (
     <AuthContext.Provider value={value}>
       {!loading && children}

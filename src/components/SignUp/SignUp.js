@@ -26,7 +26,8 @@ function SignUp()
     const [lastName, setlName] = useState("");
     const [error,setError] = useState("");
 
-    const { signup } = useAuth();
+    const { signupStudent } = useAuth();
+
 
     // firebase student collection
     const studentUser = firebase.firestore().collection("student");
@@ -37,17 +38,19 @@ function SignUp()
         e.preventDefault();
         console.log("here1")
 
-            await signup(email.current.value,password.current.value)
+            await signupStudent(userEmail,password.current.value)
             .then((value)=>{
+                //get Current user ID
+                const user = (firebase.auth().currentUser).uid;
                 //add student info to the firestore database
-                studentUser.add({
+                studentUser.doc(user).set({
                     firstname: firstName,
                     lastname: lastName,
                     email: userEmail,
-                    id: uuidv4
                 })
                 .then(() => {
-                    alert('successful login')
+                    emailjs.sendForm('service_39awvvo','template_gkw4bkq',e.target,"user_oGearzYTZGyhVqlL710SX")
+                    alert('successful  sign up')
                     history.push("/login")
                 })
                 
@@ -56,7 +59,7 @@ function SignUp()
                 setError(err)
                 
             })
-            //emailjs.sendForm('service_39awvvo','template_gkw4bkq',e.target,"user_oGearzYTZGyhVqlL710SX")
+            
     }
 
     // function addUser(newStudent){
@@ -83,25 +86,25 @@ function SignUp()
 
                     <label>First name:</label>
                     <br />        
-                    <input ref={fName} name="firstName" value={firstName} type="text" onChange={(e)=> setfName(e.target.value) } required/>
+                    <input  name="firstName" value={firstName} type="text" onChange={(e)=> setfName(e.target.value) } required/>
                     <br />
                     <br />
 
                     <label>Last name:</label>
                     <br />        
-                    <input ref={lName} name="lastName" value={lastName} onChange={(e)=> setlName(e.target.value) } type="text" required/>
+                    <input  name="lastName" value={lastName} onChange={(e)=> setlName(e.target.value) } type="text" required/>
                     <br />
                     <br />
 
                     <label>Email</label>
                     <br />        
-                    <input ref={email} name="email" value={userEmail} onChange={(e)=> setEmail(e.target.value) } type="email"/>
+                    <input  name="email" value={userEmail} onChange={(e)=> setEmail(e.target.value) } type="email"/>
                     <br />
                     <br />
 
                     <label>Password</label>
                     <br />
-                    <input ref={password} type="password"/>
+                    <input ref={password} type="password" name="password"/>
                     <br />
                     <br />
 

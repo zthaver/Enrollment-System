@@ -33,7 +33,6 @@ function Copyright() {
       height: '100vh',
     },
     image: {
-    //   backgroundImage: 'url(https://source.unsplash.com/random)',
       backgroundRepeat: 'no-repeat',
       backgroundColor: '#D92A1D',
       backgroundSize: 'cover',

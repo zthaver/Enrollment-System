@@ -24,7 +24,7 @@ async function handleSubmit(e)
         setLoading(true);
          await login(email.current.value,password.current.value)
          .then((value)=>{
-             console.log("great sucks asss" + value.professor)
+             console.log("professor added" + value.professor)
              if(value.admin)
              {
                 history.push("/admin")
@@ -32,6 +32,11 @@ async function handleSubmit(e)
              if(value.professor)
              {
                 history.push("/professor")
+             }
+
+             if(value.student)
+             {
+                 history.push("/student")
              }
               
          })

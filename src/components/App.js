@@ -9,8 +9,14 @@ import AdminRoute from './AdminRoute';
 import ProfessorRoute from './ProfessorRoute';
 import CreateProfessor from './CreateProfessor/CreateProfessor';
 import CreateAdmin from './CreateAdmin/CreateAdmin';
-import ProfessorTestingPage from './ProfessorTestingPage/ProfessorTestingPage';
-import HomePage from './HomePage/HomePage'
+import ProfessorHomePage from './ProfessorHomePage/ProfessorHomePage';
+import HomePage from './HomePage/HomePage';
+import StudentHomePage from './StudentHomePage/StudentHomePage';
+import StudentRoute from './StudentRoute';
+import createDepartment from './CreateDepartment/CreateDepartment'
+import ManageStudent from './ManageStudent/ManageStudent'
+import ViewStudent from './ViewStudent/ViewStudentInformation'
+import ProfessorAccount from './ViewProfessor/ProfessorAccount';
 
 function App() {
   return (
@@ -22,14 +28,18 @@ function App() {
               </Route>
             <Route exact path="/" component={ HomePage } />
             <AdminRoute exact path ="/createAdmin" component={CreateAdmin}></AdminRoute>
-           <AdminRoute exact path ="/admin" component={AdminHomePage}></AdminRoute>
-           <AdminRoute exact path ="/createProfessor" component={CreateProfessor}></AdminRoute>
-           <ProfessorRoute exact path ="/professor" component={ProfessorTestingPage}></ProfessorRoute>
-           <Route path="/signUp">
+            <AdminRoute exact path ="/admin" component={AdminHomePage}></AdminRoute>
+            <AdminRoute exact path ="/createProfessor" component={CreateProfessor}></AdminRoute>
+            <AdminRoute exact path ="/ManageStudent" component={ManageStudent}></AdminRoute>
+            <ProfessorRoute exact path ="/professor" component={ProfessorHomePage}></ProfessorRoute>
+            <AdminRoute exact path ="/createDepartment" component={createDepartment}></AdminRoute>
+            <StudentRoute exact path ="/student" component={StudentHomePage}></StudentRoute>
+            <StudentRoute exact path="/viewStudent" component={ViewStudent} />
+            <Route exact path="/viewProf" component={ProfessorAccount}/>
+            <Route path="/signUp">
                 <SignUp></SignUp>
               </Route>
-            </Switch>
-           
+            </Switch>  
 
 </AuthProvider>
     </Router>

@@ -8,16 +8,15 @@ A route that checks for authentication (only meant for the admin to view it)
 */
 
 
-function AdminRoute ({component:Component,...rest})
+function StudentRoute ({component:Component,...rest})
 {
-    const { isAdmin } =  useAuth();
-    console.log("admin is" + isAdmin)
+    const { isStudent } =  useAuth();
     return <Route
     {...rest}
     render={(props)=>{
-        return isAdmin? <Component {...props}/> : <Redirect to="/login"/>
+        return isStudent? <Component {...props}/> : <Redirect to="/login"/>
     }}/>
 }
 
 
-export default AdminRoute;
+export default StudentRoute;
