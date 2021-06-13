@@ -275,3 +275,5 @@ function ViewStudentInformation(){
 }
 
 export default ViewStudentInformation;
+
+// remove email, should not be updatable
