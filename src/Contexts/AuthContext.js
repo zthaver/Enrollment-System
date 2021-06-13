@@ -129,22 +129,22 @@ export function AuthProvider({ children }) {
          tokenClaims = tokenResult.claims
          console.log(tokenClaims)
          {
-           // sets the type of user according to  the user's custom claims set by firebase
-          // if(tokenResult && tokenResult.claims.admin)
-          // {
-          //   console.log("admin is being set"+ tokenClaims.admin)
-          //   setIsAdmin(true);
-          // }
-          // if(tokenResult && tokenResult.claims.professor)
-          // {
-          //   console.log("prof is being set"+ tokenClaims.professor)
-          //   setIsProfessor(true);
-          // }
-          // if(tokenResult && tokenResult.claims.student)
-          // {
-          //   console.log("student is being set")
-          //   setIsStudent(true);
-          // }
+           //sets the type of user according to  the user's custom claims set by firebase
+          if(tokenResult && tokenResult.claims.admin)
+          {
+            console.log("admin is being set"+ tokenClaims.admin)
+            setIsAdmin(true);
+          }
+          if(tokenResult && tokenResult.claims.professor)
+          {
+            console.log("prof is being set"+ tokenClaims.professor)
+            setIsProfessor(true);
+          }
+          if(tokenResult && tokenResult.claims.student)
+          {
+            console.log("student is being set")
+            setIsStudent(true);
+          }
          }
       
        
