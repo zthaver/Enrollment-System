@@ -1,13 +1,15 @@
 import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import StudentNav from '../StudentNavbar/StudentNav'
+import { useAuth }  from '../../Contexts/AuthContext';
+import firebase from '../../firebase';
+import { useHistory } from 'react-router';
 
 // material ui
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import { Container, TextField } from '@material-ui/core';
-
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
@@ -15,13 +17,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import FormControl from '@material-ui/core/FormControl';
-
-import { useAuth }  from '../../Contexts/AuthContext';
-
-import firebase from '../../firebase';
-
-import { useHistory } from 'react-router';
 
 const drawerWidth = 240;
 
@@ -80,7 +75,16 @@ const useStyles = makeStyles((theme) => ({
       infoItem:{
           padding: '10px 0 10px 0',
           margin: '5px 0 5px 0',
-      }
+      },
+      erroMsg:{
+        width:'100%',
+        marginTop:'20px',
+        textAlign:'center',
+        color:'#D92A1D',
+        fontWeight:'bold',
+        letterSpacing:'1px',
+        wordSpacing:'5px',
+    }
   }));
 
 
@@ -90,21 +94,18 @@ function ViewStudentInformation(){
     //get current user UID
     const user = (firebase.auth().currentUser).uid;
     const uid = user;
-        
-    //manually have to input the uid because they don't match
     const studentUser = firebase.firestore().collection("student").doc(uid);
 
-    // console.log(user);
-    const { logout } = useAuth();
-    const history = useHistory();
-    const [userData, setData] = useState();
-
+    //use states 
+    //set
     const [userFname, setUserFname] = useState();
     const [userEmail, setUserEmail] = useState();
     const [userLname, setUserLname] = useState();
     const [userPhone, setUserPhone] = useState();
     const [userAddress, setUserAddress] = useState();
+    const [errorMsg, setErrorMsg] = useState();
 
+    //update
     const [updatedFname, updateFname] = useState();
     const [updatedEmail, updateEmail] = useState();
     const [updatedLname, updateLname] = useState();
@@ -116,12 +117,8 @@ function ViewStudentInformation(){
     // if user id exists
     if (user !== null) {
 
-        // console.log(email);
-        // console.log(uid);
-
         studentUser.get().then((doc) => {
             if (doc.exists) {
-                // console.log("Document data:", doc.data());
                 setUserFname(doc.data().firstname);
                 setUserLname(doc.data().lastname);
                 setUserEmail(doc.data().email);
@@ -137,23 +134,14 @@ function ViewStudentInformation(){
 
     }
 
-
-    function handleLogout()
-    {
-        logout();
-        history.push("/login");
-    }
-
     function handleUpdate(type, e){
 
         e.preventDefault();
-        console.log(studentUser);
-        alert(type);
 
         switch (type){
             case "firstname":
                 if(!updatedFname){
-                    alert("Please fill in field");
+                    setErrorMsg(`*** Please fill in ${type} field ***`);
                 } else {
                     studentUser.update({
                         firstname: updatedFname,
@@ -171,7 +159,7 @@ function ViewStudentInformation(){
 
             case 'lastname':
                 if(!updatedLname){
-                    alert("Please fill in field");
+                    setErrorMsg(`*** Please fill in ${type} field ***`);
                 } else {
                     studentUser.update({
                         lastname: updatedLname,
@@ -189,7 +177,7 @@ function ViewStudentInformation(){
 
             case 'email':
                 if(!updatedEmail){
-                    alert("Please fill in field");
+                    setErrorMsg(`*** Please fill in ${type} field ***`);
                 } else {
                     studentUser.update({
                         email: updatedEmail,
@@ -207,7 +195,7 @@ function ViewStudentInformation(){
 
             case 'phone':
                 if(!updatedPhone){
-                    alert("Please fill in field");
+                    setErrorMsg(`*** Please fill in ${type} field ***`);
                 } else {
                     studentUser.update({
                         phone: updatedPhone,
@@ -226,7 +214,7 @@ function ViewStudentInformation(){
 
             case 'address':
                 if(!updatedAddress){
-                    alert("Please fill in field");
+                    setErrorMsg(`*** Please fill in ${type} field ***`);
                 } else {
                     studentUser.update({
                         address: updatedAddress,
@@ -241,15 +229,13 @@ function ViewStudentInformation(){
                     })
                 } 
             break;
-
-
             default:
                 console.log("ERROR");
         }
     }
 
     return(
-    <div className={classes.root}>
+    <section className={classes.root}>
         
         <StudentNav/>
           {/* SIDEBAR */}  
@@ -281,45 +267,48 @@ function ViewStudentInformation(){
         {/* UPDATE STUDENT INFO */}  
         <Grid container className={classes.gridContainer}>
           <Grid item md={8} className={classes.studentUpdateInfo}>
-              <Box><strong>Update Account Information</strong></Box>
+              <Box><strong><h1>Update your account Information</h1></strong></Box>
+
                   <Container maxwidth="sm">
-  
                     <Grid container className={classes.infoItem}>                     
                           <Grid item md={2}>
-                              <label>First Name: </label>
+                              <p>First Name: </p>
                           </Grid>
+
                           <Grid item md={10}>
-                              {/* <input type="text" onChange={(e)=> setUserFname(e.target.value)}/> */}
-                              <TextField  id="standard-basic" 
-                                          label={updatedFname}
-                                          placeholder={userFname}
-                                          onChange={(e)=> updateFname(e.target.value)}
-                                          >            
-                              </TextField>
-                              <Button className={classes.updateBtn} onClick={(e) => handleUpdate('firstname', e)} >Update</Button>
-                              {/* <button className={classes.updateBtn} onClick={handleUpdate('firstname')} >Update</button> */}
+                            <TextField  id="standard-basic" 
+                                        placeholder={userFname}
+                                        onChange={(e)=> updateFname(e.target.value)}
+                                        >            
+                            </TextField>
+                            <Button     className={classes.updateBtn} 
+                                        onClick={(e) => handleUpdate('firstname', e)} >
+                                        Update
+                            </Button>
                           </Grid>             
                     </Grid>
 
                     <Grid container className={classes.infoItem}>
                         <Grid item md={2}>
-                        {/* <span> Lastname: {userLname} </span>  */}
-                            <label>Last Name: </label>
+                            <p>Last Name: </p>
                         </Grid>
+
                         <Grid md={10}>
                             <TextField  id="standard-basic" 
                                         type="text" 
-                                        placeholder={userLname}  
+                                        placeholder={userLname} 
                                         onChange={(e)=> updateLname(e.target.value)}>
                             </TextField>
-                            <Button className={classes.updateBtn} onClick={(e) => handleUpdate('lastname', e)}>Update</Button>
+                            <Button className={classes.updateBtn} 
+                                    onClick={(e) => handleUpdate('lastname', e)}>
+                                    Update
+                            </Button>
                         </Grid>
                     </Grid>
                       
                       <Grid container className={classes.infoItem}>
                           <Grid item md={2}>
-                              {/* <span> Email {userEmail} </span>  */}
-                              <label>Email </label>
+                              <p>Email </p>
                           </Grid>
                           <Grid item md={10}>
                             <TextField  id="standard-basic"
@@ -327,56 +316,69 @@ function ViewStudentInformation(){
                                         placeholder={userEmail} 
                                         onChange={(e)=> updateEmail(e.target.value)}>
                             </TextField>
-                            <Button className={classes.updateBtn} onClick={(e) => handleUpdate('email', e)}>Update</Button>
+                            <Button     className={classes.updateBtn} 
+                                        onClick={(e) => handleUpdate('email', e)}>
+                                        Update
+                            </Button>
                           </Grid>
                       </Grid>
   
                       <Grid container className={classes.infoItem}>
                           <Grid item md={2}>
-                              {/* <span> Phone {userPhone} </span>  */}
-                              <label>Phone </label>
+                              <p>Phone </p>
                           </Grid>
                           <Grid item md={10}>
                             <TextField  id="standard-basic" 
                                         type="text" 
                                         placeholder={userPhone} 
                                         onChange={(e)=> updatePhone(e.target.value)}>
-                              </TextField>
-                              <Button className={classes.updateBtn} onClick={(e) => handleUpdate('phone', e)}>Update</Button>
+                            </TextField>
+                            <Button     className={classes.updateBtn} 
+                                        onClick={(e) => handleUpdate('phone', e)}>
+                                        Update
+                            </Button>
                           </Grid>
                       </Grid>
   
                       <Grid container className={classes.infoItem}>
                           <Grid item md={2}>
-                              {/* <span> Phone {userPhone} </span>  */}
-                              <label>Address </label>
+                              <p>Address </p>
                           </Grid>
                           <Grid item md={10}>
-                              <TextField  id="standard-basic"
+                            <TextField  id="standard-basic"
                                         type="text" 
                                         placeholder={userAddress} 
                                         onChange={(e)=> updateAddress(e.target.value)}
                                         required>
-                              </TextField>
-                              <Button className={classes.updateBtn} onClick={(e) => handleUpdate('address', e)}>Update</Button>                        
+                            </TextField>
+                            <Button   className={classes.updateBtn} 
+                                        onClick={(e) => handleUpdate('address', e)}>
+                                        Update
+                            </Button>                        
                           </Grid>
                       </Grid>
+
+                      <Box className={classes.erroMsg}>
+                        <p>{errorMsg}</p>
+                    </Box>
+
               </Container>
           </Grid>
   
           {/* DISPLAY STUDENT INFO */}  
           <Grid item md={4} className={classes.studentDetails}>
-              <Box>Student Information</Box>
+              <Box> <h2>{userFname}'s account information </h2></Box>
               <p>{userFname} {userLname}</p>
               <p>{userEmail}</p>
               <p>{userPhone}</p>
               <p>{userAddress}</p>
           </Grid>
+          
         </Grid>
   
   
           
-      </div>
+      </section>
     )
 }
 
