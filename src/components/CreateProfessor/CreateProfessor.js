@@ -6,7 +6,8 @@ import {useRef, useState} from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { firestore } from '../../firebase';
 import firebase from '../../firebase';
-import emailjs from "emailjs-com";
+import emailjs from 'emailjs-com';
+
 
 /*
 The file to create a professor, add them to the database and then sned their credentials to them via email.

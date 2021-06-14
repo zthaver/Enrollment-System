@@ -28,9 +28,10 @@ function CreateAdmin()
             firestore.collection("admin").add({
               "email": email.current.value,
               "firstName": firstName.current.value,
-              "lastName": lastName.current.value
+              "lastName": lastName.current.value,
+              "isDepartmentHead" : false
             }).then((val)=>{
-              console.log("Admin Created. Password: " + generatedPassword)
+    console.log("Admin Created. Password: " + generatedPassword)
               var adminDetails = {email:email.current.value, password: generatedPassword}
               alert('successful  sign up')
               emailjs.send('service_39awvvo','template_gkw4bkq',adminDetails,"user_oGearzYTZGyhVqlL710SX")
