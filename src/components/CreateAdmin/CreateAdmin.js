@@ -14,7 +14,7 @@ function CreateAdmin()
     let firstName = useRef();
     let lastName = useRef();
     let email = useRef();
-    const { signup } = useAuth();
+    const { signupAdmin } = useAuth();
     function handleSubmit(e)
     {
         e.preventDefault();
@@ -22,8 +22,8 @@ function CreateAdmin()
         console.log("form submitted");
         if(/\S+@\S+\.\S+/.test(email.current.value))
         {
-          let generatePassword = uuidv4();
-          signup(email.current.value, generatePassword)
+          let generatedPassword = uuidv4();
+          signupAdmin(email.current.value, generatedPassword)
           .then((val)=>{
             firestore.collection("admin").add({
               "email": email.current.value,
@@ -31,8 +31,10 @@ function CreateAdmin()
               "lastName": lastName.current.value,
               "isDepartmentHead" : false
             }).then((val)=>{
-              console.log("Admin Created. Password: " + generatePassword)
-              //emailjs.sendForm('service_39awvvo','template_gkw4bkq',e.target,"user_oGearzYTZGyhVqlL710SX")
+    console.log("Admin Created. Password: " + generatedPassword)
+              var adminDetails = {email:email.current.value, password: generatedPassword}
+              alert('successful  sign up')
+              emailjs.send('service_39awvvo','template_gkw4bkq',adminDetails,"user_oGearzYTZGyhVqlL710SX")
             })
           })
           .catch((error)=>{

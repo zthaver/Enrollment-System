@@ -2,7 +2,7 @@ import { Formik } from "formik";
 import { Paper, TextField } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { firestore } from "../../firebase";
-import * as Yup from "yup";
+// import * as Yup from "yup";
 import { useState } from "react";
 
 

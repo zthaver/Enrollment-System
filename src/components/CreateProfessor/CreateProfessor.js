@@ -8,6 +8,7 @@ import { firestore } from '../../firebase';
 import firebase from '../../firebase';
 import emailjs from 'emailjs-com';
 
+
 /*
 The file to create a professor, add them to the database and then sned their credentials to them via email.
 */
@@ -41,11 +42,13 @@ function CreateProfessor()
                 //match uid with document id
                 firestore.collection("professors").doc(user).set({
                     "email": email.current.value,
-                    "firstName": firstName.current.value,
-                    "lastName": lastName.current.value
+                    "firstname": firstName.current.value,
+                    "lastname": lastName.current.value
                 }).then((val)=>{
                     console.log("user added to db")
-                    emailjs.sendForm('service_39awvvo','template_gkw4bkq',e.target,"user_oGearzYTZGyhVqlL710SX")
+                    var professorDetails = {email:email.current.value, password: uniquePassword}
+                    alert('successful  sign up')
+                    emailjs.send('service_39awvvo','template_gkw4bkq',professorDetails,"user_oGearzYTZGyhVqlL710SX")
                     //todo: send password and username to user
                 })
              }).catch((err)=>{
