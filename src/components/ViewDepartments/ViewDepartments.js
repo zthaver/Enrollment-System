@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { firestore } from '../../firebase';
+import { useHistory } from 'react-router';
 
 function ViewDepartments() {
+    var history = useHistory();
     const [departmentData, setDepartmentData] = useState([])
 
     function deleteDepartment(id)
@@ -41,7 +43,10 @@ function ViewDepartments() {
                         </td>
 
                         <td>
-                            <button onClick={()=>deleteDepartment(department.id)}> delete</button>
+                            <button onClick={()=>deleteDepartment(department.id)}>Delete Department</button>
+                        </td>
+                        <td>
+                            <button onClick={()=> history.push("/updateDepartment/"+ department.id )}> Update Department Information</button>
                         </td>
                     </tr>
                     )
