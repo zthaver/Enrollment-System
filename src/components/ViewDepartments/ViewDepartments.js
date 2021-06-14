@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { firestore } from '../../firebase';
 import { useHistory } from 'react-router';
-
+import { Link } from 'react-router-dom';
+ 
 function ViewDepartments() {
     var history = useHistory();
     const [departmentData, setDepartmentData] = useState([])
@@ -29,6 +30,7 @@ function ViewDepartments() {
                 <th>Department Id</th>
             </thead>
             <tbody id="departmentData">
+                <Link to="/createDepartment"> Create Department </Link>
 
                 {departmentData.map((department) => {
                     console.log(department);

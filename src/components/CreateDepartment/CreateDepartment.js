@@ -43,7 +43,7 @@ function CreateDepartment() {
                                 }).then((value) => {
         
                                     value.update({ "id": value.id })
-        
+                                    alert("Department Successfully Created")
         
                                 })
                             }
