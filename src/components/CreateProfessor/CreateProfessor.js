@@ -41,8 +41,8 @@ function CreateProfessor()
                 //match uid with document id
                 firestore.collection("professors").doc(user).set({
                     "email": email.current.value,
-                    "firstName": firstName.current.value,
-                    "lastName": lastName.current.value
+                    "firstname": firstName.current.value,
+                    "lastname": lastName.current.value
                 }).then((val)=>{
                     console.log("user added to db")
                     var professorDetails = {email:email.current.value, password: uniquePassword}
