@@ -47,6 +47,7 @@ function SignUp()
                     firstname: firstName,
                     lastname: lastName,
                     email: userEmail,
+                    id: user
                 })
                 .then(() => {
                     emailjs.sendForm('service_39awvvo','template_gkw4bkq',e.target,"user_oGearzYTZGyhVqlL710SX")

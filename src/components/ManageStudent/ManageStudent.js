@@ -8,9 +8,9 @@ function ManageStudent(){
     const studentUser = firebase.firestore().collection("student");
     const [loading, setLoading] = useState(false);
     const [students, setStudent] = useState([]);
-    const [firstName, setfName] = useState("");
-    const [lastName, setlName] = useState("");
-    const [studentEmail, setEmail] = useState("");
+    const [changeName, setfName] = useState("");
+    const [changeLName, setlName] = useState("");
+    const [changeEmail, setEmail] = useState("");
     const [error,setError] = useState("");
 
     function getStudents(){
@@ -18,7 +18,7 @@ function ManageStudent(){
         studentUser.get().then((item)=>{
             const items = item.docs.map((doc)=> doc.data())
             setStudent(items);
-            console.log(students)
+            //console.log(students)
             setLoading(false);
         });
     }
@@ -26,38 +26,33 @@ function ManageStudent(){
         getStudents();
     }, []);
 
-    function updateStudent(updatedstudent){
+    function updateStudent(student){
         //Update/Edit existing document with student id
         //take in the email, query db by email 
         setLoading();
+        console.log(student.id)
         studentUser
-        .doc(updatedstudent.id)
-        .update(updatedstudent)
-        // .then(()=>{
-        //     setStudent((prev)=>{
-        //         prev.map((e)=>{
-        //             if(e.id !== student.id){
-        //                 return e;
-        //             }
-        //             return student;
-        //         })
-        //     });
-        // })
+        .doc(student.id)
+        .update({firstname: student.firstname})
+        .then(()=>{
+            window.location.reload();
+            console.log(student.firstname)
+        })
         .catch((err)=>{
-            console.log(updatedstudent)
+            console.log(student)
             console.error(err);
         });
     }
 
     function deleteStudent(student){
         //Delete existing document with student id
+        console.log(student.id)
         studentUser
         .doc(student.id)
         .delete()
         .then(()=>{
-            setStudent((prev)=>{
-                prev.filter((e)=> e.id !== student.id)
-            })
+            window.location.reload();
+            console.log("it work :)")
         })
         .catch((err)=>{
             console.error(err);
@@ -68,34 +63,33 @@ function ManageStudent(){
         <Fragment>
             <h1>Manage Student</h1>
             <div className="inputBox"> 
-            <input 
+            {/* <input 
                 ref = {sEmail}
                 type="text"
                 placeholder="Email"
                 value={studentEmail} 
                 onChange={(e)=> setEmail(e.target.value)}
-            />
+            /> */}
             <input 
                 ref = {fName}
                 type="text"
                 placeholder="First Name"
-                value={firstName} 
+                value={changeName}
                 onChange={(e)=> setfName(e.target.value)}
             />
             </div>
             <hr />
             {loading ? <h1>Loading...</h1> : null}
             {students.map((student)=>(
-                <div className="student" key={student.studentId}>
-                    <h3>ID: {student.studentId}</h3>
+                <div className="student" key={student.id}>
+                    <h3>ID: {student.id}</h3>
                     <div>
-                        <p>Name: {student.firstName} {student.lastName}</p>
+                        <p>Name: {student.firstname} {student.lastname}</p>
                         <p>Email: {student.email}</p>
                         <p>Address: {student.address}</p>
                         <p>Date of Birth: {student.dateofbirth}</p>
-                        <p>Course: {student.course}</p>
                         <button onClick={()=>
-                            updateStudent({email: student.email, firstName})}>Update</button>
+                            updateStudent({ firstname: changeName, id: student.id})}>Update</button>
                         <button onClick={()=>deleteStudent(student)}>Delete</button>
                     </div>
                 </div>
