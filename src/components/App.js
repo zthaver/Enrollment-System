@@ -14,10 +14,12 @@ import HomePage from './HomePage/HomePage';
 import StudentHomePage from './StudentHomePage/StudentHomePage';
 import StudentRoute from './StudentRoute';
 import createDepartment from './CreateDepartment/CreateDepartment'
-import ManageStudent from './ManageStudent/ManageStudent'
 import ViewStudent from './ViewStudent/ViewStudentInformation'
 import ProfessorAccount from './ViewProfessor/ProfessorAccount';
-
+import ViewDepartments from './ViewDepartments/ViewDepartments';
+import UpdateDepartment from "./UpdateDepartment/UpdateDepartments";
+import ManageStudent from "./Manage/ManageStudent"
+import ManageProfessor from "./Manage/ManageProfessor"
 function App() {
   return (
     <Router>
@@ -30,9 +32,12 @@ function App() {
             <AdminRoute exact path ="/createAdmin" component={CreateAdmin}></AdminRoute>
             <AdminRoute exact path ="/admin" component={AdminHomePage}></AdminRoute>
             <AdminRoute exact path ="/createProfessor" component={CreateProfessor}></AdminRoute>
-            <AdminRoute exact path ="/ManageStudent" component={ManageStudent}></AdminRoute>
             <ProfessorRoute exact path ="/professor" component={ProfessorHomePage}></ProfessorRoute>
             <AdminRoute exact path ="/createDepartment" component={createDepartment}></AdminRoute>
+            <AdminRoute exact path="/updateDepartment/:id" component= {()=><UpdateDepartment/>}></AdminRoute>
+            <AdminRoute exact path ="/viewDepartment" component={ViewDepartments}></AdminRoute>
+            <AdminRoute exact path ="/ManageStudent" component={ManageStudent}></AdminRoute>
+            <AdminRoute exact path ="/ManageProfessor" component={ManageProfessor}></AdminRoute>
             <StudentRoute exact path ="/student" component={StudentHomePage}></StudentRoute>
             <StudentRoute exact path="/viewStudent" component={ViewStudent} />
             <Route exact path="/viewProf" component={ProfessorAccount}/>

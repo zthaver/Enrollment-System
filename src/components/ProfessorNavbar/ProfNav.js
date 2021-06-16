@@ -5,9 +5,7 @@ import { useAuth }  from '../../Contexts/AuthContext';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom'
 
-
 // material ui
-
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -51,7 +49,7 @@ export default function ProfNav(){
                     Seneca College
                 </Typography>
                 
-                <Button component={Link} to="/viewStudent" color="inherit">Account</Button>
+                <Button component={Link} to="/viewProf" color="inherit">Account</Button>
                 <Button color="inherit">Schedule</Button>
                 <Button color="inherit" onClick={handleLogout}>Logout</Button>
                 </Toolbar>
