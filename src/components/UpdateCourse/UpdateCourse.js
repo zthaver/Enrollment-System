@@ -1,5 +1,5 @@
 import { Formik } from "formik";
-import { Paper,TextField  } from '@material-ui/core';
+import { Paper, TextField } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { firestore } from "../../firebase";
 import { useState, useEffect } from "react";
@@ -16,6 +16,8 @@ function UpdateCourse() {
 
     let [error, setError] = useState("");
     let [courseName, setCourseName] = useState("");
+    let [defaultCourseCode, setCourseCode] = useState("");
+    let [courseDescription, setCourseDescription] = useState("");
     let empty = true;
     console.log(id)
 
@@ -24,30 +26,34 @@ function UpdateCourse() {
             .min(20, 'Too Short!')
             .max(50, 'Too Long!')
             .required('Required'),
-            courseCode:Yup.string()
+        courseCode: Yup.string()
             .min(6, 'Too Short!')
             .required('Required')
             // to check if the course code is unique
-            .test('checkCourseCodeUnique', 'This course is already registered', value =>{
+            .test('checkCourseCodeUnique', 'This course is already registered', async value => {
                 let isCourseCodeUnique = false;
-                if(!value)
-                {
+                if (!value) {
                     value = " "
                 }
                 console.log(value)
-                firestore.collection("courses").where("courseCode", "==", value).get().then((val)=>{
+                await firestore.collection("courses").where("courseCode", "==", value).get().then((val) => {
                     isCourseCodeUnique = val.empty;
                 })
-                return !isCourseCodeUnique;
+                return isCourseCodeUnique;
             }),
     });
     useEffect(() => {
         firestore.collection("courses").doc(id).get().then((courses) => {
-          var temp =  courses.data();
-          console.log("temp is" + temp.courseName)
-          setCourseName(temp.courseName)
+            var courseData = courses.data();
+            setCourseName(courseData.courseName)
+            setCourseCode(courseData.courseCode)
+            setCourseDescription(courseData.courseDescription)
+            console.log("tamerere" + defaultCourseCode);
+
         })
     }, [])
+
+    console.log("tamerere 2" + defaultCourseCode);
     return (
         <article>
             <Grid>
@@ -55,14 +61,15 @@ function UpdateCourse() {
                     <Grid >
                         <h2>Update Course</h2>
                     </Grid>
-                    <Formik validationSchema={CourseSchema} initialValues={{ courseName: '', courseCode: '' }} onSubmit={async (values, props) => {
+                    <Formik validationSchema={CourseSchema} initialValues={{ courseName: courseName, courseCode: defaultCourseCode, courseDescription: courseDescription }} onSubmit={async (values, props) => {
                         console.log(values)
                         firestore.collection("courses").doc(id).update({
-                            courseName:values.courseName,
-                            courseCode:values.courseCode
-                        }).then((val)=>{
+                            courseName: values.courseName,
+                            courseCode: values.courseCode,
+                            courseDescription:values.courseDescription
+                        }).then((val) => {
                             alert("success in creatring")
-                        }).catch((err)=>{
+                        }).catch((err) => {
                             console.log("err is" + err);
                         })
 
@@ -75,27 +82,26 @@ function UpdateCourse() {
                                     name="courseName"
                                     onBlur={props.handleBlur}
                                     onChange={props.handleChange}
-                                    // value={props.values.courseName}
                                     defaultValue={courseName}
                                     required>
                                 </input>
                                 <br></br>
                                 <label htmlFor="courseCode">Course Code</label>
                                 <TextField type="text"
+                                    multiline={true}
                                     name="courseCode"
                                     onBlur={props.handleBlur}
                                     onChange={props.handleChange}
-                                    value={props.values.courseCode}
-                                    required
+                                    defaultValue={defaultCourseCode}
                                     helperText={props.errors.courseCode}
-                                    error={!!props.errors.courseCode}/>
+                                    error={!!props.errors.courseCode} />
                                 <label> Course Description</label>
                                 <TextField type="text"
                                     multiline={true}
                                     name="courseDescription"
                                     onBlur={props.handleBlur}
                                     onChange={props.handleChange}
-                                    value={props.values.courseDescription}
+                                    defaultValue={courseDescription}
                                     helperText={props.errors.courseDescription}
                                     error={!!props.errors.courseDescription}
                                 />

@@ -29,6 +29,7 @@ function ManageCourse() {
             <thead>
                 <th> Course Name</th>
                 <th>Course Id</th>
+                <th>Course Description</th>
             </thead>
             <tbody id="departmentData">
                 <Link to="/createCourse"> Create Course </Link>
@@ -39,6 +40,9 @@ function ManageCourse() {
                     <tr>
                         <td>
                             <h4> {course.courseName}</h4>
+                        </td>
+                        <td>
+                            <h4> {course.courseDescription}</h4>
                         </td>
                         <td>
                             <h4> {course.id}</h4>

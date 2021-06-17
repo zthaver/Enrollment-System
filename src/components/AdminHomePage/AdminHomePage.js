@@ -27,6 +27,8 @@ return(
          <Link to="/createDepartment"> Create Department </Link>
          <Link to="/createCourse"> Create Course </Link>
          <Link to="/viewCourse"> Manage Course </Link>
+         <Link to="/createProgram"> Create Program </Link>
+         <Link to="/manageProgram"> Manage </Link>
          <button onClick={handleLogout}> logout</button>
         </Toolbar>     
     </AppBar>   

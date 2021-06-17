@@ -10,6 +10,26 @@ const CourseSchema = Yup.object().shape({
         .min(20, 'Too Short!')
         .max(50, 'Too Long!')
         .required('Required'),
+        courseDescription: Yup.string()
+            .min(20, 'Too Short!')
+            .max(50, 'Too Long!')
+            .required('Required'),
+            courseCode:Yup.string()
+            .min(6, 'Too Short!')
+            .required('Required')
+            // to check if the course code is unique
+            .test('checkCourseCodeUnique', 'This course is already registered',async value =>{
+                let isCourseCodeUnique = false;
+                if(!value)
+                {
+                    value = " "
+                }
+                console.log(value)
+                await firestore.collection("courses").where("courseCode", "==", value).get().then((val)=>{
+                    isCourseCodeUnique = val.empty;
+                })
+                return isCourseCodeUnique;
+            }),
     
 });
 function CreateCourse() {
@@ -33,17 +53,21 @@ function CreateCourse() {
                     <Grid >
                         <h2>Create Course</h2>
                     </Grid>
-                    <Formik validationSchema={CourseSchema} initialValues={{ courseName: '', courseCode: '', courseDescription: ''}} onSubmit={async (values, props) => {
+                    <Formik validationSchema={CourseSchema} initialValues={{ courseName: '', courseCode: '', courseDescription: '',professorName: ''}} onSubmit={async (values, props) => {
                         console.log(values)
                         props.setSubmitting(true);
-                        firestore.collection("courses").add({
+                        await firestore.collection("courses").add({
                             "courseName":values.courseName,
                             "courseDescription":values.courseDescription,
                             "courseCode":values.courseCode,
+                            "professorName":values.professorName,
 
 
-                        }).then((val)=>{
-                            val.update({ "id": val.id })
+
+                        }).then(async(val)=>{
+                           await val.update({ "id": val.id });
+
+
                             alert("Course Successfully Created")
                         }).catch((err)=>{
                             console.log(err);
@@ -67,15 +91,15 @@ function CreateCourse() {
                                     onBlur={props.handleBlur}
                                     onChange={props.handleChange}
                                     value={props.values.courseCode}
-                                    helperText={error}
-                                    error={!!error}
+                                    helperText={props.errors.courseCode}
+                                    error={props.errors.courseCode}
                                 />
                                 <label> Professor Name</label>
                                 <br></br>
                                 <br></br>
-                                <select>
+                                <select onChange={(value)=>{props.values.professorName = value.target.value; console.log(props.values.professorName)}}>
                                     {professorData.map((professor) =>
-                                    <option key={professor.email}> {professor.firstName} {professor.lastName}</option>)};
+                                    <option key={professor.email}> {professor.firstname} {professor.lastname}</option>)};
                              </select>
                                 <br></br><br></br>
                                 <label> Course Description</label>
@@ -88,8 +112,6 @@ function CreateCourse() {
                                     helperText={props.errors.courseDescription}
                                     error={!!props.errors.courseDescription}
                                 />
-
-
                                 <button type="submit">Submit</button>
                                 <button type="reset">reeset</button>
                             </form>
