@@ -2,6 +2,7 @@ import { Formik } from "formik";
 import { Paper, TextField } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { firestore } from "../../firebase";
+import AdminNav from "../AdminNavbar/AdminNav";
 
 
 import * as Yup from "yup";
@@ -54,28 +55,23 @@ function CreateDepartment() {
 
                                     value.update({ "id": value.id })
 
-
-
-                                }).then(()=>{
-                                    if(programId !="")
-                                    {
+                                }).then((val) => {
+                                    if (programId != "") {
                                         firestore.collection("programs").doc(programId).collection("departments").add({
                                             "programId": programId,
-                                            "programName":values.programName
+                                            "programName": values.programName
 
-                                        }).then(()=>{
+                                        }).then(() => {
                                             alert("department successfully created")
                                         })
-                                    }
+                                            }
 
 
+                                });
                             }
-                        });
-
-
-                    }} validateOnChange={true}
-
-                        validateOnBlur={true}>
+                        })
+                        }}
+                        validateOnChange={true}>
                         {formikProps => (
                             <form onSubmit={formikProps.handleSubmit}>
                                 <label htmlFor="departmentName">Department Name</label>
@@ -85,22 +81,21 @@ function CreateDepartment() {
                                     onBlur={formikProps.handleBlur}
                                     onChange={formikProps.handleChange}
                                     value={formikProps.values.name}
-                                    required>
-                                </input>
-                                <br></br><br></br>
-                                <select  onChange={(value) => {
-                                    formikProps.values.programName = value.target.value;
-                                    let selectedIndex = value.target.options.selectedIndex;
-                                    setProgramId(value.target.options[selectedIndex].getAttribute('program-id'));
+                                    required/>
+                                    <br></br><br></br>
+                                    <select onChange={(value) => {
+                                        formikProps.values.programName = value.target.value;
+                                        let selectedIndex = value.target.options.selectedIndex;
+                                        setProgramId(value.target.options[selectedIndex].getAttribute('program-id'));
 
-                                }}>
-                                {programData.map((program) =>
-                                    <option key={program.id} program-id={program.id}> {program.programName} </option>)};
+                                    }}>
+                                        {programData.map((program) =>
+                                            <option key={program.id} program-id={program.id}> {program.programName} </option>)};
                                     <br></br><br></br>
                                     </select>
-                                <br></br><br></br>
-                                <h1>{error}</h1>
-                                <button type="submit">Submit</button>
+                                    <br></br><br></br>
+                                    <h1>{error}</h1>
+                                    <button type="submit">Submit</button>
 
                             </form>
                         )}

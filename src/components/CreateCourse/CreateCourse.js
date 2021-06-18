@@ -8,9 +8,13 @@ import AdminNav from '../AdminNavbar/AdminNav';
 import { makeStyles } from '@material-ui/core/styles';
 
 const CourseSchema = Yup.object().shape({
+    courseName: Yup.string()
+    .min(5,"Must be at least 5 Charecters")
+    .max(50,'Must be less than 50 Charecters')
+    .required('Required'),
     courseDescription: Yup.string()
-        .min(20, 'Too Short!')
-        .max(50, 'Too Long!')
+        .min(20, 'Must be at least 20 Charecters')
+        .max(50, 'Must be less than  50 Charecters')
         .required('Required'),
         courseDescription: Yup.string()
             .min(20, 'Too Short!')
@@ -18,6 +22,7 @@ const CourseSchema = Yup.object().shape({
             .required('Required'),
             courseCode:Yup.string()
             .min(6, 'Too Short!')
+            .max(6,'Course code cannot be more than 6 charecters')
             .required('Required')
             // to check if the course code is unique
             .test('checkCourseCodeUnique', 'This course is already registered',async value =>{
@@ -78,7 +83,7 @@ function CreateCourse() {
 
 
                     }} validateOnChange={true}
-                        validateOnBlur={true}>
+                       >
                         {props => (
                             <form onSubmit={props.handleSubmit}>
                                 <label htmlFor="courseName">Course Name</label>
@@ -86,6 +91,8 @@ function CreateCourse() {
                                     name="courseName"
                                     onChange={props.handleChange}
                                     value={props.values.courseName}
+                                    helperText={props.errors.courseName}
+                                    error={props.errors.courseName}
                                 />
                                 <label htmlFor="courseCode">Course Code</label>
                                 <TextField type="text"
