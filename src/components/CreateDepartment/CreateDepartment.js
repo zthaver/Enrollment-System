@@ -4,11 +4,11 @@ import Grid from '@material-ui/core/Grid';
 import { firestore } from "../../firebase";
 // import * as Yup from "yup";
 import { useState } from "react";
-
+import AdminNav from '../AdminNavbar/AdminNav';
+import { makeStyles } from '@material-ui/core/styles';
 
 function CreateDepartment() {
     const paperStyle = { padding: 20, height: '70vh', width: 280, margin: "20px auto" }
-
     
            let [error,setError] = useState("");
          
@@ -21,6 +21,7 @@ function CreateDepartment() {
     return (
 
         <article>
+            <AdminNav />
             <Grid>
                 <Paper elavation="20" style={paperStyle}>
                     <Grid >

@@ -221,7 +221,7 @@ function ProfessorAccount(){
 
     return(
     
-      <section>
+      <section className={classes.root}>
         <ProfNav/>
 
         <Drawer
