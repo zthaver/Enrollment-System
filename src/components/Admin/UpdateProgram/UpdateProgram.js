@@ -25,13 +25,13 @@ function UpdateProgram() {
 
     const ProgramSchema = Yup.object().shape({
         programDescription: Yup.string()
-            .min(20, 'Too Short!')
-            .max(50, 'Too Long!')
-            .required('Required'),
-        programCode: Yup.string()
-            .min(6, 'Too Short!')
             .required('Required')
-            // to check if the course code is unique
+            .min(20, 'Too Short!')
+            .max(50, 'Too Long!'),
+        programCode: Yup.string()
+            .required('Required')
+            .min(6, 'Too Short!')
+            //to check if the course code is unique
             .test('checkProgramCodeUnique', 'This program is already registered', async value => {
                 let isProgramCodeUnique = false;
                 if (!value) {
@@ -53,12 +53,12 @@ function UpdateProgram() {
             setProgramName(programData.programName)
             setProgramCode(programData.programCode)
             setProgramDescription(programData.programDescription)
+            setDepartmentName(programData.departmentName)
             console.log("tamerere" + programCode);
 
         })
     }, [])
 
-    console.log("tamerere 2" + programCode);
     return (
         <article>
             <Grid>
@@ -66,7 +66,7 @@ function UpdateProgram() {
                     <Grid >
                         <h2>Update Program</h2>
                     </Grid>
-                    <Formik validationSchema={ProgramSchema} initialValues={{ programName: programName, programCode: programCode, programDescription: programDescription,departmentName:departmentName}} onSubmit={async (values, props) => {
+                    {programDescription!=""&&<Formik validationSchema={ProgramSchema} initialValues={{ programName: programName, programCode: programCode, programDescription: programDescription,departmentName:departmentName}} onSubmit={async (values, props) => {
                         console.log(values)
                         firestore.collection("programs").doc(id).update({
                             "programName": values.programName,
@@ -80,24 +80,22 @@ function UpdateProgram() {
                             console.log("err is" + err);
                         })
 
-                    }} validateOnChange={true}
-                        validateOnBlur={true}>
+                    }} 
+                        validateOnChange={false} validateOnBlur={false}>
                         {props => (
-                            <form onSubmit={props.handleSubmit}>
+                            <form noValidate onSubmit={props.handleSubmit}>
                                 <label htmlFor="programName">Program Name</label>
                                 <input type="text"
                                     name="programName"
-                                    onBlur={props.handleBlur}
                                     onChange={props.handleChange}
                                     defaultValue={programName}
-                                    required>
+                                    requir>
                                 </input>
                                 <br></br>
                                 <label htmlFor="programCode">Program Code</label>
                                 <TextField type="text"
                                     multiline={true}
                                     name="programCode"
-                                    onBlur={props.handleBlur}
                                     onChange={props.handleChange}
                                     defaultValue={programCode}
                                     helperText={props.errors.programCode}
@@ -114,7 +112,6 @@ function UpdateProgram() {
                                 <TextField type="text"
                                     multiline={true}
                                     name="programDescription"
-                                    onBlur={props.handleBlur}
                                     onChange={props.handleChange}
                                     defaultValue={programDescription}
                                     helperText={props.errors.programDescription}
@@ -125,7 +122,7 @@ function UpdateProgram() {
                                 <button type="reset">Reset</button>
                             </form>
                         )}
-                    </Formik>
+                    </Formik>}
                 </Paper>
             </Grid>
         </article>
