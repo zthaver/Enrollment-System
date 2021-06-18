@@ -61,7 +61,7 @@ function UpdateCourse() {
                     <Grid >
                         <h2>Update Course</h2>
                     </Grid>
-                    <Formik validationSchema={CourseSchema} initialValues={{ courseName: courseName, courseCode: defaultCourseCode, courseDescription: courseDescription }} onSubmit={async (values, props) => {
+                    {courseDescription != "" &&<Formik validateOnChange={false} validateOnBlur={false} validationSchema={CourseSchema} initialValues={{ courseName: courseName, courseCode: defaultCourseCode, courseDescription: courseDescription }} onSubmit={async (values, props) => {
                         console.log(values)
                         firestore.collection("courses").doc(id).update({
                             courseName: values.courseName,
@@ -110,7 +110,7 @@ function UpdateCourse() {
                                 <button type="reset">Reset</button>
                             </form>
                         )}
-                    </Formik>
+                    </Formik>}
                 </Paper>
             </Grid>
         </article>
