@@ -23,12 +23,14 @@ return(
         <Toolbar>
          <Link> Home </Link>
          <Link to="/createAdmin" > Create Admin </Link>
-         <Link to="/createProfessor" > Create Professor </Link>
          <Link to="/createDepartment"> Create Department </Link>
          <Link to="/createCourse"> Create Course </Link>
          <Link to="/viewCourse"> Manage Course </Link>
          <Link to="/createProgram"> Create Program </Link>
          <Link to="/manageProgram"> Manage </Link>
+         <Link to="/createProfessor" > Create Prof </Link>
+         <Link to ="/viewDepartment"> Manage Department </Link>
+
          <button onClick={handleLogout}> logout</button>
         </Toolbar>     
     </AppBar>   
