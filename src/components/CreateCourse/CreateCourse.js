@@ -81,14 +81,12 @@ function CreateCourse() {
                                 <label htmlFor="courseName">Course Name</label>
                                 <TextField type="text"
                                     name="courseName"
-                                    onBlur={props.handleBlur}
                                     onChange={props.handleChange}
                                     value={props.values.courseName}
                                 />
                                 <label htmlFor="courseCode">Course Code</label>
                                 <TextField type="text"
                                     name="courseCode"
-                                    onBlur={props.handleBlur}
                                     onChange={props.handleChange}
                                     value={props.values.courseCode}
                                     helperText={props.errors.courseCode}
@@ -106,7 +104,6 @@ function CreateCourse() {
                                 <TextField type="text"
                                     multiline={true}
                                     name="courseDescription"
-                                    onBlur={props.handleBlur}
                                     onChange={props.handleChange}
                                     value={props.values.courseDescription}
                                     helperText={props.errors.courseDescription}
