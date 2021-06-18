@@ -2,10 +2,22 @@ import { useState, useEffect } from "react";
 import { firestore } from '../../firebase';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
- 
+import AdminNav from '../AdminNavbar/AdminNav';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    content: {
+      flexGrow: 1,
+      backgroundColor: theme.palette.background.default,
+      padding: theme.spacing(3),
+      marginLeft:'240px',
+    },
+  }))
+
 function ManageCourse() {
     var history = useHistory();
     const [courseData, setCourseData] = useState([])
+    const classes = useStyles();
 
     async function deleteCourse(id)
     {
@@ -24,8 +36,11 @@ function ManageCourse() {
         })
     }, [])
     return (
-
-        <table>
+        <div className={classes.root}>
+            <AdminNav/>
+            <main className={classes.content}>
+            <h2>Manage Courses</h2>
+            <table>
             <thead>
                 <th> Course Name</th>
                 <th>Course Id</th>
@@ -60,6 +75,9 @@ function ManageCourse() {
                 )}
             </tbody>
         </table>
+            </main>
+        </div>
+        
     )
 }
 

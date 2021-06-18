@@ -3,6 +3,7 @@ import { Paper, TextField } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { firestore } from "../../firebase";
 
+
 import * as Yup from "yup";
 import { useState, useEffect } from "react";
 import { Select } from '@material-ui/core';
@@ -26,10 +27,10 @@ function CreateDepartment() {
     }, [])
 
 
-
     return (
 
         <article>
+            <AdminNav />
             <Grid>
                 <Paper elavation="20" style={paperStyle}>
                     <Grid >

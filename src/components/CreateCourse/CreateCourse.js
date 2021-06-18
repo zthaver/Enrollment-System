@@ -4,6 +4,8 @@ import Grid from '@material-ui/core/Grid';
 import { firestore } from "../../firebase";
 import * as Yup from "yup";
 import { useState, useEffect } from "react";
+import AdminNav from '../AdminNavbar/AdminNav';
+import { makeStyles } from '@material-ui/core/styles';
 
 const CourseSchema = Yup.object().shape({
     courseDescription: Yup.string()
@@ -48,6 +50,7 @@ function CreateCourse() {
     return (
 
         <article>
+            <AdminNav/>
             <Grid>
                 <Paper elavation="20" style={paperStyle}>
                     <Grid >

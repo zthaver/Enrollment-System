@@ -2,10 +2,22 @@ import { useState, useEffect } from "react";
 import { firestore } from '../../firebase';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
+import AdminNav from '../AdminNavbar/AdminNav';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    content: {
+      flexGrow: 1,
+      backgroundColor: theme.palette.background.default,
+      padding: theme.spacing(3),
+      marginLeft:'240px',
+    },
+  }))
  
 function ManageProgram() {
     var history = useHistory();
     const [programData, setProgramData] = useState([])
+    const classes = useStyles();
 
     async function deleteProgram(id)
     {
@@ -23,8 +35,11 @@ function ManageProgram() {
         })
     }, [])
     return (
-
-        <table>
+        <div className={classes.root}>
+            <AdminNav/>
+            <main className={classes.content}>
+            <h2>Manage Programs</h2>
+            <table>
             <thead>
                 <th> Program Name</th>
                 <th>Program Id</th>
@@ -63,6 +78,9 @@ function ManageProgram() {
                 )}
             </tbody>
         </table>
+            </main>
+        </div>
+        
     )
 }
 

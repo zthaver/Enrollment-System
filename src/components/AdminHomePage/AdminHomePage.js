@@ -4,11 +4,23 @@ import './AdminHomePage.css';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { Link } from "react-router-dom";
+import AdminNav from '../AdminNavbar/AdminNav'
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    content: {
+      flexGrow: 1,
+      backgroundColor: theme.palette.background.default,
+      padding: theme.spacing(3),
+      marginLeft:'240px',
+    },
+  }))
 
 function AdminHomePage()
 {
     const { currentUser,logout } = useAuth();
     const history = useHistory();
+    const classes = useStyles();
 
 
     function handleLogout()
@@ -18,22 +30,11 @@ function AdminHomePage()
         
     }
 return(
-    <div>
-     <AppBar>
-        <Toolbar>
-         <Link> Home </Link>
-         <Link to="/createAdmin" > Create Admin </Link>
-         <Link to="/createDepartment"> Create Department </Link>
-         <Link to="/createCourse"> Create Course </Link>
-         <Link to="/viewCourse"> Manage Course </Link>
-         <Link to="/createProgram"> Create Program </Link>
-         <Link to="/manageProgram"> Manage </Link>
-         <Link to="/createProfessor" > Create Prof </Link>
-         <Link to ="/viewDepartment"> Manage Department </Link>
-
-         <button onClick={handleLogout}> logout</button>
-        </Toolbar>     
-    </AppBar>   
+    <div className={classes.root}>
+        <AdminNav />
+        <main className={classes.content}>
+            <h1>Admin Homepage</h1>
+        </main>
     
     </div>
 

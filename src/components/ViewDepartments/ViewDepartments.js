@@ -2,10 +2,22 @@ import { useState, useEffect } from "react";
 import { firestore } from '../../firebase';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
+import AdminNav from '../AdminNavbar/AdminNav';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    content: {
+      flexGrow: 1,
+      backgroundColor: theme.palette.background.default,
+      padding: theme.spacing(3),
+      marginLeft:'240px',
+    },
+  }))
  
 function ViewDepartments() {
     var history = useHistory();
     const [departmentData, setDepartmentData] = useState([])
+    const classes = useStyles();
 
     function deleteDepartment(id)
     {
@@ -23,8 +35,11 @@ function ViewDepartments() {
         })
     }, [])
     return (
-
-        <table>
+        <div className={classes.root}>
+        <AdminNav/>
+            <main className={classes.content}>
+            <h2>Manage Departments</h2>
+            <table>
             <thead>
                 <th> Department Name</th>
                 <th>Department Id</th>
@@ -56,6 +71,10 @@ function ViewDepartments() {
                 )}
             </tbody>
         </table>
+            </main>
+        </div>
+
+        
     )
 }
 
