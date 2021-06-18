@@ -3,16 +3,27 @@ import { Paper } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { firestore } from "../../firebase";
 import * as Yup from "yup";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Select } from '@material-ui/core';
 
 
 function CreateDepartment() {
     const paperStyle = { padding: 20, height: '70vh', width: 280, margin: "20px auto" }
 
-    
-           let [error,setError] = useState("");
-         
-     
+
+    let [error, setError] = useState("");
+    let [programId, setProgramId] = useState("");
+    let [programData, setProgramData] = useState([]);
+
+
+    //get data for programs
+    useEffect(() => {
+        firestore.collection("programs").get().then((programs) => {
+            setProgramData(programs.docs.map((program => program.data())));
+        })
+    }, [])
+
+
     return (
 
         <article>
@@ -21,7 +32,7 @@ function CreateDepartment() {
                     <Grid >
                         <h2>Create Department</h2>
                     </Grid>
-                    <Formik initialValues={{ departmentName: '' }} onSubmit={async (values, props) => {
+                    <Formik initialValues={{ departmentName: '', programName: '' }} onSubmit={async (values, props) => {
                         console.log(values)
                         firestore.collection("department").where("departmentName", "==", values.departmentName).get().then((queryResult) => {
 
@@ -35,30 +46,52 @@ function CreateDepartment() {
                                     "departmentName": values.departmentName,
                                     "id": ""
                                 }).then((value) => {
-        
+
                                     value.update({ "id": value.id })
-        
-        
+
+
+                                }).then(()=>{
+                                    if(programId !="")
+                                    {
+                                        firestore.collection("programs").doc(programId).collection("departments").add({
+                                            "programId": programId,
+                                            "programName":values.programName
+
+                                        }).then(()=>{
+                                            alert("department successfully created")
+                                        })
+                                    }
                                 })
                             }
                         });
-                
+
 
                     }} validateOnChange={true}
                         validateOnBlur={true}>
-                        {props => (
-                            <form onSubmit={props.handleSubmit}>
+                        {formikProps => (
+                            <form onSubmit={formikProps.handleSubmit}>
                                 <label htmlFor="departmentName">Department Name</label>
                                 <input type="text"
                                     name="departmentName"
-                                    onBlur={props.handleBlur}
-                                    onChange={props.handleChange}
-                                    value={props.values.name}
+                                    onBlur={formikProps.handleBlur}
+                                    onChange={formikProps.handleChange}
+                                    value={formikProps.values.name}
                                     required>
                                 </input>
+                                <br></br><br></br>
+                                <select  onChange={(value) => {
+                                    formikProps.values.programName = value.target.value;
+                                    let selectedIndex = value.target.options.selectedIndex;
+                                    setProgramId(value.target.options[selectedIndex].getAttribute('program-id'));
+
+                                }}>
+                                {programData.map((program) =>
+                                    <option key={program.id} program-id={program.id}> {program.programName} </option>)};
+                                    <br></br><br></br>
+                                    </select>
+                                <br></br><br></br>
                                 <h1>{error}</h1>
                                 <button type="submit">Submit</button>
-                                <button type="reset">reeset</button>
                             </form>
                         )}
                     </Formik>
