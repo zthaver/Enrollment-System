@@ -1,13 +1,16 @@
-import { Formik } from "formik";
-import { Paper, TextField } from '@material-ui/core';
+import { Formik  } from "formik";
+import { Paper, TextField} from '@material-ui/core';
+import  Select  from 'react-select';
 import Grid from '@material-ui/core/Grid';
 import { firestore } from "../../firebase";
 import * as Yup from "yup";
 import { useState, useEffect } from "react";
 import AdminNav from '../AdminNavbar/AdminNav';
-import { makeStyles } from '@material-ui/core/styles';
+
 
 const CourseSchema = Yup.object().shape({
+    programName: Yup.string()
+    .required("Select a program name please"),
     courseName: Yup.string()
     .min(5,"Must be at least 5 Charecters")
     .max(50,'Must be less than 50 Charecters')
@@ -123,15 +126,16 @@ function CreateCourse() {
                                 <label> Professor Name</label>
                                 <br></br>
                                 <br></br>
-                                <select onChange={(value)=>{props.values.professorName = value.target.value; console.log(props.values.professorName)}}>
+                                <select  onChange={(value)=>{props.values.professorName = value.target.value; console.log(props.values.professorName)}}>
                                     {professorData.map((professor) =>
                                     <option key={professor.email}> {professor.firstname} {professor.lastname}</option>)};
                              </select>
+                      
                                 <br></br><br></br>
                                 <label> Program Name</label>
                                 <br></br>
                                 <br></br>
-                                <select onChange={(value) => { props.values.programName = value.target.value; 
+                                <select  error={props.errors.programName}  onChange={(value) => { props.values.programName = value.target.value; 
                                 console.log(props.values.programName)
                                      let selectedIndex = value.target.options.selectedIndex;
                                      setProgramId(value.target.options[selectedIndex].getAttribute('program-id'));
@@ -139,6 +143,7 @@ function CreateCourse() {
                                     {programData.map((program) =>
                                         <option key={program.id} program-id={program.id}> {program.programName} </option>)};
                              </select>
+                             <h1> {props.errors.programName}</h1>
                                 <br></br><br></br>        
                                 <label> Course Description</label>
                                 <TextField type="text"
