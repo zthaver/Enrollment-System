@@ -44,11 +44,17 @@ function CreateCourse() {
 
 
     let [error, setError] = useState("");
+    let [programId,setProgramId] = useState("");
     let [professorData, setProfessorData] = useState([]);
+    let [programData, setProgramData] = useState([]);
 
     useEffect(() => {
+        //set the initial data for the select buttons to gather from
         firestore.collection("professors").get().then((professors) => {
             setProfessorData(professors.docs.map((professor => professor.data())));
+        })
+        firestore.collection("programs").get().then((programs) => {
+            setProgramData(programs.docs.map((program => program.data())));
         })
     }, [])
 
@@ -61,7 +67,7 @@ function CreateCourse() {
                     <Grid >
                         <h2>Create Course</h2>
                     </Grid>
-                    <Formik validationSchema={CourseSchema} initialValues={{ courseName: '', courseCode: '', courseDescription: '',professorName: ''}} onSubmit={async (values, props) => {
+                    <Formik validationSchema={CourseSchema} initialValues={{ courseName: '', courseCode: '', courseDescription: '',professorName: '', programName: ''}} onSubmit={async (values, props) => {
                         console.log(values)
                         props.setSubmitting(true);
                         await firestore.collection("courses").add({
@@ -69,11 +75,23 @@ function CreateCourse() {
                             "courseDescription":values.courseDescription,
                             "courseCode":values.courseCode,
                             "professorName":values.professorName,
+                            "programName":values.programName,
+                            "programId":programId
 
 
 
                         }).then(async(val)=>{
                            await val.update({ "id": val.id });
+                           if(programId!="")
+                           {
+                           await firestore.collection("programs").doc(programId).collection("courses").add({
+                            "courseName":values.courseName,
+                            "courseDescription":values.courseDescription,
+                            "courseCode":values.courseCode,
+                            "professorName":values.professorName,
+                            "courseId":val.id
+                           })
+                        }
 
 
                             alert("Course Successfully Created")
@@ -110,6 +128,18 @@ function CreateCourse() {
                                     <option key={professor.email}> {professor.firstname} {professor.lastname}</option>)};
                              </select>
                                 <br></br><br></br>
+                                <label> Program Name</label>
+                                <br></br>
+                                <br></br>
+                                <select onChange={(value) => { props.values.programName = value.target.value; 
+                                console.log(props.values.programName)
+                                     let selectedIndex = value.target.options.selectedIndex;
+                                     setProgramId(value.target.options[selectedIndex].getAttribute('program-id'));
+                                }}>
+                                    {programData.map((program) =>
+                                        <option key={program.id} program-id={program.id}> {program.programName} </option>)};
+                             </select>
+                                <br></br><br></br>        
                                 <label> Course Description</label>
                                 <TextField type="text"
                                     multiline={true}
