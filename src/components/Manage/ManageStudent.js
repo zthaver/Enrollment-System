@@ -113,26 +113,26 @@ function ManageStudent(){
     function deleteStudent(student){
         //Delete existing document with student id
         //1. Use authcontext here
-        deleteUserAuth(student.id)
-        .then(()=>{
-            console.log("IT FUCKING WORKS")
-        })
-        .catch((err)=>{
-            console.error(err);
-        })
-
-        // studentUser
-        // .doc(student.id)
-        // .delete()
+        // deleteUserAuth(student.id)
         // .then(()=>{
-        //     setStudent((prev)=>
-        //         prev.filter((e)=> e.id !== student.id)
-        //     )
-        //     console.log("it work :)")
+        //     console.log("IT FUCKING WORKS")
         // })
         // .catch((err)=>{
         //     console.error(err);
         // })
+
+        studentUser
+        .doc(student.id)
+        .delete()
+        .then(()=>{
+            setStudent((prev)=>
+                prev.filter((e)=> e.id !== student.id)
+            )
+            console.log("it work :)")
+        })
+        .catch((err)=>{
+            console.error(err);
+        })
     }
 
     return(
