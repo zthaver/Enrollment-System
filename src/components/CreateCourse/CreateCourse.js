@@ -1,6 +1,5 @@
 import { Formik  } from "formik";
 import { Paper, TextField} from '@material-ui/core';
-import  Select  from 'react-select';
 import Grid from '@material-ui/core/Grid';
 import { firestore } from "../../firebase";
 import * as Yup from "yup";

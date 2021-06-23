@@ -29,7 +29,8 @@ function AdminHomePage()
         history.push("/login");
         
     }
-return(
+    
+    return(
     <div className={classes.root}>
         <AdminNav />
         <main className={classes.content}>

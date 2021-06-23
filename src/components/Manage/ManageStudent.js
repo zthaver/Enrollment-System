@@ -1,6 +1,7 @@
 import firebase from '../../firebase';
 import React, { useState, useEffect, Fragment } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../Contexts/AuthContext" 
 
 function ManageStudent(){ 
     const studentUser = firebase.firestore().collection("student");
@@ -13,6 +14,7 @@ function ManageStudent(){
     const [changeDate, setDate] = useState("");
     const [changePhone, setPhone] = useState("");
     const [error,setError] = useState("");
+    const { deleteUserAuth } = useAuth();
 
     function getStudents(){
         setLoading(true);
@@ -110,19 +112,27 @@ function ManageStudent(){
 
     function deleteStudent(student){
         //Delete existing document with student id
-        console.log(student.id)
-        studentUser
-        .doc(student.id)
-        .delete()
+        //1. Use authcontext here
+        deleteUserAuth(student.id)
         .then(()=>{
-            setStudent((prev)=>
-                prev.filter((e)=> e.id !== student.id)
-            )
-            console.log("it work :)")
+            console.log("IT FUCKING WORKS")
         })
         .catch((err)=>{
             console.error(err);
         })
+
+        // studentUser
+        // .doc(student.id)
+        // .delete()
+        // .then(()=>{
+        //     setStudent((prev)=>
+        //         prev.filter((e)=> e.id !== student.id)
+        //     )
+        //     console.log("it work :)")
+        // })
+        // .catch((err)=>{
+        //     console.error(err);
+        // })
     }
 
     return(
