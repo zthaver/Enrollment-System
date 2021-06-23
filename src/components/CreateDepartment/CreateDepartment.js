@@ -22,8 +22,6 @@ const DepartmentSchema = Yup.object().shape({
 function CreateDepartment() {
     const paperStyle = { padding: 20, height: '70vh', width: 280, margin: "20px auto" }
 
-
-
     let [error, setError] = useState("");
     let [programId, setProgramId] = useState("");
     let [programData, setProgramData] = useState([]);

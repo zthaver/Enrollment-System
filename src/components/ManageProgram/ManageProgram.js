@@ -22,7 +22,7 @@ function ManageProgram() {
     async function deleteProgram(id)
     {
         await firestore.collection("programs").doc(id).delete().then((value)=>{
-      //gets all programs and sets state
+    //gets all programs and sets state
        firestore.collection("programs").get().then((courses) => {
         setProgramData(courses.docs.map((course => course.data())));
     })
