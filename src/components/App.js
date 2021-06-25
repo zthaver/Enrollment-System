@@ -33,6 +33,7 @@ import ManageCourse from './Admin/Manage Course/ManageCourse';
 import ManageProgram from './Admin/ManageProgram/ManageProgram';
 import UpdateProgram from './Admin/UpdateProgram/UpdateProgram';
 import UpdateDepartment from "./Admin/UpdateDepartment/UpdateDepartments";
+import SearchCourses from './Student/SearchCourses/SearchCourses';
 
 
 function App() {
@@ -60,6 +61,7 @@ function App() {
             <AdminRoute exact path ="/viewDepartment" component={ViewDepartments}></AdminRoute>
             <StudentRoute exact path ="/student" component={StudentHomePage}></StudentRoute>
             <StudentRoute exact path="/viewStudent" component={ViewStudent} />
+            <StudentRoute exact path="/searchCourses" component={SearchCourses}></StudentRoute>
             <Route exact path="/viewProf" component={ProfessorAccount}/>
             <Route path="/signUp">
                 <SignUp></SignUp>
