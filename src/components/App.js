@@ -30,9 +30,24 @@ import UpdateCourse from './Admin/UpdateCourse/UpdateCourse';
 import ProfessorAccount from './Professor/ViewProfessor/ProfessorAccount';
 import ManageCourse from './Admin/Manage Course/ManageCourse';
 
+<<<<<<< .merge_file_57wEXx
 import ManageProgram from './Admin/ManageProgram/ManageProgram';
 import UpdateProgram from './Admin/UpdateProgram/UpdateProgram';
 import UpdateDepartment from "./Admin/UpdateDepartment/UpdateDepartments";
+=======
+import CreateCourse from './CreateCourse/CreateCourse';
+import ViewStudent from './ViewStudent/ViewStudentInformation';
+import UpdateCourse from './UpdateCourse/UpdateCourse';
+import ProfessorAccount from './ViewProfessor/ProfessorAccount';
+import ManageCourse from './Manage Course/ManageCourse';
+import CreateProgram from './CreateProgram/CreateProgram';
+import ManageProgram from './ManageProgram/ManageProgram';
+import UpdateProgram from './UpdateProgram/UpdateProgram';
+import ViewDepartments from './ViewDepartments/ViewDepartments';
+import UpdateDepartment from "./UpdateDepartment/UpdateDepartments";
+import ManageStudent from "./Manage/ManageStudent"
+import ManageProfessor from "./Manage/ManageProfessor"
+>>>>>>> .merge_file_Zz5qL7
 
 
 function App() {
@@ -49,7 +64,9 @@ function App() {
             <AdminRoute exact path ="/createProfessor" component={CreateProfessor}></AdminRoute>
             <ProfessorRoute exact path ="/professor" component={ProfessorHomePage}></ProfessorRoute>
             <AdminRoute exact path ="/createDepartment" component={createDepartment}></AdminRoute>
-
+            <AdminRoute exact path ="/manageStudent" component={ManageStudent}></AdminRoute>
+            <AdminRoute exact path ="/manageProfessor" component={ManageProfessor}></AdminRoute>
+            <AdminRoute exact path ="/createDepartment" component={createDepartment}></AdminRoute>
             <AdminRoute exact path = "/createCourse" component={CreateCourse}></AdminRoute>
             <AdminRoute exact path = "/createProgram" component={CreateProgram}></AdminRoute>
             <AdminRoute exact path = "/updateCourse/:id" component={UpdateCourse}></AdminRoute>

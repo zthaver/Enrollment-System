@@ -1,15 +1,11 @@
 import React, { useContext, useState, useEffect } from "react"
 import { auth, firestore, functions } from "../firebase"
 import { useHistory } from "react-router-dom";
-
 /*
 The file containing the context to deal with all aspects of authentication.
 Including login,signup.
 */
-
-
 const AuthContext = React.createContext()
-
 
 export function useAuth() {
   return useContext(AuthContext)
@@ -21,15 +17,14 @@ export function AuthProvider({ children }) {
   let [isAdmin, setIsAdmin] = useState();
   let [isProfessor, setIsProfessor] = useState(false); 
   let [isStudent, setIsStudent] = useState(false); 
-  
 
-  async function signupAdmin(email, password,) {
+  async function signupAdmin(email, password) {
     //assigns the role to the user (admin in this case)
     
     let signUpResult = null;
     let signUpError = null;
     const addAdminRole = functions.httpsCallable("addAdminRole");
-     await auth.createUserWithEmailAndPassword(email, password).then((user) => {
+    await auth.createUserWithEmailAndPassword(email, password).then((user) => {
       signUpResult = user;
       console.log("sucess is "+ signUpResult);
       addAdminRole({ email: email }).then(result => {
@@ -63,10 +58,9 @@ export function AuthProvider({ children }) {
     let signUpResult = null;
     let signUpError = null;
     const addStudentRole = functions.httpsCallable("addStudentRole");
-     await auth.createUserWithEmailAndPassword(email, password).then((user) => {
+    await auth.createUserWithEmailAndPassword(email, password).then((user) => {
       signUpResult = user;
-      addStudentRole({ email: email }).then(result => {
-       
+      addStudentRole({ email: email }).then(result => {   
         console.log(result)
       }).catch((err) => {
         signUpError = err;
@@ -117,8 +111,6 @@ export function AuthProvider({ children }) {
     setIsAdmin(false)
   }
 
-
-
   async function login(email, password) {
     let authResult = null;
     let tokenClaims;
@@ -146,14 +138,9 @@ export function AuthProvider({ children }) {
             setIsStudent(true);
           }
          }
-      
-       
-       })
-  
+       })  
        authResult = result;
-       console.log("admin is " + isAdmin)
-       
-       
+       console.log("admin is " + isAdmin)       
        console.log(authResult)
      }).catch((err)=>{
        loginError = err;
@@ -173,12 +160,19 @@ export function AuthProvider({ children }) {
    })
   }
 
+async function deleteUserAuth(user){
+    auth()
+    .deleteUser(user.uid)
+    .then(() => {
+      console.log('Successfully deleted user');
+    })
+    .catch((error) => {
+      console.err('Error deleting user:', error);
+    });
+  }
 /*
 Function called when a user signs in or signs out.
 */
-
-
-
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged( async user => {
       console.log(user);
@@ -221,7 +215,8 @@ Function called when a user signs in or signs out.
     signupProfessor,
     isProfessor,
     isAdmin,
-    isStudent
+    isStudent,
+    deleteUserAuth
   }
 
 
