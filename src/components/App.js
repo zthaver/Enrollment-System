@@ -49,7 +49,9 @@ function App() {
             <AdminRoute exact path ="/createProfessor" component={CreateProfessor}></AdminRoute>
             <ProfessorRoute exact path ="/professor" component={ProfessorHomePage}></ProfessorRoute>
             <AdminRoute exact path ="/createDepartment" component={createDepartment}></AdminRoute>
-
+            <AdminRoute exact path ="/manageStudent" component={ManageStudent}></AdminRoute>
+            <AdminRoute exact path ="/manageProfessor" component={ManageProfessor}></AdminRoute>
+            <AdminRoute exact path ="/createDepartment" component={createDepartment}></AdminRoute>
             <AdminRoute exact path = "/createCourse" component={CreateCourse}></AdminRoute>
             <AdminRoute exact path = "/createProgram" component={CreateProgram}></AdminRoute>
             <AdminRoute exact path = "/updateCourse/:id" component={UpdateCourse}></AdminRoute>

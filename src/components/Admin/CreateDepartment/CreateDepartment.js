@@ -1,15 +1,7 @@
 import { Formik } from "formik";
 import { Paper, TextField } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-<<<<<<< HEAD:src/components/Admin/CreateDepartment/CreateDepartment.js
 import { firestore } from "../../../firebase";
-import * as Yup from "yup";
-import { useState, useEffect } from "react";
-import { Select } from '@material-ui/core';
-import AdminNav from '../AdminNavbar/AdminNav';
-import { makeStyles } from '@material-ui/core/styles';
-=======
-import { firestore } from "../../firebase";
 import AdminNav from "../AdminNavbar/AdminNav";
 
 
@@ -26,13 +18,10 @@ const DepartmentSchema = Yup.object().shape({
 });
 
 
->>>>>>> 3aa867529a8c97172a5dc3fe63c63f352ce5041c:src/components/CreateDepartment/CreateDepartment.js
 
 function CreateDepartment() {
     const paperStyle = { padding: 20, height: '70vh', width: 280, margin: "20px auto" }
-    
 
-     
     let [error, setError] = useState("");
     let [programId, setProgramId] = useState("");
     let [programData, setProgramData] = useState([]);
@@ -75,79 +64,59 @@ function CreateDepartment() {
                                 })
 
 
-<<<<<<< HEAD:src/components/Admin/CreateDepartment/CreateDepartment.js
-                                }).then(()=>{
-                                    if(programId !="")
-                                    {
-                                        firestore.collection("programs").doc(programId).collection("departments").add({
-                                            "programId": programId,
-                                            "programName":values.programName
+                            }}).then(() => {
+                                if (programId != "") {
+                                    firestore.collection("programs").doc(programId).collection("departments").add({
+                                        "programId": programId,
+                                        "programName": values.programName
 
-                                        }).then(()=>{
-                                            alert("department successfully created")
-                                        })
-                                    }
+                                    }).then(() => {
+                                        alert("department successfully created")
+                                    })
+                                
+                                }
                             })
-                        }});
+                    }}
 
 
-                    }} validateOnChange={true}
 
-                        validateOnBlur={true}>
-=======
+                    validateOnChange={true}
 
-                            }
-                        })
-                        }}
-                        validateOnChange={true}>
->>>>>>> 3aa867529a8c97172a5dc3fe63c63f352ce5041c:src/components/CreateDepartment/CreateDepartment.js
-                        {formikProps => (
-                            <form onSubmit={formikProps.handleSubmit}>
-                                <label htmlFor="departmentName">Department Name</label>
-                                <TextField type="text"
-                                    name="departmentName"
-                                    onBlur={formikProps.handleBlur}
-                                    onChange={formikProps.handleChange}
-                                    value={formikProps.values.name}
-<<<<<<< HEAD:src/components/Admin/CreateDepartment/CreateDepartment.js
-                                    required />                                
-                                <br></br><br></br>
-                                <select  onChange={(value) => {
-                                    formikProps.values.programName = value.target.value;
-                                    let selectedIndex = value.target.options.selectedIndex;
-                                    setProgramId(value.target.options[selectedIndex].getAttribute('program-id'));
+                    validateOnBlur={true}>
+                    {formikProps => (
+                        <form onSubmit={formikProps.handleSubmit}>
+                            <label htmlFor="departmentName">Department Name</label>
+                            <TextField type="text"
+                                name="departmentName"
+                                onBlur={formikProps.handleBlur}
+                                onChange={formikProps.handleChange}
+                                value={formikProps.values.name}
+                                error={!!formikProps.errors.departmentName}
+                                helperText={formikProps.errors.departmentName}
+                            />
+                            <br></br><br></br>
+                            <label> Program </label>
+                            <br></br>
+                            <select onChange={(value) => {
+                                formikProps.values.programName = value.target.value;
+                                let selectedIndex = value.target.options.selectedIndex;
+                                setProgramId(value.target.options[selectedIndex].getAttribute('program-id'));
 
-                                }}>
+                            }}>
                                 {programData.map((program) =>
                                     <option key={program.id} program-id={program.id}> {program.programName} </option>)};
-=======
-                                    error={!!formikProps.errors.departmentName}
-                                    helperText={formikProps.errors.departmentName}
-                                    />
-                                    <br></br><br></br>
-                                    <label> Program </label>
-                                    <br></br>
-                                    <select onChange={(value) => {
-                                        formikProps.values.programName = value.target.value;
-                                        let selectedIndex = value.target.options.selectedIndex;
-                                        setProgramId(value.target.options[selectedIndex].getAttribute('program-id'));
+                                <br></br><br></br>
+                            </select>
+                            <h1>{formikProps.errors.programName}</h1>
+                            <br></br><br></br>
+                            <button type="submit">Submit</button>
 
-                                    }}>
-                                        {programData.map((program) =>
-                                            <option key={program.id} program-id={program.id}> {program.programName} </option>)};
->>>>>>> 3aa867529a8c97172a5dc3fe63c63f352ce5041c:src/components/CreateDepartment/CreateDepartment.js
-                                    <br></br><br></br>
-                                    </select>
-                                    <h1>{formikProps.errors.programName}</h1>
-                                    <br></br><br></br>
-                                    <button type="submit">Submit</button>
-
-                            </form>
-                        )}
+                        </form>
+                    )}
                     </Formik>
                 </Paper>
             </Grid>
-        </article>
+        </article >
     )
 }
 
