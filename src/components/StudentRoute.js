@@ -1,6 +1,6 @@
 import React from 'react';
 import {Route,Redirect} from 'react-router-dom';
-import AdminHomePage from './AdminHomePage/AdminHomePage';
+import AdminHomePage from './Admin/AdminHomePage/AdminHomePage';
 import { useAuth } from '../Contexts/AuthContext';
 
 /*

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import StudentNav from '../StudentNavbar/StudentNav'
-import { useAuth }  from '../../../Contexts/AuthContext';
+import { useAuth } from "../../../Contexts/AuthContext";
 import firebase from '../../../firebase';
 import { useHistory } from 'react-router';
 
