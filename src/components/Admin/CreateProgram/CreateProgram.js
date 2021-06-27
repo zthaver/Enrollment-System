@@ -34,6 +34,7 @@ function CreateProgram() {
 
 
     let [departmentDaata, setDepartmentData] = useState([]);
+    let [departmentId,setDepartmentId] = useState("");
 
     useEffect(() => {
         firestore.collection("department").get().then((departments) => {
@@ -63,6 +64,14 @@ function CreateProgram() {
 
                         }).then(async (val) => {
                             await val.update({ "id": val.id });
+                            if(departmentId != "")
+                            {
+                                firestore.collection("departments").doc(departmentId).collection("programs").add({
+                                    "programId":val.id,
+                                    "programName":values.programName
+
+                                })
+                            }
 
 
                             alert("Program Successfully Created")
@@ -94,9 +103,13 @@ function CreateProgram() {
                                 <label> Department Name</label>
                                 <br></br>
                                 <br></br>
-                                <select onChange={(value) => { props.values.departmentName = value.target.value; }}>
+                                <select onChange={
+                                    (value) => { props.values.departmentName = value.target.value; 
+                                        let selectedIndex = value.target.options.selectedIndex;
+                                        setDepartmentId(value.target.options[selectedIndex].getAttribute('department-id'));
+                                    }}>
                                     {departmentDaata.map((department) =>
-                                        <option key={department.id}> {department.departmentName} </option>)};
+                                        <option key={department.id} key={department.id}> {department.departmentName} </option>)};
                              </select>
                                 <br></br><br></br>
                                 <label> Program Description</label>

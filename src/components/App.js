@@ -29,23 +29,15 @@ import ViewStudent from './Student/ViewStudent/ViewStudentInformation';
 import UpdateCourse from './Admin/UpdateCourse/UpdateCourse';
 import ProfessorAccount from './Professor/ViewProfessor/ProfessorAccount';
 import ManageCourse from './Admin/Manage Course/ManageCourse';
+import ManageProfessor from './Admin/Manage/ManageProfessor';
+import ManageStudent from './Admin/Manage/ManageStudent';
 
 import ManageProgram from './Admin/ManageProgram/ManageProgram';
 import UpdateProgram from './Admin/UpdateProgram/UpdateProgram';
 import UpdateDepartment from "./Admin/UpdateDepartment/UpdateDepartments";
 import SearchCourses from './Student/SearchCourses/SearchCourses';
-import CreateCourse from './CreateCourse/CreateCourse';
-import ViewStudent from './ViewStudent/ViewStudentInformation';
-import UpdateCourse from './UpdateCourse/UpdateCourse';
-import ProfessorAccount from './ViewProfessor/ProfessorAccount';
-import ManageCourse from './Manage Course/ManageCourse';
-import CreateProgram from './CreateProgram/CreateProgram';
-import ManageProgram from './ManageProgram/ManageProgram';
-import UpdateProgram from './UpdateProgram/UpdateProgram';
-import ViewDepartments from './ViewDepartments/ViewDepartments';
-import UpdateDepartment from "./UpdateDepartment/UpdateDepartments";
-import ManageStudent from "./Manage/ManageStudent"
-import ManageProfessor from "./Manage/ManageProfessor"
+
+
 
 
 

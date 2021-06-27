@@ -29,16 +29,15 @@ function AdminHomePage()
         history.push("/login");
         
     }
-return(
+    
+    return(
     <div className={classes.root}>
         <AdminNav />
         <main className={classes.content}>
             <h1>Admin Homepage</h1>
         </main>
-    
     </div>
-
-)
+    )
 }
 
 export default AdminHomePage;
