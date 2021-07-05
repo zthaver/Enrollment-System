@@ -93,7 +93,7 @@ function UpdateCourse() {
                                     onBlur={props.handleBlur}
                                     onChange={props.handleChange}
                                     defaultValue={defaultCourseCode}
-                                    helperText={props.errors.courseCode}
+                                    helperText={props.errors.courseName}
                                     error={!!props.errors.courseCode} />
                                 <label> Course Description</label>
                                 <TextField type="text"

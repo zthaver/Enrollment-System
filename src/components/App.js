@@ -29,10 +29,16 @@ import ViewStudent from './Student/ViewStudent/ViewStudentInformation';
 import UpdateCourse from './Admin/UpdateCourse/UpdateCourse';
 import ProfessorAccount from './Professor/ViewProfessor/ProfessorAccount';
 import ManageCourse from './Admin/Manage Course/ManageCourse';
+import ManageProfessor from './Admin/Manage/ManageProfessor';
+import ManageStudent from './Admin/Manage/ManageStudent';
 
 import ManageProgram from './Admin/ManageProgram/ManageProgram';
 import UpdateProgram from './Admin/UpdateProgram/UpdateProgram';
 import UpdateDepartment from "./Admin/UpdateDepartment/UpdateDepartments";
+import SearchCourses from './Student/SearchCourses/SearchCourses';
+
+
+
 
 
 function App() {
@@ -49,7 +55,9 @@ function App() {
             <AdminRoute exact path ="/createProfessor" component={CreateProfessor}></AdminRoute>
             <ProfessorRoute exact path ="/professor" component={ProfessorHomePage}></ProfessorRoute>
             <AdminRoute exact path ="/createDepartment" component={createDepartment}></AdminRoute>
-
+            <AdminRoute exact path ="/manageStudent" component={ManageStudent}></AdminRoute>
+            <AdminRoute exact path ="/manageProfessor" component={ManageProfessor}></AdminRoute>
+            <AdminRoute exact path ="/createDepartment" component={createDepartment}></AdminRoute>
             <AdminRoute exact path = "/createCourse" component={CreateCourse}></AdminRoute>
             <AdminRoute exact path = "/createProgram" component={CreateProgram}></AdminRoute>
             <AdminRoute exact path = "/updateCourse/:id" component={UpdateCourse}></AdminRoute>
@@ -60,6 +68,7 @@ function App() {
             <AdminRoute exact path ="/viewDepartment" component={ViewDepartments}></AdminRoute>
             <StudentRoute exact path ="/student" component={StudentHomePage}></StudentRoute>
             <StudentRoute exact path="/viewStudent" component={ViewStudent} />
+            <StudentRoute exact path="/searchCourses" component={SearchCourses}></StudentRoute>
             <Route exact path="/viewProf" component={ProfessorAccount}/>
             <Route path="/signUp">
                 <SignUp></SignUp>
