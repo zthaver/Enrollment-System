@@ -12,6 +12,7 @@ function ManageProfessor(){
     const [changeAddress, setAddress] = useState("");
     const [changeDate, setDate] = useState("");
     const [changePhone, setPhone] = useState("");
+    const [changeDhead, setDhead] = useState(false);
     const [error,setError] = useState("");
 
     function getProfessors(){
@@ -99,6 +100,19 @@ function ManageProfessor(){
         profUser
         .doc(prof.id)
         .update({phone: prof.phone})
+        .then(()=>{
+             window.location.reload();
+        })
+        .catch((err)=>{
+            console.error(err);
+        });
+    }
+
+    function updateDHead(prof){
+        setLoading();
+        profUser
+        .doc(prof.id)
+        .update({departmenthead: prof.departmenthead})
         .then(()=>{
              window.location.reload();
         })
@@ -196,6 +210,17 @@ function ManageProfessor(){
                             <button onClick={()=> 
                                 updatephone({ phone: changePhone, id: prof.id})}>Update</button>
                         </p>
+                        <p>
+                            Department Head: {String(prof.departmenthead)}
+                            <input
+                                type="checkbox"
+                                value={changeDhead}
+                                onChange={(e)=> setDhead(e.target.checked)}
+                            />
+                            <button onClick={()=> 
+                                updateDHead({ departmenthead: changeDhead, id: prof.id})}>Update</button>
+                        </p>
+
                         <button onClick={()=>deleteProf(prof)}>Delete {prof.firstname} {prof.lastname}</button>
                     </div>
                 </div>

@@ -161,16 +161,35 @@ export function AuthProvider({ children }) {
    })
   }
 
-async function deleteUserAuth(user){
-    auth()
-    .deleteUser(user.uid)
-    .then(() => {
-      console.log('Successfully deleted user');
-    })
-    .catch((error) => {
-      console.err('Error deleting user:', error);
-    });
-  }
+// async function deleteUserAuth(){
+//   let deleteResult = null;
+//   let deleteError = null;
+//   const deleteUser = functions.httpsCallable("deleteUser");
+
+//   //change to delete user
+//   await auth.createUserWithEmailAndPassword(email, password)
+//     .then((user) => {
+//     deleteResult = user;
+//     deleteUser({ email: email })
+//     .then(result => {
+//       console.log(result)
+//     })
+//     .catch((err) => {
+//       deleteError = err;
+//     })
+//   })
+
+//   return new Promise((resolve,reject) => {
+//     if(deleteResult)
+//     {
+//       resolve(deleteResult);
+//     }
+//     else
+//     {
+//       reject(deleteError);
+//     }
+//     })
+//   }
 /*
 Function called when a user signs in or signs out.
 */
@@ -216,8 +235,7 @@ Function called when a user signs in or signs out.
     signupProfessor,
     isProfessor,
     isAdmin,
-    isStudent,
-    deleteUserAuth
+    isStudent
   }
 
 
