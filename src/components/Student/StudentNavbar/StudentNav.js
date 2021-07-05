@@ -52,6 +52,7 @@ export default function StudentNav(){
                 </Typography>
                 
                 <Button component={Link} to="/viewStudent" color="inherit">Account</Button>
+                <Button component={Link} to="searchCourses" color="inherit"> Search Courses</Button>
                 <Button color="inherit">Enrollment</Button>
                 <Button color="inherit" onClick={handleLogout}>Logout</Button>
                 </Toolbar>

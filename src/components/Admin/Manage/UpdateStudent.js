@@ -1,7 +1,7 @@
 import { Formik } from "formik";
 import { Paper } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-import { firestore } from "../../firebase";
+import { firestore } from "../../../firebase";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 

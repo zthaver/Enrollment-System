@@ -1,10 +1,9 @@
-import firebase from '../../firebase';
+import firebase from '../../../firebase';
 import React, { useState, useEffect, Fragment } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../Contexts/AuthContext" 
 
-function ManageStudent(){ 
-    const studentUser = firebase.firestore().collection("student");
+function ManageProfessor(){
+    const profUser = firebase.firestore().collection("professors");
     const [loading, setLoading] = useState(false);
     const [students, setStudent] = useState([]);
     const [changeFName, setfName] = useState("");
@@ -14,42 +13,40 @@ function ManageStudent(){
     const [changeDate, setDate] = useState("");
     const [changePhone, setPhone] = useState("");
     const [error,setError] = useState("");
-    const { deleteUserAuth } = useAuth();
 
-    function getStudents(){
+    function getProfessors(){
         setLoading(true);
-        studentUser.get().then((item)=>{
+        profUser.get().then((item)=>{
             const items = item.docs.map((doc)=> doc.data())
             setStudent(items);
-            //console.log(students)
             setLoading(false);
         });
     }
     useEffect(()=>{
-        getStudents();
+        getProfessors();
     }, []);
 
-    function updatefname(student){
+    function updatefname(prof){
         //Update/Edit existing document with student id
         setLoading();
-        studentUser
-        .doc(student.id)
-        .update({firstname: student.firstname})
+        profUser
+        .doc(prof.id)
+        .update({firstname: prof.firstname})
         .then(()=>{
             window.location.reload();
-            console.log("updated name to: " + student.firstname)
+            console.log("updated name to: " + prof.firstname)
         })
         .catch((err)=>{
-            console.log(student)
+            console.log(prof)
             console.error(err);
         });
     }
 
-    function updatelname(student){
+    function updatelname(prof){
         setLoading();
-        studentUser
-        .doc(student.id)
-        .update({lastname: student.lastname})
+        profUser
+        .doc(prof.id)
+        .update({lastname: prof.lastname})
         .then(()=>{
              window.location.reload();
         })
@@ -58,11 +55,11 @@ function ManageStudent(){
         });
     }
 
-    function updateemail(student){
+    function updateemail(prof){
         setLoading();
-        studentUser
-        .doc(student.id)
-        .update({email: student.email})
+        profUser
+        .doc(prof.id)
+        .update({email: prof.email})
         .then(()=>{
              window.location.reload();
         })
@@ -71,11 +68,11 @@ function ManageStudent(){
         });
     }
 
-    function updateaddress(student){
+    function updateaddress(prof){
         setLoading();
-        studentUser
-        .doc(student.id)
-        .update({address: student.address})
+        profUser
+        .doc(prof.id)
+        .update({address: prof.address})
         .then(()=>{
              window.location.reload();
         })
@@ -84,11 +81,11 @@ function ManageStudent(){
         });
     }
 
-    function updatedate(student){
+    function updatedate(prof){
         setLoading();
-        studentUser
-        .doc(student.id)
-        .update({dateofbirth: student.dateofbirth})
+        profUser
+        .doc(prof.id)
+        .update({dateofbirth: prof.dateofbirth})
         .then(()=>{
              window.location.reload();
         })
@@ -97,11 +94,11 @@ function ManageStudent(){
         });
     }
 
-    function updatephone(student){
+    function updatephone(prof){
         setLoading();
-        studentUser
-        .doc(student.id)
-        .update({phone: student.phone})
+        profUser
+        .doc(prof.id)
+        .update({phone: prof.phone})
         .then(()=>{
              window.location.reload();
         })
@@ -110,23 +107,15 @@ function ManageStudent(){
         });
     }
 
-    function deleteStudent(student){
+    function deleteProf(prof){
         //Delete existing document with student id
-        //1. Use authcontext here
-        // deleteUserAuth(student.id)
-        // .then(()=>{
-        //     console.log("IT FUCKING WORKS")
-        // })
-        // .catch((err)=>{
-        //     console.error(err);
-        // })
-
-        studentUser
-        .doc(student.id)
+        console.log(prof.id)
+        profUser
+        .doc(prof.id)
         .delete()
         .then(()=>{
             setStudent((prev)=>
-                prev.filter((e)=> e.id !== student.id)
+            prev.filter((e)=> e.id !== prof.id)
             )
             console.log("it work :)")
         })
@@ -137,77 +126,77 @@ function ManageStudent(){
 
     return(
         <Fragment>
-            <h1>Manage Student</h1>
+            <h1>Manage Professor</h1>
             <td>
                 <Link to="/admin"> Home </Link>
             </td>
             <hr />
             {loading ? <h1>Loading...</h1> : null}
-            {students.map((student)=>(
-                <div className="student" key={student.id}>
-                    <h3>ID: {student.id}</h3>
+            {students.map((prof)=>(
+                <div className="professor" key={prof.id}>
+                    <h3>ID: {prof.id}</h3>
                     <div>
                         <p>First Name:
                             <input 
                                 type="text"
-                                placeholder={student.firstname}
+                                placeholder={prof.firstname}
                                 value={changeFName}
                                 onChange={(e)=> setfName(e.target.value)}
                             /> 
                             <button onClick={()=> 
-                                updatefname({ firstname: changeFName, id: student.id})}>Update</button>
+                                updatefname({ firstname: changeFName, id: prof.id})}>Update</button>
                         </p> 
                         <p>Last Name:
                             <input 
                                 type="text"
-                                placeholder={student.lastname}
+                                placeholder={prof.lastname}
                                 value={changeLName}
                                 onChange={(e)=> setlName(e.target.value)}
                             /> 
                             <button onClick={()=> 
-                                updatelname({ lastname: changeLName, id: student.id})}>Update</button>
+                                updatelname({ lastname: changeLName, id: prof.id})}>Update</button>
                         </p> 
                         <p>Email:
                             <input 
                                 type="text"
-                                placeholder={student.email}
+                                placeholder={prof.email}
                                 value={changeEmail}
                                 onChange={(e)=> setEmail(e.target.value)}
                             /> 
                             <button onClick={()=> 
-                                updateemail({ email: changeEmail, id: student.id})}>Update</button>
+                                updateemail({ email: changeEmail, id: prof.id})}>Update</button>
                         </p>
                         <p>Address:
                             <input 
                                 type="text"
-                                placeholder={student.address}
+                                placeholder={prof.address}
                                 value={changeAddress}
                                 onChange={(e)=> setAddress(e.target.value)}
                             /> 
                             <button onClick={()=> 
-                                updateaddress({ address: changeAddress, id: student.id})}>Update</button>
+                                updateaddress({ address: changeAddress, id: prof.id})}>Update</button>
                         </p>
                         <p>Date of Birth:
                             <input 
                                 type="text"
-                                placeholder={student.dateofbirth}
+                                placeholder={prof.dateofbirth}
                                 value={changeDate}
                                 onChange={(e)=> setDate(e.target.value)}
                             /> 
                             <button onClick={()=> 
-                                updatedate({ dateofbirth: changeDate, id: student.id})}>Update</button>
+                                updatedate({ dateofbirth: changeDate, id: prof.id})}>Update</button>
                         </p>
                         <p>Phone Number:
                             <input 
                                 type="text"
-                                placeholder={student.phone}
+                                placeholder={prof.phone}
                                 value={changePhone}
                                 onChange={(e)=> setPhone(e.target.value)}
                             /> 
                             <button onClick={()=> 
-                                updatephone({ phone: changePhone, id: student.id})}>Update</button>
+                                updatephone({ phone: changePhone, id: prof.id})}>Update</button>
                         </p>
-                        <button onClick={()=>deleteStudent(student)}>Delete {student.firstname} {student.lastname}</button>
+                        <button onClick={()=>deleteProf(prof)}>Delete {prof.firstname} {prof.lastname}</button>
                     </div>
                 </div>
             ))}
@@ -216,4 +205,4 @@ function ManageStudent(){
 }
 
 
-export default ManageStudent;
+export default ManageProfessor;
