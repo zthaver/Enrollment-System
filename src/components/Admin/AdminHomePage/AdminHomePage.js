@@ -1,11 +1,14 @@
 import { useAuth } from "../../../Contexts/AuthContext"
 import { useHistory } from 'react-router';
 import './AdminHomePage.css';
+import { useEffect } from "react";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { Link } from "react-router-dom";
 import AdminNav from '../AdminNavbar/AdminNav';
 import { makeStyles } from '@material-ui/core/styles';
+import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     content: {
