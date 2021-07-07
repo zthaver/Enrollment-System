@@ -3,12 +3,22 @@ import { useHistory } from 'react-router';
 import { useAuth } from "../../../Contexts/AuthContext" 
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+import { Container } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { Paper } from '@material-ui/core';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        height: '100vh',
+      },
+    image: {
+        backgroundRepeat: 'no-repeat',
+        backgroundColor: '#D92A1D',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      },
     myBtns:{
       background:"#D92A1D",
       marginTop:'10px',
@@ -24,18 +34,20 @@ const useStyles = makeStyles((theme) => ({
     //     margin:'0 auto',
     //     textAlign:'center',
     // },
-    formInput:{
-        border:'none',
-        borderBottom:'1px solid black',
-        padding:'10px 5px',
-        // fontSize:'1.1em',
-        '&:focus':{
-            outline:'none',
-        }
-    },
     formLabel:{
         display:'block',
         marginTop:'20px',
+    },
+    inputBox2:{
+        width:'100%',
+        border:"none",
+        borderBottom:"1px solid black",
+        fontSize:'1.1em',
+        padding:"10px 0",
+        '&:focus':{
+            borderBottom:"1px solid #90CAF9",
+            outline:"none"
+        },
     }
   }));
 
@@ -82,39 +94,42 @@ async function handleSubmit(e)
 
  
 }
-const paperStyle={padding:20,height:'70vh',width:280, margin:"20px auto"}
+const paperStyle={padding:20,height:'70vh',width:280, margin:"40px auto"}
     return(
         
-    <article>
-    <Grid>
-     <Paper elavation="20" style={paperStyle}>
-        <Grid >
-            <h2 align="center">Login</h2>
+    <Grid container component="main" className={classes.root}>
+        <Grid item xs={false} sm={4} md={6} className={classes.image} />
+        <Grid item xs={12} sm={8} md={6} square>
+            <Paper elavation="20" style={paperStyle}>
+                <Container>
+                    <Grid >
+                        <h2 >Login</h2>
+                    </Grid>
+                    <form className={classes.formCotainer} onSubmit={handleSubmit}>
+
+                        <label className={classes.formLabel}>Email</label>
+                        <input className={classes.inputBox2}  ref={email}  />
+                        <br></br>
+
+                        <label  className={classes.formLabel}>Password</label>
+                        <input  className={classes.inputBox2}  
+                                ref={password} 
+                                type="password"/>
+                        <br></br><br></br>
+
+                        <Button disabled={loading} type="submit" className={classes.myBtns}>Login to your account</Button>
+                        <br></br><br></br>
+
+                        {
+                        error? <h4 className={classes.error}> {error.error.message}</h4>: <h1></h1>
+                        }   
+                    </form>
+
+                    <p align="center">Don't have an account <Link href="/signup">Sign Up</Link></p>
+                </Container>
+            </Paper>  
         </Grid>
-        <form className={classes.formCotainer} onSubmit={handleSubmit}>
-
-            <label className={classes.formLabel}>Email</label>
-            <input ref={email} className={classes.formInput} />
-            <br></br>
-
-            <label  className={classes.formLabel}>Password</label>
-            <input  className={classes.formInput} 
-                    ref={password} 
-                    type="password"/>
-            <br></br><br></br>
-
-            <Button disabled={loading} type="submit" className={classes.myBtns}>Login</Button>
-            <br></br><br></br>
-
-            {
-            error? <h4 className={classes.error}> {error.error.message}</h4>: <h1></h1>
-            }   
-        </form>
-
-        <p align="center">Don't have an account <Link href="/signup">Sign Up</Link></p>
-    </Paper>  
    </Grid>
-    </article>
     )
 }
 
