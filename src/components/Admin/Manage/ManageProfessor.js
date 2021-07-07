@@ -112,7 +112,7 @@ function ManageProfessor(){
         setLoading();
         profUser
         .doc(prof.id)
-        .update({departmenthead: prof.departmenthead})
+        .update({isDepartmentHead: prof.departmenthead})
         .then(()=>{
              window.location.reload();
         })
@@ -211,7 +211,7 @@ function ManageProfessor(){
                                 updatephone({ phone: changePhone, id: prof.id})}>Update</button>
                         </p>
                         <p>
-                            Department Head: {String(prof.departmenthead)}
+                            Department Head: {String(prof.isDepartmentHead)}
                             <input
                                 type="checkbox"
                                 value={changeDhead}

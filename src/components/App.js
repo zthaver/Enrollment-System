@@ -36,6 +36,7 @@ import ManageProgram from './Admin/ManageProgram/ManageProgram';
 import UpdateProgram from './Admin/UpdateProgram/UpdateProgram';
 import UpdateDepartment from "./Admin/UpdateDepartment/UpdateDepartments";
 import SearchCourses from './Student/SearchCourses/SearchCourses';
+import SubmitAvailiblity from './Professor/SubmitAvailbility/SubmitAvailibility';
 
 
 
@@ -50,11 +51,13 @@ function App() {
                 <Login></Login>
               </Route>
             <Route exact path="/" component={ HomePage } />
+       
+            <ProfessorRoute exact path ="/professor" component={ProfessorHomePage}></ProfessorRoute>
+            <ProfessorRoute exact path="/submitAvailibility" component={SubmitAvailiblity}></ProfessorRoute>
+            <AdminRoute exact path ="/createDepartment" component={createDepartment}></AdminRoute>
             <AdminRoute exact path ="/createAdmin" component={CreateAdmin}></AdminRoute>
             <AdminRoute exact path ="/admin" component={AdminHomePage}></AdminRoute>
             <AdminRoute exact path ="/createProfessor" component={CreateProfessor}></AdminRoute>
-            <ProfessorRoute exact path ="/professor" component={ProfessorHomePage}></ProfessorRoute>
-            <AdminRoute exact path ="/createDepartment" component={createDepartment}></AdminRoute>
             <AdminRoute exact path ="/manageStudent" component={ManageStudent}></AdminRoute>
             <AdminRoute exact path ="/manageProfessor" component={ManageProfessor}></AdminRoute>
             <AdminRoute exact path ="/createDepartment" component={createDepartment}></AdminRoute>
