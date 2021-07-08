@@ -28,10 +28,12 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-export default function ProfNav(){
+export default function ProfNav({isDepartmentHead:userIsDepartmentHead}){
     const classes = useStyles();
     const { logout } = useAuth();
     const history = useHistory();
+
+    console.log("the user is" + userIsDepartmentHead)
 
     function handleLogout()
     {
@@ -51,6 +53,7 @@ export default function ProfNav(){
                 
                 <Button component={Link} to="/viewProf" color="inherit">Account</Button>
                 <Button color="inherit">Schedule</Button>
+                { userIsDepartmentHead?<Button color="inherit" component={Link} to="/submitAvailibility">Submit Availibility</Button>:<h1></h1>}
                 <Button color="inherit" onClick={handleLogout}>Logout</Button>
                 </Toolbar>
             </AppBar>
