@@ -138,7 +138,8 @@ export function AuthProvider({ children }) {
             setIsStudent(true);
           }
          }
-       })  
+       }) 
+       setCurrentUser(result.user.uid) 
        authResult = result;
        console.log("admin is " + isAdmin)       
        console.log(authResult)

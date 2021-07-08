@@ -2,12 +2,12 @@ import {useRef, useState} from 'react';
 import { useHistory } from 'react-router';
 import { useAuth } from "../../../Contexts/AuthContext" 
 import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import { Container } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+import { Container } from '@material-ui/core';
 import { Paper } from '@material-ui/core';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -69,19 +69,18 @@ async function handleSubmit(e)
         setLoading(true);
          await login(email.current.value,password.current.value)
          .then((value)=>{
-             console.log("professor added" + value.professor)
              if(value.admin)
              {
-                history.push("/admin")
+                history.push("/admin",value.user_id)
              }
              if(value.professor)
              {
-                history.push("/professor")
+                history.push("/professor",value.user_id)
              }
 
              if(value.student)
              {
-                 history.push("/student")
+                 history.push("/student",value.user_id)
              }
               
          })
