@@ -1,6 +1,17 @@
 import firebase from '../../../firebase';
 import React, { useState, useEffect, Fragment } from "react";
 import { Link } from "react-router-dom";
+import AdminNav from '../AdminNavbar/AdminNav';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    content: {
+      flexGrow: 1,
+      backgroundColor: theme.palette.background.default,
+      padding: theme.spacing(3),
+      marginLeft:'240px',
+    }
+  }))
 
 function ManageProfessor(){
     const profUser = firebase.firestore().collection("professors");
@@ -14,6 +25,7 @@ function ManageProfessor(){
     const [changePhone, setPhone] = useState("");
     const [changeDhead, setDhead] = useState(false);
     const [error,setError] = useState("");
+    const classes = useStyles();
 
     function getProfessors(){
         setLoading(true);
@@ -139,7 +151,10 @@ function ManageProfessor(){
     }
 
     return(
-        <Fragment>
+        <div className={classes.root}>
+            <AdminNav/>
+            <main className={classes.content}>
+            <Fragment>
             <h1>Manage Professor</h1>
             <td>
                 <Link to="/admin"> Home </Link>
@@ -226,6 +241,9 @@ function ManageProfessor(){
                 </div>
             ))}
         </Fragment>
+            </main>
+        </div>
+        
     )
 }
 
