@@ -1,107 +1,148 @@
-// import * as React from 'react';
-// import Paper from '@material-ui/core/Paper';
-// import { ViewState } from '@devexpress/dx-react-scheduler';
-// import {
-//   Scheduler,
-//   WeekView,
-//   Appointments,
-//   DragDropProvider,
-//   EditRecurrenceMenu,
-//   AllDayPanel,
-// } from '@devexpress/dx-react-scheduler-material-ui';
+import React, {useState, useEffect } from 'react';
+import { firestore } from "../../../firebase";
+import ProfNav from '../ProfessorNavbar/ProfNav';
+import { useLocation } from "react-router-dom";
+import { TextField } from '@material-ui/core';
+import firebase from '../../../firebase';
 
-// const currentDate = '2018-11-01';
-// const recurrenceAppointments = [{
-//   title: 'Website Re-Design Plan',
-//   startDate: new Date(2018, 5, 25, 9, 15),
-//   endDate: new Date(2018, 5, 25, 11, 30),
-//   id: 100,
-//   rRule: 'FREQ=DAILY;COUNT=3',
-//   exDate: '20180628T063500Z,20180626T061500Z',
-// }, {
-//   title: 'Book Flights to San Fran for Sales Trip',
-//   startDate: new Date(2018, 5, 25, 12, 11),
-//   endDate: new Date(2018, 5, 25, 13, 0),
-//   id: 101,
-//   rRule: 'FREQ=DAILY;COUNT=4',
-//   exDate: '20180627T091100Z',
-//   allDay: true,
-// }, {
-//   title: 'Install New Router in Dev Room',
-//   startDate: new Date(2018, 5, 25, 13, 30),
-//   endDate: new Date(2018, 5, 25, 14, 35),
-//   id: 102,
-//   rRule: 'FREQ=DAILY;COUNT=5',
-// }, {
-//   title: 'Approve Personal Computer Upgrade Plan',
-//   startDate: new Date(2018, 5, 26, 10, 0),
-//   endDate: new Date(2018, 5, 26, 11, 0),
-//   id: 3,
-//   location: 'Room 2',
-// }, {
-//   title: 'Final Budget Review',
-//   startDate: new Date(2018, 5, 27, 11, 45),
-//   endDate: new Date(2018, 5, 27, 13, 20),
-//   id: 4,
-//   location: 'Room 2',
-// }, {
-//   title: 'New Brochures',
-//   startDate: new Date(2018, 5, 26, 14, 40),
-//   endDate: new Date(2018, 5, 26, 15, 45),
-//   id: 5,
-//   location: 'Room 2',
-// }, {
-//   title: 'Install New Database',
-//   startDate: new Date(2018, 5, 28, 9, 45),
-//   endDate: new Date(2018, 5, 28, 11, 15),
-//   id: 6,
-//   location: 'Room 1',
-// }, {
-//   title: 'Approve New Online Marketing Strategy',
-//   startDate: new Date(2018, 5, 29, 11, 45),
-//   endDate: new Date(2018, 5, 29, 13, 5),
-//   id: 7,
-//   location: 'Room 3',
-// }, {
-//   title: 'Create Icons for Website',
-//   startDate: new Date(2018, 5, 29, 10, 0),
-//   endDate: new Date(2018, 5, 29, 11, 30),
-//   id: 12,
-//   location: 'Room 2',
-// }];
+import Paper from '@material-ui/core/Paper';
 
 
-// function SubmitAvailiblity()
-// {
-// return (
-//     <div>
-//         <Paper>
-//         <Scheduler
-//           data={data}
-//           height={660}
-//         >
-//           <ViewState
-//             defaultCurrentDate={currentDate}
-//           />
-//           <EditingState
-//             onCommitChanges={this.onCommitChanges}
-//           />
-//           <EditRecurrenceMenu />
-//           <WeekView
-//             startDayHour={9}
-//             endDayHour={16}
-//           />
-//           <Appointments
-//             appointmentComponent={appointmentComponent}
-//           />
-//           <AllDayPanel />
-//           <DragDropProvider
-//             allowDrag={allowDrag}
-//           />
-//         </Scheduler>
-//       </Paper>
-//     </div>
-// )
-// }
 
-// export default SubmitAvailiblity;
+
+function SubmitAvailiblity()
+{
+  const user = (firebase.auth().currentUser).uid;
+  const uid = user;
+  const profUser = firebase.firestore().collection("professors").doc(uid);
+
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [day, setDay] = useState("");
+  
+  const [timesArray, setTimesArray] = useState([]);
+  const [timesObj, setTimesObj] = useState({});
+
+
+  const time = day + " Start: " + startTime + " - End: " + endTime;
+
+  var listItems = timesArray.map((time) =>  <li >
+                                              <span key={time.day}> {time.day} </span>  
+                                              <span key={time.start}> {time.start} </span>  
+                                              <span key={time.end}> {time.end} </span>  
+                                            </li>);
+
+
+  function test(){
+    console.log("working");    
+
+    console.log(`Total time: ${time}`)
+    console.log(`sTART time:::: ${startTime}`)
+    console.log(`End time:::: ${endTime}`)
+    console.log(`Day :::: ${day}`)
+    
+    setTimesObj({ 
+      day: day,
+      start: startTime,
+      end: endTime
+    })
+
+    // setTimesArray( arr => [...arr, time]);
+    setTimesArray( arr => [...arr, timesObj]);
+    
+    setDay("");
+    setStartTime("");
+    setEndTime("");
+
+  }
+
+  function edit(){
+    // handleStartChange('Mon Jul 12 2021 20:40:21 GMT-0400 (Eastern Daylight Time)')
+    console.log("TIMES ARRAY")
+    console.log(listItems)
+    console.log(timesArray)
+  }
+
+  function submit(e){
+    e.preventDefault();
+
+    profUser.update({
+      availability: timesArray,
+    })
+    .then(()=>{
+      console.log("Availability has been updated ");
+      alert(`Availability added`);
+    })
+    .catch((err) => {
+      console.log("Handle Update Error: ", err);
+  })
+
+  }
+
+
+return (
+    <div style={{paddingTop: "100px"}}>
+      <ProfNav />
+
+      <h1>Hello Wolrd</h1>
+
+      <form  noValidate>
+
+          <label>Please select a day: </label>
+          <select onChange={(e)=> setDay(e.target.value)}>
+              <option>- -</option>
+              <option>Monday</option>
+              <option>Tuesday</option>
+              <option>Wednesday</option>
+              <option>Thursday</option>
+              <option>Friday</option>
+
+          </select>
+          <br/>
+
+          <label>Start Time: </label>
+          <TextField
+            id="time"
+            label="start time"
+            type="time"
+            defaultValue={startTime}
+            onChange={(e)=> setStartTime(e.target.value)}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            inputProps={{
+              step: 300, // 5 min
+            }}
+          />
+          
+          <br/>
+          <label>End Time: </label>
+
+          <TextField
+            id="time"
+            label="End time"
+            type="time"
+            defaultValue={endTime}
+            onChange={(e)=> setEndTime(e.target.value)}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            inputProps={{
+              step: 300, // 5 min
+            }}
+          />
+
+        </form>
+        <button onClick={test}>Add</button>
+        
+        <button onClick={edit}>Edit</button>
+
+        <button onClick={(e) => submit(e)}>Submit</button>
+        <div >
+            {listItems}
+        </div>
+    </div>
+)
+}
+
+export default SubmitAvailiblity;
