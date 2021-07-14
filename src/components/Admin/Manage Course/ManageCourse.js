@@ -3,7 +3,18 @@ import { firestore } from '../../../firebase';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import AdminNav from '../AdminNavbar/AdminNav';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { Button } from "@material-ui/core";
+
+//Table
+import React from 'react';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles((theme) => ({
     content: {
@@ -12,7 +23,35 @@ const useStyles = makeStyles((theme) => ({
       padding: theme.spacing(3),
       marginLeft:'240px',
     },
+    myBtns:{
+        color:'#D92A1D',
+        '&:hover':{
+            color:'#fff',
+            background:'#D92A1D',
+        }
+      }
   }))
+
+  const StyledTableCell = withStyles((theme) => ({
+    head: {
+      backgroundColor: "#D92A1D",
+      color: theme.palette.common.white,
+      textTransform:'uppercase',
+      fontWeight:'bold',
+      letterSpacing:1, 
+    },
+    body: {
+      fontSize: 14,
+    },
+  }))(TableCell);
+
+  const StyledTableRow = withStyles((theme) => ({
+    root: {
+      '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+      },
+    },
+  }))(TableRow);
 
 function ManageCourse() {
     var history = useHistory();
@@ -40,7 +79,7 @@ function ManageCourse() {
             <AdminNav/>
             <main className={classes.content}>
             <h2>Manage Courses</h2>
-            <table>
+            {/* <table>
             <thead>
                 <th> Course Name</th>
                 <th>Course Id</th>
@@ -74,7 +113,48 @@ function ManageCourse() {
                 }
                 )}
             </tbody>
-        </table>
+        </table> */}
+            <TableContainer component={Paper}>
+                <Table className={classes.table} aria-label="customized table">
+                    <TableHead>
+                        <TableRow>
+                            <StyledTableCell>Course Name</StyledTableCell>
+                            <StyledTableCell align="left">Course Id</StyledTableCell>
+                            <StyledTableCell align="left">Course Description</StyledTableCell>
+                            <StyledTableCell align="left">Edit</StyledTableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {courseData.map((course) => {
+                            console.log(course);
+                            return( 
+                                <StyledTableRow>
+                                    <StyledTableCell>
+                                        <h4> {course.courseName}</h4>
+                                    </StyledTableCell>
+
+                                    <StyledTableCell>
+                                        <h4> {course.courseDescription}</h4>
+                                    </StyledTableCell>
+
+                                    <StyledTableCell>
+                                        <h4> {course.id}</h4>
+                                    </StyledTableCell>
+
+                                    <StyledTableCell>
+                                        <Button className={classes.myBtns} onClick={()=>deleteCourse(course.id)}>Delete Course</Button>
+                                        <Button className={classes.myBtns} onClick={()=> history.push("/updateCourse/"+ course.id )}> Update Course Information</Button>
+                                    </StyledTableCell>
+                                </StyledTableRow>
+                            )
+                        })}
+                        
+                    </TableBody>
+                </Table>
+            </TableContainer>
+
+            <p>Would you like to create a new course: <Link to="/createCourse"> Create Course </Link></p>
+
             </main>
         </div>
         

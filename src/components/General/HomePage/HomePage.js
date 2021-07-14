@@ -25,6 +25,7 @@ import { makeStyles } from '@material-ui/core/styles';
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      paddingTop: '15vh'
     },
     avatar: {
       margin: theme.spacing(1),

@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
       },
       navBar:{
-        background : '#D92A1D',
+        background : '#',
         minHeight: '84px',
         paddingTop: '10px',
         zIndex: theme.zIndex.drawer + 1,
@@ -46,10 +46,14 @@ const useStyles = makeStyles((theme) => ({
       drawer: {
         width: drawerWidth,
         flexShrink: 0,
-        backgroundColor:'blue',
       },
       drawerPaper: {
         width: drawerWidth,
+        background: "#D92A1D",
+        color:'#FAF9F6',
+      },
+      paper:{
+          background: "blue"
       },
       // necessary for content to be below app bar
       toolbar: theme.mixins.toolbar,
