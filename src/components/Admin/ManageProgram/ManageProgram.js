@@ -75,6 +75,7 @@ function ManageProgram() {
             setProgramData(programs.docs.map((program => program.data())));
         })
     }, [])
+    console.log(programData);
     return (
         <div className={classes.root}>
             <AdminNav/>
