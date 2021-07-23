@@ -1,14 +1,9 @@
 import React, { useState, useEffect, Fragment, useRef } from "react";
-
 import { firestore } from "../../../firebase";
 import firebase from "../../../firebase";
-
 import JqxScheduler, {  jqx } from 'jqwidgets-scripts/jqwidgets-react-tsx/jqxscheduler';
 import 'jqwidgets-scripts/jqwidgets/styles/jqx.base.css';
-
 import ProfNav from "../ProfessorNavbar/ProfNav";
-
-
 
 
 function SubmitAvailiblity()  {
@@ -43,6 +38,10 @@ function SubmitAvailiblity()  {
 
    let  myScheduler = useRef();
     const [appointmentData, setAppointments] = useState([]);
+
+
+    // create a new array in order to store new appointment dates
+    // previous dates will not be duplicated in the db this way
     const newAppointmentData = [];
 
         const appointments = new Array();
