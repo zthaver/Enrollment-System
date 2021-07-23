@@ -109,6 +109,7 @@ function ProfessorAccount(){
     const [updatedFname, updateFname] = useState();
     const [updatedLname, updateLname] = useState();
     const [updatedPhone, updatePhone] = useState();
+    const [isDepartmentHead, setDepartmentHead] = useState();
     const [updatedAddress, updateAddress] = useState();
 
     // if user id exists , get data from firestore
@@ -123,6 +124,7 @@ function ProfessorAccount(){
                 setUserEmail(doc.data().email);
                 setUserPhone(doc.data().phone);
                 setUserAddress(doc.data().address);
+                setDepartmentHead(doc.data().isDepartmentHead)
             } else {
                 // doc.data() will be undefined in this case
                 console.log("No such document!");
@@ -222,7 +224,7 @@ function ProfessorAccount(){
     return(
     
       <section className={classes.root}>
-        <ProfNav/>
+        <ProfNav isDepartmentHead={isDepartmentHead}/>
 
         <Drawer
           className={classes.drawer}

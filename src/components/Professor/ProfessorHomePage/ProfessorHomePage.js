@@ -4,7 +4,8 @@ import ProfNav from '../ProfessorNavbar/ProfNav'
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useEffect,useState } from "react";
-import { firestore } from "../../../firebase";
+import { firestore }  from "../../../firebase";
+import firebase from "../../../firebase";
 
 
 function ProfessorHomePage()
@@ -13,10 +14,11 @@ function ProfessorHomePage()
     const { currentUser,logout } = useAuth();
     let [departmentHead,setDepartmentHead] = useState(false);
     const history = useHistory();
+    console.log((firebase.auth().currentUser).uid)
 
     useEffect(() => {
         console.log("in use effect");
-        firestore.collection("professors").doc(location.state).get().then((val)=>{
+        firestore.collection("professors").doc((firebase.auth().currentUser).uid).get().then((val)=>{
             setDepartmentHead(val.data().isDepartmentHead);
         })
         }, [])
@@ -26,7 +28,6 @@ function ProfessorHomePage()
         history.push("/login");
         
     }
-    console.log(location.state.user_id)
     return(
         <div style={{paddingTop: "100px"}}>
             <ProfNav isDepartmentHead={departmentHead}/>
