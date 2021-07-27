@@ -1692,6 +1692,47 @@
   resolved "https://registry.yarnpkg.com/@firebase/webchannel-wrapper/-/webchannel-wrapper-0.5.1.tgz#a64d1af3c62e3bb89576ec58af880980a562bf4e"
   integrity sha512-dZMzN0uAjwJXWYYAcnxIwXqRTZw3o14hGe7O6uhwjD1ZQWPVYA5lASgnNskEBra0knVBsOXB4KXg+HnlKewN/A==
 
+"@fullcalendar/common@~5.8.0":
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/common/-/common-5.8.0.tgz#43e79e26e6347af83baaa603157aced67e23d549"
+  integrity sha512-cKmXNgo/9auw86MOwXxA+5FRrgvbE93C9YDwic+Alfm3bUruDTzJDnuvRndrFVurpSBLm6/ZitaR+yoWKLIsgA==
+  dependencies:
+    tslib "^2.1.0"
+
+"@fullcalendar/core@^5.8.0":
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/core/-/core-5.8.0.tgz#86f034fc4a49c6a44886380aff01c6fcd7204966"
+  integrity sha512-55Zwy4fwcxBqHjfjhV5eae4qOh9fMlpjGcyy4Zt39zA1NlgUW0JxCGOyIu2K2jm2JZn+27/P8b06JXy57DmtKg==
+  dependencies:
+    "@fullcalendar/common" "~5.8.0"
+    preact "^10.0.5"
+    tslib "^2.1.0"
+
+"@fullcalendar/daygrid@~5.8.0":
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/daygrid/-/daygrid-5.8.0.tgz#6a5991886ed3323366f72e7614ac8907cbd8d998"
+  integrity sha512-VrqwI97cewoUjFrKT67sS+f+JANI8xMx0g5bpM0XgV/KEEwvXpH5OmwkFSbXOnx1m4RXsvolQc6EBZpnJCf69Q==
+  dependencies:
+    "@fullcalendar/common" "~5.8.0"
+    tslib "^2.1.0"
+
+"@fullcalendar/react@^5.8.0":
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/react/-/react-5.8.0.tgz#4e5dbcb48b82db61b359de9f0b6e6a49483ace91"
+  integrity sha512-lGvExh2It8eEfH/Pu9Al6NExwAsq4zXFspcKeXjCARqETUqI0hL7PXuxwvedFlAGUuj2cdbpEnasFc89rGeENA==
+  dependencies:
+    "@fullcalendar/common" "~5.8.0"
+    tslib "^2.1.0"
+
+"@fullcalendar/timegrid@^5.8.0":
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/timegrid/-/timegrid-5.8.0.tgz#4f1f8e1aee52f3b493701b3c9e3b59510be53c24"
+  integrity sha512-N24TkOuRkxMDn02E8LPj4fKKgAxQxF6k/PONIwMVHnOih2v3SeiKOOemmrk6uoTwOS7R2fVblOJQGFWXobYu3g==
+  dependencies:
+    "@fullcalendar/common" "~5.8.0"
+    "@fullcalendar/daygrid" "~5.8.0"
+    tslib "^2.1.0"
+
 "@grpc/grpc-js@^1.3.2":
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.3.4.tgz#5c4f5df717cd10cc5ebbc7523504008d1ff7b322"
@@ -10466,6 +10507,11 @@ postcss@^8.1.0:
     colorette "^1.2.2"
     nanoid "^3.1.23"
     source-map-js "^0.6.2"
+
+preact@^10.0.5:
+  version "10.5.14"
+  resolved "https://registry.yarnpkg.com/preact/-/preact-10.5.14.tgz#0b14a2eefba3c10a57116b90d1a65f5f00cd2701"
+  integrity sha512-KojoltCrshZ099ksUZ2OQKfbH66uquFoxHSbnwKbTJHeQNvx42EmC7wQVWNuDt6vC5s3nudRHFtKbpY4ijKlaQ==
 
 prelude-ls@^1.2.1:
   version "1.2.1"

@@ -1,380 +1,245 @@
-const DemoData = {
-    resources: [
-        {
-            id: 'r0',
-            name: 'Resource0',
-            groupOnly: true,
-        },
-        {
-            id: 'r1',
-            name: 'Resource1',
-            parentId: 'r0',
-        },
-        {
-            id: 'r2',
-            name: 'Resource2',
-            parentId: 'r3',
-        },
-        {
-            id: 'r3',
-            name: 'Resource3',
-            parentId: 'r1',
-        },
-        {
-            id: 'r4',
-            name: 'Resource4',
-        },
-        {
-            id: 'r5',
-            name: 'Resource5',
-        },
-        {
-            id: 'r6',
-            name: 'Resource6',
-        },
-        {
-            id: 'r7',
-            name: 'Resource7Resource7Resource7Resource7Resource7',
-        }
-    ],
-    events: [
-        {
-            id: 1,
-            start: '2017-12-18 09:30:00',
-            end: '2017-12-19 23:30:00',
-            resourceId: 'r1',
-            title: 'I am finished',
-            bgColor: '#D9D9D9',
-            showPopover: false
-        },
-        {
-            id: 2,
-            start: '2017-12-18 12:30:00',
-            end: '2017-12-26 23:30:00',
-            resourceId: 'r2',
-            title: 'I am not resizable',
-            resizable: false
-        },
-        {
-            id: 3,
-            start: '2017-12-19 12:30:00',
-            end: '2017-12-20 23:30:00',
-            resourceId: 'r3',
-            title: 'I am not movable',
-            movable: false
-        },
-        {
-            id: 4,
-            start: '2017-12-19 14:30:00',
-            end: '2017-12-20 23:30:00',
-            resourceId: 'r4',
-            title: 'I am not start-resizable',
-            startResizable: false,
-        },
-        {
-            id: 5,
-            start: '2017-12-19 15:30:00',
-            end: '2017-12-20 23:30:00',
-            resourceId: 'r5',
-            title: 'I am not end-resizable',
-            endResizable: false
-        },
-        {
-            id: 6,
-            start: '2017-12-19 15:35:00',
-            end: '2017-12-19 23:30:00',
-            resourceId: 'r6',
-            title: 'I am normal'
-        },
-        {
-            id: 7,
-            start: '2017-12-19 15:40:00',
-            end: '2017-12-20 23:30:00',
-            resourceId: 'r7',
-            title: 'I am exceptional',
-            bgColor: '#FA9E95'
-        },
-        {
-            id: 8,
-            start: '2017-12-19 15:50:00',
-            end: '2017-12-19 23:30:00',
-            resourceId: 'r1',
-            title: 'I am locked',
-            movable: false,
-            resizable: false,
-            bgColor: 'red'
-        },
-        {
-            id: 9,
-            start: '2017-12-19 16:30:00',
-            end: '2017-12-27 23:30:00',
-            resourceId: 'r1',
-            title: 'R1 has many tasks 1'
-        },
-        {
-            id: 10,
-            start: '2017-12-19 17:30:00',
-            end: '2017-12-19 23:30:00',
-            resourceId: 'r1',
-            title: 'R1 has recurring tasks every week on Tuesday, Friday',
-            rrule: 'FREQ=WEEKLY;DTSTART=20171219T013000Z;BYDAY=TU,FR',
-            bgColor: '#f759ab'
-        },
-        {
-            id: 11,
-            start: '2017-12-19 18:30:00',
-            end: '2017-12-20 23:30:00',
-            resourceId: 'r1',
-            title: 'R1 has many tasks 3'
-        },
-        {
-            id: 12,
-            start: '2017-12-20 18:30:00',
-            end: '2017-12-20 23:30:00',
-            resourceId: 'r1',
-            title: 'R1 has many tasks 4'
-        },
-        {
-            id: 13,
-            start: '2017-12-21 18:30:00',
-            end: '2017-12-24 23:30:00',
-            resourceId: 'r1',
-            title: 'R1 has many tasks 5'
-        },
-        {
-            id: 14,
-            start: '2017-12-23 18:30:00',
-            end: '2017-12-27 23:30:00',
-            resourceId: 'r1',
-            title: 'R1 has many tasks 6'
-        },
-    ],
-    eventsForTaskView: [
-        {
-            id: 1,
-            start: '2017-12-18 09:30:00',
-            end: '2017-12-18 23:30:00',
-            resourceId: 'r1',
-            title: 'I am finished',
-            bgColor: '#D9D9D9',
-            groupId: 1,
-            groupName: 'Task1'
-        },
-        {
-            id: 2,
-            start: '2017-12-18 12:30:00',
-            end: '2017-12-26 23:30:00',
-            resourceId: 'r2',
-            title: 'I am not resizable',
-            resizable: false,
-            groupId: 2,
-            groupName: 'Task2'
-        },
-        {
-            id: 3,
-            start: '2017-12-19 12:30:00',
-            end: '2017-12-20 23:30:00',
-            resourceId: 'r3',
-            title: 'I am not movable',
-            movable: false,
-            groupId: 3,
-            groupName: 'Task3'
-        },
-        {
-            id: 7,
-            start: '2017-12-19 15:40:00',
-            end: '2017-12-20 23:30:00',
-            resourceId: 'r7',
-            title: 'I am exceptional',
-            bgColor: '#FA9E95',
-            groupId: 4,
-            groupName: 'Task4'
-        },
-        {
-            id: 4,
-            start: '2017-12-20 14:30:00',
-            end: '2017-12-21 23:30:00',
-            resourceId: 'r4',
-            title: 'I am not start-resizable',
-            startResizable: false,
-            groupId: 1,
-            groupName: 'Task1'
-        },
-        {
-            id: 5,
-            start: '2017-12-21 15:30:00',
-            end: '2017-12-22 23:30:00',
-            resourceId: 'r5',
-            title: 'I am not end-resizable',
-            endResizable: false,
-            groupId: 3,
-            groupName: 'Task3'
-        },
-        {
-            id: 9,
-            start: '2017-12-21 16:30:00',
-            end: '2017-12-21 23:30:00',
-            resourceId: 'r1',
-            title: 'R1 has many tasks',
-            groupId: 4,
-            groupName: 'Task4'
-        },
-        {
-            id: 6,
-            start: '2017-12-22 15:35:00',
-            end: '2017-12-23 23:30:00',
-            resourceId: 'r6',
-            title: 'I am normal',
-            groupId: 1,
-            groupName: 'Task1'
-        },
-        {
-            id: 8,
-            start: '2017-12-25 15:50:00',
-            end: '2017-12-26 23:30:00',
-            resourceId: 'r1',
-            title: 'I am locked',
-            movable: false,
-            resizable: false,
-            bgColor: 'red',
-            groupId: 1,
-            groupName: 'Task1'
-        },
-        {
-            id: 10,
-            start: '2017-12-26 18:30:00',
-            end: '2017-12-26 23:30:00',
-            resourceId: 'r2',
-            title: 'R2 has many tasks',
-            groupId: 4,
-            groupName: 'Task4'
-        },
-        {
-            id: 11,
-            start: '2017-12-27 18:30:00',
-            end: '2017-12-27 23:30:00',
-            resourceId: 'r14',
-            title: 'R4 has many tasks',
-            groupId: 4,
-            groupName: 'Task4'
-        },
-        {
-            id: 12,
-            start: '2017-12-28 18:30:00',
-            end: '2017-12-28 23:30:00',
-            resourceId: 'r6',
-            title: 'R6 has many tasks',
-            groupId: 3,
-            groupName: 'Task3'
-        },
-    ],
-    eventsForCustomEventStyle: [
-        {
-            id: 1,
-            start: '2017-12-18 09:30:00',
-            end: '2017-12-19 23:30:00',
-            resourceId: 'r1',
-            title: 'I am finished',
-            bgColor: '#D9D9D9',
-            type: 1
-        },
-        {
-            id: 2,
-            start: '2017-12-18 12:30:00',
-            end: '2017-12-26 23:30:00',
-            resourceId: 'r2',
-            title: 'I am not resizable',
-            resizable: false,
-            type: 2
-        },
-        {
-            id: 3,
-            start: '2017-12-19 12:30:00',
-            end: '2017-12-20 23:30:00',
-            resourceId: 'r3',
-            title: 'I am not movable',
-            movable: false,
-            type: 3
-        },
-        {
-            id: 4,
-            start: '2017-12-19 14:30:00',
-            end: '2017-12-20 23:30:00',
-            resourceId: 'r4',
-            title: 'I am not start-resizable',
-            startResizable: false,
-            type: 1
-        },
-        {
-            id: 5,
-            start: '2017-12-19 15:30:00',
-            end: '2017-12-20 23:30:00',
-            resourceId: 'r5',
-            title: 'I am not end-resizable',
-            endResizable: false,
-            type: 2
-        },
-        {
-            id: 6,
-            start: '2017-12-19 15:35:00',
-            end: '2017-12-19 23:30:00',
-            resourceId: 'r6',
-            title: 'I am normal',
-            type: 3
-        },
-        {
-            id: 7,
-            start: '2017-12-19 15:40:00',
-            end: '2017-12-20 23:30:00',
-            resourceId: 'r7',
-            title: 'I am exceptional',
-            bgColor: '#FA9E95',
-            type: 1
-        },
-        {
-            id: 8,
-            start: '2017-12-19 15:50:00',
-            end: '2017-12-19 23:30:00',
-            resourceId: 'r1',
-            title: 'I am locked',
-            movable: false,
-            resizable: false,
-            bgColor: 'red',
-            type: 2
-        },
-        {
-            id: 9,
-            start: '2017-12-19 16:30:00',
-            end: '2017-12-27 23:30:00',
-            resourceId: 'r1',
-            title: 'R1 has many tasks 1',
-            type: 3
-        },
-        {
-            id: 10,
-            start: '2017-12-20 18:30:00',
-            end: '2017-12-20 23:30:00',
-            resourceId: 'r1',
-            title: 'R1 has many tasks 2',
-            type: 1
-        },
-        {
-            id: 11,
-            start: '2017-12-21 18:30:00',
-            end: '2017-12-22 23:30:00',
-            resourceId: 'r1',
-            title: 'R1 has many tasks 3',
-            type: 2
-        },
-        {
-            id: 12,
-            start: '2017-12-23 18:30:00',
-            end: '2017-12-27 23:30:00',
-            resourceId: 'r1',
-            title: 'R1 has many tasks 4',
-            type: 3
-        },
-    ],
-}
-
-export default DemoData
+export const appointments = [
+    {
+      title: 'Website Re-Design Plan',
+      startDate: new Date(2018, 5, 25, 9, 35),
+      endDate: new Date(2018, 5, 25, 11, 30),
+      id: 0,
+      location: 'Room 1',
+    }, {
+      title: 'Book Flights to San Fran for Sales Trip',
+      startDate: new Date(2018, 5, 25, 12, 11),
+      endDate: new Date(2018, 5, 25, 13, 0),
+      id: 1,
+      location: 'Room 1',
+    }, {
+      title: 'Install New Router in Dev Room',
+      startDate: new Date(2018, 5, 25, 14, 30),
+      endDate: new Date(2018, 5, 25, 15, 35),
+      id: 2,
+      location: 'Room 2',
+    }, {
+      title: 'Approve Personal Computer Upgrade Plan',
+      startDate: new Date(2018, 5, 26, 10, 0),
+      endDate: new Date(2018, 5, 26, 11, 0),
+      id: 3,
+      location: 'Room 2',
+    }, {
+      title: 'Final Budget Review',
+      startDate: new Date(2018, 5, 26, 12, 0),
+      endDate: new Date(2018, 5, 26, 13, 35),
+      id: 4,
+      location: 'Room 2',
+    }, {
+      title: 'New Brochures',
+      startDate: new Date(2018, 5, 26, 14, 30),
+      endDate: new Date(2018, 5, 26, 15, 45),
+      id: 5,
+      location: 'Room 2',
+    }, {
+      title: 'Install New Database',
+      startDate: new Date(2018, 5, 27, 9, 45),
+      endDate: new Date(2018, 5, 27, 11, 15),
+      id: 6,
+      location: 'Room 1',
+    }, {
+      title: 'Approve New Online Marketing Strategy',
+      startDate: new Date(2018, 5, 27, 12, 0),
+      endDate: new Date(2018, 5, 27, 14, 0),
+      id: 7,
+      location: 'Room 3',
+    }, {
+      title: 'Upgrade Personal Computers',
+      startDate: new Date(2018, 5, 27, 15, 15),
+      endDate: new Date(2018, 5, 27, 16, 30),
+      id: 8,
+      location: 'Room 3',
+    }, {
+      title: 'Customer Workshop',
+      startDate: new Date(2018, 5, 28, 11, 0),
+      endDate: new Date(2018, 5, 28, 12, 0),
+      id: 9,
+      location: 'Room 3',
+    }, {
+      title: 'Prepare 2015 Marketing Plan',
+      startDate: new Date(2018, 5, 28, 11, 0),
+      endDate: new Date(2018, 5, 28, 13, 30),
+      id: 10,
+      location: 'Room 1',
+    }, {
+      title: 'Brochure Design Review',
+      startDate: new Date(2018, 5, 28, 14, 0),
+      endDate: new Date(2018, 5, 28, 15, 30),
+      id: 11,
+      location: 'Room 2',
+    }, {
+      title: 'Create Icons for Website',
+      startDate: new Date(2018, 5, 29, 10, 0),
+      endDate: new Date(2018, 5, 29, 11, 30),
+      id: 12,
+      location: 'Room 2',
+    }, {
+      title: 'Upgrade Server Hardware',
+      startDate: new Date(2018, 5, 29, 14, 30),
+      endDate: new Date(2018, 5, 29, 16, 0),
+      id: 13,
+      location: 'Room 3',
+    }, {
+      title: 'Submit New Website Design',
+      startDate: new Date(2018, 5, 29, 16, 30),
+      endDate: new Date(2018, 5, 29, 18, 0),
+      id: 14,
+      location: 'Room 3',
+    }, {
+      title: 'Launch New Website',
+      startDate: new Date(2018, 5, 29, 12, 20),
+      endDate: new Date(2018, 5, 29, 14, 0),
+      id: 15,
+      location: 'Room 2',
+    }, {
+      title: 'Website Re-Design Plan',
+      startDate: new Date(2018, 6, 2, 9, 30),
+      endDate: new Date(2018, 6, 2, 15, 30),
+      id: 16,
+      location: 'Room 1',
+    }, {
+      title: 'Book Flights to San Fran for Sales Trip',
+      startDate: new Date(2018, 6, 2, 12, 0),
+      endDate: new Date(2018, 6, 2, 13, 0),
+      id: 17,
+      location: 'Room 3',
+    }, {
+      title: 'Install New Router in Dev Room',
+      startDate: new Date(2018, 6, 2, 14, 30),
+      endDate: new Date(2018, 6, 2, 17, 30),
+      id: 18,
+      location: 'Room 2',
+    }, {
+      title: 'Approve Personal Computer Upgrade Plan',
+      startDate: new Date(2018, 6, 2, 16, 0),
+      endDate: new Date(2018, 6, 3, 9, 0),
+      id: 19,
+      location: 'Room 2',
+    }, {
+      title: 'Final Budget Review',
+      startDate: new Date(2018, 6, 3, 10, 15),
+      endDate: new Date(2018, 6, 3, 13, 35),
+      id: 20,
+      location: 'Room 1',
+    }, {
+      title: 'New Brochures',
+      startDate: new Date(2018, 6, 3, 14, 30),
+      endDate: new Date(2018, 6, 3, 15, 45),
+      id: 21,
+      location: 'Room 3',
+    }, {
+      title: 'Install New Database',
+      startDate: new Date(2018, 6, 3, 15, 45),
+      endDate: new Date(2018, 6, 4, 12, 15),
+      id: 22,
+      location: 'Room 3',
+    }, {
+      title: 'Approve New Online Marketing Strategy',
+      startDate: new Date(2018, 6, 4, 12, 35),
+      endDate: new Date(2018, 6, 4, 14, 15),
+      id: 23,
+      location: 'Room 3',
+    }, {
+      title: 'Upgrade Personal Computers',
+      startDate: new Date(2018, 6, 4, 15, 15),
+      endDate: new Date(2018, 6, 4, 20, 30),
+      id: 24,
+      location: 'Room 2',
+    }, {
+      title: 'Customer Workshop',
+      startDate: new Date(2018, 6, 5, 6, 0),
+      endDate: new Date(2018, 6, 5, 14, 20),
+      id: 25,
+      location: 'Room 1',
+    }, {
+      title: 'Customer Workshop',
+      startDate: new Date(2018, 6, 5, 14, 35),
+      endDate: new Date(2018, 6, 5, 16, 20),
+      id: 26,
+      location: 'Room 1',
+    }, {
+      title: 'Customer Workshop 2',
+      startDate: new Date(2018, 6, 5, 10, 0),
+      endDate: new Date(2018, 6, 5, 11, 20),
+      id: 27,
+      location: 'Room 2',
+    }, {
+      title: 'Prepare 2015 Marketing Plan',
+      startDate: new Date(2018, 6, 5, 20, 0),
+      endDate: new Date(2018, 6, 6, 13, 30),
+      id: 28,
+      location: 'Room 3',
+    }, {
+      title: 'Brochure Design Review',
+      startDate: new Date(2018, 6, 6, 14, 10),
+      endDate: new Date(2018, 6, 6, 15, 30),
+      id: 29,
+      location: 'Room 3',
+    }, {
+      title: 'Create Icons for Website',
+      startDate: new Date(2018, 6, 6, 10, 0),
+      endDate: new Date(2018, 6, 7, 14, 30),
+      id: 30,
+      location: 'Room 1',
+    }, {
+      title: 'Upgrade Server Hardware',
+      startDate: new Date(2018, 6, 3, 9, 30),
+      endDate: new Date(2018, 6, 3, 12, 25),
+      id: 31,
+      location: 'Room 2',
+    }, {
+      title: 'Submit New Website Design',
+      startDate: new Date(2018, 6, 3, 12, 30),
+      endDate: new Date(2018, 6, 3, 18, 0),
+      id: 32,
+      location: 'Room 2',
+    }, {
+      title: 'Launch New Website',
+      startDate: new Date(2018, 6, 3, 12, 20),
+      endDate: new Date(2018, 6, 3, 14, 10),
+      id: 33,
+      location: 'Room 2',
+    }, {
+      title: 'Book Flights to San Fran for Sales Trip',
+      startDate: new Date(2018, 5, 26, 0, 0),
+      endDate: new Date(2018, 5, 27, 0, 0),
+      id: 34,
+      location: 'Room 1',
+    }, {
+      title: 'Customer Workshop',
+      startDate: new Date(2018, 5, 29, 10, 0),
+      endDate: new Date(2018, 5, 30, 14, 30),
+      id: 35,
+      location: 'Room 1',
+    }, {
+      title: 'Google AdWords Strategy',
+      startDate: new Date(2018, 6, 3, 0, 0),
+      endDate: new Date(2018, 6, 4, 10, 30),
+      id: 36,
+      location: 'Room 3',
+    }, {
+      title: 'Rollout of New Website and Marketing Brochures',
+      startDate: new Date(2018, 6, 5, 10, 0),
+      endDate: new Date(2018, 6, 9, 14, 30),
+      id: 37,
+      location: 'Room 3',
+    }, {
+      title: 'Update NDA Agreement',
+      startDate: new Date(2018, 6, 1, 10, 0),
+      endDate: new Date(2018, 6, 3, 14, 30),
+      id: 38,
+      location: 'Room 2',
+    }, {
+      title: 'Customer Workshop',
+      startDate: new Date(2018, 6, 1),
+      endDate: new Date(2018, 6, 2),
+      allDay: true,
+      id: 39,
+      location: 'Room 1',
+    },
+  ];
+  
