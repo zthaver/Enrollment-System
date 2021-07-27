@@ -42,7 +42,7 @@ const CourseSchema = Yup.object().shape({
     
 });
 function CreateCourse() {
-    const paperStyle = { padding: 20, height: '70vh', width: 280, margin: "20px auto" }
+    const paperStyle = { padding: 20, height: '90vh', width: 280, margin: "20px auto" }
 
 
     let [error, setError] = useState("");
@@ -69,7 +69,7 @@ function CreateCourse() {
                     <Grid >
                         <h2>Create Course</h2>
                     </Grid>
-                    <Formik validationSchema={CourseSchema} initialValues={{ courseName: '', courseCode: '', courseDescription: '',professorName: '', programName: ''}} onSubmit={async (values, props) => {
+                    <Formik validationSchema={CourseSchema} initialValues={{ courseName: '', courseCode: '', courseDescription: '',professorName: '', programName: '',semester:0,capacity:0}} onSubmit={async (values, props) => {
                         console.log(values)
                         props.setSubmitting(true);
                         await firestore.collection("courses").add({
@@ -78,6 +78,8 @@ function CreateCourse() {
                             "courseCode":values.courseCode,
                             "professorName":values.professorName,
                             "programName":values.programName,
+                            "semester":values.semester,
+                            "capacity":values.capacity,
                             "programId":programId
 
 
@@ -153,8 +155,28 @@ function CreateCourse() {
                                     helperText={props.errors.courseDescription}
                                     error={!!props.errors.courseDescription}
                                 />
+                                   <br></br><br></br>      
+                                     
+                                <label> Capacity</label>
+                                <br></br><br></br>  
+                                       <TextField type="number"
+                                    multiline={true}
+                                    name="capacity"
+                                    onChange={props.handleChange}
+                                    value={props.values.capacity}
+                                />
+                                  <br></br><br></br>  
+                                  <br></br><br></br>        
+                                <label> Semester </label>
+                                       <TextField type="number"
+                                    multiline={true}
+                                    name="semester"
+                                    onChange={props.handleChange}
+                                    value={props.values.semester}
+                                />
+                                  <br></br><br></br>  
+                                  <br></br><br></br>  
                                 <button type="submit">Submit</button>
-                                <button type="reset">reeset</button>
                             </form>
                         )}
                     </Formik>
