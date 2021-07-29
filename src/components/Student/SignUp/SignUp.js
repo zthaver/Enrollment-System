@@ -97,6 +97,9 @@ function SignUp()
                     lastname: lastName,
                     email: userEmail,
                     id: user,
+                    semester:1,
+                    latestPrerequisite:"",
+
                 })
                 .then(() => {
                     emailjs.send('service_39awvvo','template_gkw4bkq',e.target,"user_oGearzYTZGyhVqlL710SX")
