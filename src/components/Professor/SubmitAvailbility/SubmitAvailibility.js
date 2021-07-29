@@ -2,11 +2,8 @@ import React, {useState, useEffect, useRef } from 'react';
 import ProfNav from '../ProfessorNavbar/ProfNav';
 import { TextField } from '@material-ui/core';
 import firebase from '../../../firebase';
-import JqxScheduler, {  jqx } from 'jqwidgets-scripts/jqwidgets-react-tsx/jqxscheduler';
 import 'jqwidgets-scripts/jqwidgets/styles/jqx.base.css';
 import { Link } from 'react-router-dom'
-
-// material ui
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
@@ -17,6 +14,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
+import { firestore }  from "../../../firebase";
 
 const drawerWidth = 240;
 
@@ -58,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
         },
   
         gridContainer: {
-            paddingTop:'84px',
+            paddingTop:'0px',
             paddingLeft:'250px',
             height: '100vh',
         },
@@ -90,63 +88,33 @@ const useStyles = makeStyles((theme) => ({
 
 function SubmitAvailiblity()
 {
+
   const classes = useStyles();
   const user = (firebase.auth().currentUser).uid;
   const uid = user;
   const profUser = firebase.firestore().collection("professors").doc(uid);
-
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [day, setDay] = useState("");
-  
   const [timesArray, setTimesArray] = useState([]);
   const [timesObj, setTimesObj] = useState({});
-
   const time = day + " Start: " + startTime + " - End: " + endTime;
-
-  let  myScheduler = useRef();
   const [appointmentData, setAppointments] = useState([]);
   const newAppointmentData = [];
-
   const appointments = new Array();
 
+  let [departmentHead,setDepartmentHead] = useState(false);
 
-
-  function onAppointmentAdd(e) {
-    alert('do something...');
-    console.log('do something...');
-    console.log(e.args.appointment.originalData)
-    e.args.appointment.originalData.id = uid
-    
-    newAppointmentData.push(e.args.appointment.originalData)
-
-
-    newAppointmentData.forEach((appointment)=>{
-
-      console.log("NEW APPOINTMENTS")
-      console.log(appointment)
-    })
-    
-  }
+    //authenticate usert to view submit availability in the navbar
+    useEffect(() => {
+      console.log("in use effect");
+      firestore.collection("professors").doc((firebase.auth().currentUser).uid).get().then((val)=>{
+          setDepartmentHead(val.data().isDepartmentHead);
+      })
+  }, [])
 
   useEffect(() => {
          
-    // firestore.collection("appointments").get().then((appointmentsData) => {
-    //     setAppointments(appointmentsData.docs.map((appointment => 
-    //         {
-    //             let convertedAppointment = {};
-    //             appointment.data();
-    //             convertedAppointment.start = appointment.get("start").toDate();
-    //             convertedAppointment.end = appointment.get("end").toDate();
-    //             convertedAppointment.description = appointment.get("description");
-    //             convertedAppointment.subject = appointment.get("subject");
-    //             console.log("convertedAppointment")
-    //             console.log(convertedAppointment)
-    //             console.log(appointment.data())
-    //             return convertedAppointment;
-    //         }
-    //     )));
-    // })
     profUser.get().then((appointmentsData) => {
       if(appointmentsData.exists){
         console.log("Document data:", appointmentsData.data().availability);
@@ -168,21 +136,7 @@ function SubmitAvailiblity()
       } else {
         console.log("No availability");
       }
-      // setAppointments(appointmentsData.docs.map((appointment => 
-      //     {
-      //         let convertedAppointment = {};
-      //         appointment.data();
-      //         convertedAppointment.start = appointment.get("start").toDate();
-      //         convertedAppointment.end = appointment.get("end").toDate();
-      //         // convertedAppointment.description = appointment.get("description");
-      //         // convertedAppointment.subject = appointment.get("subject");
-      //         console.log("convertedAppointment")
-      //         console.log(convertedAppointment)
-      //         console.log(appointment.data())
-      //         return convertedAppointment;
-      //     }
-      // )));
-  })
+    })
   }, [])
 
   appointmentData.forEach((appointment)=>{
@@ -197,66 +151,6 @@ function SubmitAvailiblity()
     start: new Date(2018, 10, 23, 9, 0, 0),
 };
 
-const source = {
-    dataFields: [
-        { name: 'id', type: 'string' },
-        { name: 'description', type: 'string' },
-        { name: 'location', type: 'string' },
-        { name: 'subject', type: 'string' },
-        { name: 'calendar', type: 'string' },
-        { name: 'start', type: 'date' },
-        { name: 'end', type: 'date' }
-    ],
-    dataType: "array",
-    id: 'id',
-    localData: appointments
-};
-const dataAdapter = new jqx.dataAdapter(source);
-
-    let appointmentDataFields = {
-        description: "description",
-        from: "start",
-        subject: "subject",
-        to: "end",
-        id: "id",
-    }
-    let date = new jqx.date(2018, 11, 23)
-    let height = 600 
-    let resources=  {
-        colorScheme: "scheme05",
-        dataField: "calendar",
-        source: new jqx.dataAdapter(source)
-    }
-    let sourcer = dataAdapter
-    let views = [
-        'dayView',
-        'weekView',
-        'agendaView'
-    ]
-
-
-    // function submit(e){
-    //   console.log(e)
-    //   newAppointmentData.forEach((appointment)=>{
-
-    //     console.log("APPOINTMENTS")
-    //     console.log(appointment)
-
-    //     firestore.collection("appointments").add(               
-    //       appointment
-    //     )
-    //     .then(()=>{
-    //       console.log("Data Submitted")
-    //       alert("Success")
-    //     })
-    //     .catch((err) =>{
-    //       console.log("Handle update Error: ", err);
-    //     })
-    // })
-    // }
-
-
-
   var listItems = timesArray.map((time) =>  
   <li >
       <span key={time.start}> {time.start.toString()} </span> to 
@@ -264,9 +158,8 @@ const dataAdapter = new jqx.dataAdapter(source);
   </li>);
 
 
-  function test(){
+  function add(){
     console.log("working");    
-
     console.log(`Total time: ${time}`)
     console.log(`sTART time:::: ${startTime}`)
     console.log(`End time:::: ${endTime}`)
@@ -292,13 +185,6 @@ const dataAdapter = new jqx.dataAdapter(source);
 
   }
 
-  function edit(){
-    // handleStartChange('Mon Jul 12 2021 20:40:21 GMT-0400 (Eastern Daylight Time)')
-    console.log("TIMES ARRAY")
-    console.log(listItems)
-    console.log(timesArray)
-  }
-
   function submit(e){
     e.preventDefault();
 
@@ -318,7 +204,7 @@ const dataAdapter = new jqx.dataAdapter(source);
 
 return (
     <div style={{paddingTop: "100px"}}>
-      <ProfNav />
+      <ProfNav isDepartmentHead={departmentHead}/>
 
       <Drawer
           className={classes.drawer}
@@ -345,78 +231,68 @@ return (
           </div>
         </Drawer>
 
-        <Grid container className={classes.gridContainer}>
+        <div container className={classes.gridContainer}>
           <form  noValidate>
 
-          <label>Please select a day: </label>
-          <select onChange={(e)=> setDay(e.target.value)}>
-              <option>- -</option>
-              <option value="November 19">Monday</option>
-              <option value="November 20">Tuesday</option>
-              <option value="November 21">Wednesday</option>
-              <option value="November 22">Thursday</option>
-              <option value="November 23">Friday</option>
+            <label>Please select a day: </label>
+            <select onChange={(e)=> setDay(e.target.value)}>
+                <option>- -</option>
+                <option value="November 19">Monday</option>
+                <option value="November 20">Tuesday</option>
+                <option value="November 21">Wednesday</option>
+                <option value="November 22">Thursday</option>
+                <option value="November 23">Friday</option>
 
-          </select>
-          <br/>
+            </select>
+            <br/>
+            <br/>
+            <br/>
 
-          <label>Start Time: </label>
-          <TextField
-            id="time"
-            label="start time"
-            type="time"
-            defaultValue={startTime}
-            onChange={(e)=> setStartTime(e.target.value)}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            inputProps={{
-              step: 300, // 5 min
-            }}
-          />
+            <label> <strong>Start Time: </strong></label>
 
-          <br/>
-          <label>End Time: </label>
+            <TextField
+              id="time"
+              type="time"
+              defaultValue={startTime}
+              onChange={(e)=> setStartTime(e.target.value)}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              inputProps={{
+                step: 300, // 5 min
+              }}
+            />
 
-          <TextField
-            id="time"
-            label="End time"
-            type="time"
-            defaultValue={endTime}
-            onChange={(e)=> setEndTime(e.target.value)}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            inputProps={{
-              step: 300, // 5 min
-            }}
-          />
+            <br/>
+            <br/>
+            <br/>
+            <label><strong>End Time: </strong></label>
+
+            <TextField
+              id="time"
+              type="time"
+              defaultValue={endTime}
+              onChange={(e)=> setEndTime(e.target.value)}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              inputProps={{
+                step: 300, // 5 min
+              }}
+            />
 
           </form>
-          <button onClick={test}>Add</button>
+          <br/>
+          <br/>
+          <br/>
+          <Button color="secondary" onClick={add}>Add</Button>
+          <Button color="secondary" onClick={(e) => submit(e)}>Submit</Button>
 
-          <button onClick={edit}>Edit</button>
-
-          <button onClick={(e) => submit(e)}>Submit</button>
-          
           <div >
             {listItems}
           </div>
 
-          <JqxScheduler ref={myScheduler}
-                height={height}
-                date={date}
-                source={sourcer}
-                showLegend={true}
-                dayNameFormat={"abbr"}
-                resources={resources}
-                view={"agendaView"}
-                views={views}
-                appointmentDataFields={appointmentDataFields}
-                onAppointmentAdd={submit}
-            />
-
-        </Grid>
+        </div>
       
     </div>
 )

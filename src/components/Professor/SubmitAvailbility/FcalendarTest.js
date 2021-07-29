@@ -596,4 +596,5 @@ export default SubmitAvailiblity;
 
 
 // MON 19 - FRI 23
-// 19 November 2018 at 02:30:00 UTC-5
+// end: Mon 19 November 2018 at 02:30:00 UTC-5
+// end: Mon 19 November 2018 at 02:00:00 UTC-5
