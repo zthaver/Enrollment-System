@@ -93,6 +93,7 @@ function SubmitAvailiblity()
   const user = (firebase.auth().currentUser).uid;
   const uid = user;
   const profUser = firebase.firestore().collection("professors").doc(uid);
+  const department = firebase.firestore().collection("department").doc(uid);
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [day, setDay] = useState("");
@@ -198,7 +199,7 @@ function SubmitAvailiblity()
     })
     .catch((err) => {
       console.log("Handle Update Error: ", err);
-  })
+    })
 
   }
 

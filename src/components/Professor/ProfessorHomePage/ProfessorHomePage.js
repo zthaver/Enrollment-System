@@ -150,6 +150,7 @@ function ProfessorHomePage()
         })
     }, [])
 
+    //retrieve appointments from the firestore db
     useEffect(() => {
          
         profUser.get().then((appointmentsData) => {
