@@ -143,7 +143,7 @@ function ManageStudent(){
             console.log("it work :)")
         })
         .catch((err)=>{
-            console.error(err);
+            console.error(err); 
         })
     }
 
@@ -158,12 +158,15 @@ function ManageStudent(){
                             <td>
                                 <Link to="/admin"> Home </Link>
                             </td>
+
                             <hr />
-                            
+
                         {loading ? <h1>Loading...</h1> : null}
                         {students.map((student)=>(
+
                             <div className="student" key={student.id}>
                                 <h3>ID: {student.id}</h3>
+                                
                                 <div>
                                     <p>First Name:
                                         <input 
@@ -229,7 +232,7 @@ function ManageStudent(){
                                 </div>
                             </div>
                         ))}
-        </Fragment>
+                    </Fragment>
             </main>
             
         </div>
