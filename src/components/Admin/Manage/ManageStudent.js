@@ -16,6 +16,8 @@ const useStyles = makeStyles((theme) => ({
 
 function ManageStudent(){ 
     const studentUser = firebase.firestore().collection("student");
+    const programStudent = firebase.firestore().collection("programs");
+    const courseStudent = firebase.firestore().collection("programs");
     const [loading, setLoading] = useState(false);
     const [students, setStudent] = useState([]);
     const [changeFName, setfName] = useState("");
@@ -24,6 +26,8 @@ function ManageStudent(){
     const [changeAddress, setAddress] = useState("");
     const [changeDate, setDate] = useState("");
     const [changePhone, setPhone] = useState("");
+    const [changeProgram, setProgram] = useState([]);
+    const [changeProgramName, setProgramName] = useState("");
     const [error,setError] = useState("");
     const { deleteUserAuth } = useAuth();
     const classes = useStyles();
@@ -33,12 +37,20 @@ function ManageStudent(){
         studentUser.get().then((item)=>{
             const items = item.docs.map((doc)=> doc.data())
             setStudent(items);
-            //console.log(students)
+            setLoading(false);
+        });
+    }
+    function getPrograms(){
+        setLoading(true);
+        programStudent.get().then((program)=>{
+            const items = program.docs.map((program)=> program.data())
+            setProgram(items);
             setLoading(false);
         });
     }
     useEffect(()=>{
         getStudents();
+        getPrograms();
     }, []);
 
     function updatefname(student){
@@ -121,6 +133,18 @@ function ManageStudent(){
             console.error(err);
         });
     }
+    function updateprogram(student){
+        setLoading();
+        studentUser
+        .doc(student.id)
+        .update({program: student.program})
+        .then(()=>{
+             window.location.reload();
+        })
+        .catch((err)=>{
+            console.error(err);
+        });
+    }
 
     function deleteStudent(student){
         //Delete existing document with student id
@@ -149,7 +173,6 @@ function ManageStudent(){
 
     return(
         <div className={classes.root}>
-
             <AdminNav/>
                 <main className={classes.content}>
                     <Fragment>
@@ -224,6 +247,20 @@ function ManageStudent(){
                                         /> 
                                         <button onClick={()=> 
                                             updatephone({ phone: changePhone, id: student.id})}>Update</button>
+                                    </p>
+                                    <p>Program:
+                                        <select onChange={(value) =>{
+                                            console.log(changeProgram);
+                                            let selectedIndex = value.target.options.selectedIndex;
+                                            console.log(selectedIndex);
+                                            //setProgram(value.target.options[selectedIndex].getAttribute('program-id'));
+                                            setProgramName(value.target.options[selectedIndex].getAttribute('program-name'))
+                                        }}>
+                                            {changeProgram.map((program) =>
+                                            <option key={program.id} program-id={program.id} program-name={program.programName}> {program.programName} </option>)};
+                                        </select> 
+                                        <button onClick={()=> 
+                                            updateprogram({ program: changeProgramName, id: student.id})}>Update</button>
                                     </p>
                                     <button onClick={()=>deleteStudent(student)}>Delete {student.firstname} {student.lastname}</button>
                                 </div>
