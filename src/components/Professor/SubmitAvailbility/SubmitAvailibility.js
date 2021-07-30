@@ -179,9 +179,10 @@ function SubmitAvailiblity()
     // setTimesArray( arr => [...arr, timesObj]);
     timesArray.push(myObj);
     
-    setDay("");
+    setDay(null);
     setStartTime("");
     setEndTime("");
+    
 
   }
 
@@ -236,7 +237,7 @@ return (
 
             <label>Please select a day: </label>
             <select onChange={(e)=> setDay(e.target.value)}>
-                <option>- -</option>
+                <option value="">- -</option>
                 <option value="November 19">Monday</option>
                 <option value="November 20">Tuesday</option>
                 <option value="November 21">Wednesday</option>
@@ -253,7 +254,8 @@ return (
             <TextField
               id="time"
               type="time"
-              defaultValue={startTime}
+              // defaultValue={startTime}
+              value={startTime}
               onChange={(e)=> setStartTime(e.target.value)}
               InputLabelProps={{
                 shrink: true,
@@ -271,7 +273,8 @@ return (
             <TextField
               id="time"
               type="time"
-              defaultValue={endTime}
+              // defaultValue={endTime}
+              value={endTime}
               onChange={(e)=> setEndTime(e.target.value)}
               InputLabelProps={{
                 shrink: true,
