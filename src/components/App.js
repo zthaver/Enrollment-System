@@ -37,6 +37,7 @@ import UpdateProgram from './Admin/UpdateProgram/UpdateProgram';
 import UpdateDepartment from "./Admin/UpdateDepartment/UpdateDepartments";
 import SearchCourses from './Student/SearchCourses/SearchCourses';
 import SubmitAvailiblity from './Professor/SubmitAvailbility/SubmitAvailibility';
+import Enrollment from './Student/Enrollment/Enrollment';
 
 
 
@@ -72,6 +73,7 @@ function App() {
             <StudentRoute exact path ="/student" component={StudentHomePage}></StudentRoute>
             <StudentRoute exact path="/viewStudent" component={ViewStudent} />
             <StudentRoute exact path="/searchCourses" component={SearchCourses}></StudentRoute>
+            <StudentRoute exact path="/Enrollment" component={Enrollment}></StudentRoute>
             <Route exact path="/viewProf" component={ProfessorAccount}/>
             <Route path="/signUp">
                 <SignUp></SignUp>
