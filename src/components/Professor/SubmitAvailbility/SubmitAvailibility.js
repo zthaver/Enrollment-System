@@ -1,461 +1,265 @@
-import React, {useState, useEffect, useRef } from 'react';
-import ProfNav from '../ProfessorNavbar/ProfNav';
-import { TextField } from '@material-ui/core';
-import firebase from '../../../firebase';
+import {react,useEffect,useState,useRef,forwardRef} from 'react';
+import JqxScheduler, {  jqx } from 'jqwidgets-scripts/jqwidgets-react-tsx/jqxscheduler';
 import 'jqwidgets-scripts/jqwidgets/styles/jqx.base.css';
-import { Link } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import { firestore }  from "../../../firebase";
+import { firestore } from '../../../firebase';
+import MaterialTable from 'material-table';
+import AddBox from '@material-ui/icons/AddBox';
+import ArrowDownward from '@material-ui/icons/ArrowDownward';
+import Check from '@material-ui/icons/Check';
+import ChevronLeft from '@material-ui/icons/ChevronLeft';
+import ChevronRight from '@material-ui/icons/ChevronRight';
+import Clear from '@material-ui/icons/Clear';
+import DeleteOutline from '@material-ui/icons/DeleteOutline';
+import Edit from '@material-ui/icons/Edit';
+import FilterList from '@material-ui/icons/FilterList';
+import FirstPage from '@material-ui/icons/FirstPage';
+import LastPage from '@material-ui/icons/LastPage';
+import Remove from '@material-ui/icons/Remove';
+import SaveAlt from '@material-ui/icons/SaveAlt';
+import Search from '@material-ui/icons/Search';
+import ViewColumn from '@material-ui/icons/ViewColumn';
 
-const drawerWidth = 240;
+const tableIcons = {
+    Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
+    Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
+    Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+    Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
+    DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+    Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
+    Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
+    Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
+    FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
+    LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
+    NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+    PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
+    ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+    Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
+    SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
+    ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
+    ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
+  };
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-      },
-      menuButton: {
-        marginRight: theme.spacing(2),
-      },
-      title: {
-        flexGrow: 1,
-      },
-      navBar:{
-          background : '#D92A1D',
-          minHeight: '84px',
-          paddingTop: '10px',
-          zIndex: theme.zIndex.drawer + 1,
-      },
-      
-      updateBtn:{
-          background : '#fff',
-          '&:hover':{
-              background: '#D92A1D',
-              color: '#fff', 
-          },
-          color: '#000',
-          marginLeft: '20px',
-      },
-      drawer: {
-          width: drawerWidth,
-          flexShrink: 0,
+function SubmitAvailiblity ()  {
+
+    let [dataFetched,setDataFetched] = useState(false);
+    let [appointmentData,setAppointmentData] = useState([]);
+
+    const [columns, setColumns] = useState([
+        { title: 'Name', field: 'name' },
+        { title: 'Surname', field: 'surname', initialEditValue: 'initial edit value' },
+        { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
+        {
+          title: 'Birth Place',
+          field: 'birthCity',
+          lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
         },
-        drawerPaper: {
-          width: drawerWidth,
+      ]);
+    
+      const [data, setData] = useState([
+        { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
+        { name: 'Zerya Betül', surname: 'Baran', birthYear: 2017, birthCity: 34 },
+      ]);
+
+    const col = [
+        {
+            title:'Description',
+            field:'description'
         },
-        drawerContainer: {
-          overflow: 'auto',
+        {
+            title:'To',
+            field:'end'
         },
-  
-        gridContainer: {
-            paddingTop:'0px',
-            paddingLeft:'250px',
-            height: '100vh',
+        {
+            title:'Appointnment Id',
+            field:'id'
         },
-  
-        profDetails: {
-            background:'#E3DFFF',
+        {
+            title:'Start',
+            field:'start'
         },
-  
-        profUpdateInfo:{
-            background: '#e3e3e3',
-            padding:'20px',
-        },
-  
-        infoItem:{
-            padding: '10px 0 10px 0',
-            margin: '25px 0 5px 0',
+        {
+            title:'Subject',
+            field:'subject'
         },
 
-        erroMsg:{
-            width:'100%',
-            marginTop:'20px',
-            textAlign:'center',
-            color:'#D92A1D',
-            fontWeight:'bold',
-            letterSpacing:'1px',
-            wordSpacing:'5px',
-        }
-}));
+    ]
 
-function SubmitAvailiblity()
-{
-
-  const classes = useStyles();
-  const user = (firebase.auth().currentUser).uid;
-  const uid = user;
-  const profUser = firebase.firestore().collection("professors").doc(uid);
-  const department = firebase.firestore().collection("department").doc(uid);
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
-  const [day, setDay] = useState("");
-  const [timesArray, setTimesArray] = useState([]);
-  const [timesObj, setTimesObj] = useState({});
-  const time = day + " Start: " + startTime + " - End: " + endTime;
-  const [appointmentData, setAppointments] = useState([]);
-  const newAppointmentData = [];
-  const appointments = new Array();
-
-  let [departmentHead,setDepartmentHead] = useState(false);
-
-    //authenticate usert to view submit availability in the navbar
     useEffect(() => {
-      console.log("in use effect");
-      firestore.collection("professors").doc((firebase.auth().currentUser).uid).get().then((val)=>{
-          setDepartmentHead(val.data().isDepartmentHead);
-      })
-  }, [])
+        let arrayAppointments = [];
+        firestore.collection("appointments").get().then((appointmentsData) => {
+       setAppointmentData(appointmentsData.docs.map((appointment => 
+              {
+            let convertedAppointment = {};
+            appointment.data();
+            convertedAppointment.start = appointment.get("start").toDate().toString();
+            convertedAppointment.end = appointment.get("end").toDate().toString();
+            convertedAppointment.description = appointment.get("description");
+            convertedAppointment.id = appointment.get("id");
+            convertedAppointment.subject = appointment.get("subject");
+            arrayAppointments.push(convertedAppointment);
+               return convertedAppointment;
+               
 
-  useEffect(() => {
-         
-    profUser.get().then((appointmentsData) => {
-      if(appointmentsData.exists){
-        console.log("Document data:", appointmentsData.data().availability);
-        setAppointments(appointmentsData.data().availability.map((appointment => 
-          {
-            console.log(appointment.start.toDate())
-              let convertedAppointment = {};
-              // appointment.data();
-              convertedAppointment.start = appointment.start.toDate();
-              convertedAppointment.end = appointment.end.toDate();
-              // convertedAppointment.description = appointment.get("description");
-              // convertedAppointment.subject = appointment.get("subject");
-              console.log("convertedAppointment")
-              console.log(convertedAppointment)
-              // console.log(appointment.data())
-              return convertedAppointment;
-          }
-      )));
-      } else {
-        console.log("No availability");
-      }
-    })
-  }, [])
-
-  appointmentData.forEach((appointment)=>{
-    appointments.push(appointment);  
-  })
-
-  const appointment1 = {
-    calendar: 'Room 1',
-    description: 'George brings projector for presentations.',
-    end: new Date(2018, 10, 23, 16, 0, 0),
-
-    start: new Date(2018, 10, 23, 9, 0, 0),
-};
-
-  var listItems = timesArray.map((time) =>  
-  <li >
-      <span key={time.start}> {time.start.toString()} </span> to 
-      <span key={time.end}> {time.end.toString()} </span>                                                                                                                                    
-  </li>);
+            }
+            
+            
+       )));
+       setDataFetched(true);
+    }, [])})
 
 
-  function add(){
-    console.log("working");    
-    console.log(`Total time: ${time}`)
-    console.log(`sTART time:::: ${startTime}`)
-    console.log(`End time:::: ${endTime}`)
-    console.log(`Day :::: ${day}`)
+  
+        return (
+            dataFetched?
+            <MaterialTable
+            icons={tableIcons}
+            title="Editable Preview"
+            columns={col}
+            data={appointmentData}
+            editable={{
+              onRowAdd: newData =>
+                new Promise((resolve, reject) => {
+                    const UpdatedRow = [...appointmentData,newData];
+                    setAppointmentData(UpdatedRow);
+                }),
+              onRowUpdate: (newData, oldData) =>
+                new Promise((resolve, reject) => {
+                    
+                    resolve();
+                }),
+              onRowDelete: oldData =>
+                new Promise((resolve, reject) => {
+                  setTimeout(() => {
+                    const dataDelete = [...appointmentData];
+                    const index = oldData.tableData.id;
+                    dataDelete.splice(index, 1);
+                    setAppointmentData([...dataDelete]);
+                    
+                    resolve()
+                  }, 1000)
+                }),
+            }}
+          />
+            :null
+        );
     
-    // setTimesObj({ 
-    //   day: day,
-    //   start: startTime,
-    //   end: endTime
-    // })
 
-    const myObj = {
-      start: new Date(`${day}, 2018 ${startTime}`),
-      end: new Date(`${day}, 2018 ${endTime}`)
     }
-    // setTimesArray( arr => [...arr, time]);
-    // setTimesArray( arr => [...arr, timesObj]);
-    timesArray.push(myObj);
-    
-    setDay(null);
-    setStartTime("");
-    setEndTime("");
     
 
-  }
-
-  function submit(e){
-    e.preventDefault();
-
-    profUser.update({
-      availability: timesArray,
-    })
-    .then(()=>{
-      console.log("Availability has been updated ");
-      alert(`Availability added`);
-    })
-    .catch((err) => {
-      console.log("Handle Update Error: ", err);
-    })
-
-  }
-
-
-return (
-    <div style={{paddingTop: "100px"}}>
-      <ProfNav isDepartmentHead={departmentHead}/>
-
-      <Drawer
-          className={classes.drawer}
-          variant="permanent"
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-        >
-          <Toolbar />
-          <div className={classes.drawerContainer}>
-            <List>
-                <ListItem button component={Link} to="/professor">
-                  <ListItemText primary="Home" />
-                </ListItem>
-            </List>
-            <Divider />
-            <List>
-              {['Details', 'Course List', 'Advisors'].map((text, index) => (
-                <ListItem button key={text}>
-                  <ListItemText primary={text} />
-                </ListItem>
-              ))}
-            </List>
-          </div>
-        </Drawer>
-
-        <div container className={classes.gridContainer}>
-          <form  noValidate>
-
-            <label>Please select a day: </label>
-            <select onChange={(e)=> setDay(e.target.value)}>
-                <option value="">- -</option>
-                <option value="November 19">Monday</option>
-                <option value="November 20">Tuesday</option>
-                <option value="November 21">Wednesday</option>
-                <option value="November 22">Thursday</option>
-                <option value="November 23">Friday</option>
-
-            </select>
-            <br/>
-            <br/>
-            <br/>
-
-            <label> <strong>Start Time: </strong></label>
-
-            <TextField
-              id="time"
-              type="time"
-              // defaultValue={startTime}
-              value={startTime}
-              onChange={(e)=> setStartTime(e.target.value)}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              inputProps={{
-                step: 300, // 5 min
-              }}
-            />
-
-            <br/>
-            <br/>
-            <br/>
-            <label><strong>End Time: </strong></label>
-
-            <TextField
-              id="time"
-              type="time"
-              // defaultValue={endTime}
-              value={endTime}
-              onChange={(e)=> setEndTime(e.target.value)}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              inputProps={{
-                step: 300, // 5 min
-              }}
-            />
-
-          </form>
-          <br/>
-          <br/>
-          <br/>
-          <Button color="secondary" onClick={add}>Add</Button>
-          <Button color="secondary" onClick={(e) => submit(e)}>Submit</Button>
-
-          <div >
-            {listItems}
-          </div>
-
-        </div>
-      
-    </div>
-)
-}
 
 export default SubmitAvailiblity;
 
 
 
 
-// DATA TABLE  //
 
 
-// import {react,useEffect,useState,useRef,forwardRef} from 'react';
+
+
+
+// import { useEffect,useState,useRef }  from 'react';
 // import JqxScheduler, {  jqx } from 'jqwidgets-scripts/jqwidgets-react-tsx/jqxscheduler';
 // import 'jqwidgets-scripts/jqwidgets/styles/jqx.base.css';
 // import { firestore } from '../../../firebase';
-// import MaterialTable from 'material-table';
-// import AddBox from '@material-ui/icons/AddBox';
-// import ArrowDownward from '@material-ui/icons/ArrowDownward';
-// import Check from '@material-ui/icons/Check';
-// import ChevronLeft from '@material-ui/icons/ChevronLeft';
-// import ChevronRight from '@material-ui/icons/ChevronRight';
-// import Clear from '@material-ui/icons/Clear';
-// import DeleteOutline from '@material-ui/icons/DeleteOutline';
-// import Edit from '@material-ui/icons/Edit';
-// import FilterList from '@material-ui/icons/FilterList';
-// import FirstPage from '@material-ui/icons/FirstPage';
-// import LastPage from '@material-ui/icons/LastPage';
-// import Remove from '@material-ui/icons/Remove';
-// import SaveAlt from '@material-ui/icons/SaveAlt';
-// import Search from '@material-ui/icons/Search';
-// import ViewColumn from '@material-ui/icons/ViewColumn';
+// function SubmitAvailibility(){
+//    let  myScheduler = useRef();
+//     const [appointmentData, setAppointments] = useState([]);
 
-// const tableIcons = {
-//     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
-//     Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
-//     Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-//     Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
-//     DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-//     Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
-//     Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
-//     Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
-//     FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-//     LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-//     NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-//     PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
-//     ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-//     Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
-//     SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
-//     ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
-//     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
-//   };
+//         const appointments = new Array();
+//         // useEffect(() => {
+         
+//         //     firestore.collection("appointments").get().then((appointmentsData) => {
+//         //         setAppointments(appointmentsData.docs.map((appointment => 
+//         //             {
+//         //                 let convertedAppointment = {};
+//         //                 appointment.data();
+//         //                 convertedAppointment.start = appointment.get("start").toDate();
+//         //                 convertedAppointment.end = appointment.get("end").toDate();
+//         //                 convertedAppointment.description = appointment.get("description");
+//         //                 convertedAppointment.subject = appointment.get("subject");
+//         //                 console.log(convertedAppointment)
+//         //                 console.log(appointment.data())
+//         //                 return convertedAppointment;
+//         //             }
 
-// function SubmitAvailiblity ()  {
 
-//     let [dataFetched,setDataFetched] = useState(false);
-//     let [appointmentData,setAppointmentData] = useState([]);
-
-//     const [columns, setColumns] = useState([
-//         { title: 'Name', field: 'name' },
-//         { title: 'Surname', field: 'surname', initialEditValue: 'initial edit value' },
-//         { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
-//         {
-//           title: 'Birth Place',
-//           field: 'birthCity',
-//           lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
-//         },
-//       ]);
-    
-//       const [data, setData] = useState([
-//         { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
-//         { name: 'Zerya Betül', surname: 'Baran', birthYear: 2017, birthCity: 34 },
-//       ]);
-
-//     const col = [
-//         {
-//             title:'Description',
-//             field:'description'
-//         },
-//         {
-//             title:'To',
-//             field:'end'
-//         },
-//         {
-//             title:'Appointnment Id',
-//             field:'id'
-//         },
-//         {
-//             title:'Start',
-//             field:'start'
-//         },
-//         {
-//             title:'Subject',
-//             field:'subject'
-//         },
-
-//     ]
-
-//     useEffect(() => {
-//         let arrayAppointments = [];
-//         firestore.collection("appointments").get().then((appointmentsData) => {
-//        setAppointmentData(appointmentsData.docs.map((appointment => 
-//               {
-//             let convertedAppointment = {};
-//             appointment.data();
-//             convertedAppointment.start = appointment.get("start").toDate().toString();
-//             convertedAppointment.end = appointment.get("end").toDate().toString();
-//             convertedAppointment.description = appointment.get("description");
-//             convertedAppointment.id = appointment.get("id");
-//             convertedAppointment.subject = appointment.get("subject");
-//             arrayAppointments.push(convertedAppointment);
-//                return convertedAppointment;
-               
-
+//         //         )));
+//         //     })
+//         // }, [])
+//         // appointmentData.forEach((appointment)=>{
+//         //     appointments.push(appointment);
+//         // })
+ 
+//             const appointment1 = {
+//             calendar: 'Room 1',
+//             description: 'George brings projector for presentations.',
+//             end: new Date(2018, 10, 23, 16, 0, 0),
+//             id: 'id1',
+//             location: '',
+//             start: new Date(2018, 10, 23, 9, 0, 0),
+//             subject: 'Quarterly Project Review Meeting'
+//         };
+//         appointments.push(appointment1);
+ 
+//         const source = {
+//             dataFields: [
+//                      { name: 'id', type: 'string' },
+//                 { name: 'description', type: 'string' },
+//                 { name: 'location', type: 'string' },
+//                 { name: 'subject', type: 'string' },
+//                 { name: 'calendar', type: 'string' },
+//                 { name: 'start', type: 'date' },
+//                 { name: 'end', type: 'date' }
+//             ],
+//             dataType: "array",
+//             id: 'id',
+//             localData: appointments
+//         };
+//         const dataAdapter = new jqx.dataAdapter(source);
+        
+//             let appointmentDataFields = {
+//                 description: "description",
+//                 from: "start",
+//                 subject: "subject",
+//                 to: "end",
+//                 id: "id",
 //             }
-            
-            
-//        )));
-//        setDataFetched(true);
-//     }, [])})
-
-
+//             let date = new jqx.date(2018, 11, 23)
+//             let height = 600 
+//             let resources=  {
+//                 colorScheme: "scheme05",
+//                 dataField: "calendar",
+//                 source: new jqx.dataAdapter(source)
+//             }
+//             let sourcer = dataAdapter
+//             let views = [
+//                 'dayView',
+//                 'weekView',
+//                 'agendaView'
+//             ]
+    
+    
   
-//         return (
-//             dataFetched?
-//             <MaterialTable
-//             icons={tableIcons}
-//             title="Editable Preview"
-//             columns={col}
-//             data={appointmentData}
-//             editable={{
-//               onRowAdd: newData =>
-//                 new Promise((resolve, reject) => {
-//                     const UpdatedRow = [...appointmentData,newData];
-//                     setAppointmentData(UpdatedRow);
-//                 }),
-//               onRowUpdate: (newData, oldData) =>
-//                 new Promise((resolve, reject) => {
-                    
-//                     resolve();
-//                 }),
-//               onRowDelete: oldData =>
-//                 new Promise((resolve, reject) => {
-//                   setTimeout(() => {
-//                     const dataDelete = [...appointmentData];
-//                     const index = oldData.tableData.id;
-//                     dataDelete.splice(index, 1);
-//                     setAppointmentData([...dataDelete]);
-                    
-//                     resolve()
-//                   }, 1000)
-//                 }),
-//             }}
-//           />
-//             :null
-//         );
-    
 
-//     }
-    
-//     export default SubmitAvailiblity;
+//         return (
+//             <JqxScheduler ref={myScheduler}
+//                 height={height}
+//                 date={date}
+//                 source={sourcer}
+//                 showLegend={true}
+//                 dayNameFormat={"abbr"}
+//                 resources={resources}
+//                 view={"agendaView"}
+//                 views={views}
+//                 appointmentDataFields={appointmentDataFields}
+//                 onAppointmentAdd={onAppointmentAdd} 
+//             />
+//         );
+//              function onAppointmentAdd(e) {
+//                      alert('do something...');
+//                    console.log(e.args.appointment.originalData)
+//              }
+
+// }
+// export default SubmitAvailibility;
