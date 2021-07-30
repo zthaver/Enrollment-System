@@ -128,6 +128,9 @@ export default function AdminNav(){
                         <ListItem button component={Link} to="/manageProfessor">
                             <ListItemText primary="Manage Professor" />
                         </ListItem>
+                        <ListItem button component={Link} to="/receiveAvailibility">
+                            <ListItemText primary="View Availibility" />
+                        </ListItem>
                     </List>
                     <Divider />
                     <ListItem button onClick={handleLogout}>

@@ -39,7 +39,7 @@ const tableIcons = {
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
   };
 
-function SubmitAvailiblity ()  {
+function ReceiveAvailiblity ()  {
 
     let [dataFetched,setDataFetched] = useState(false);
     let [appointmentData,setAppointmentData] = useState([]);
@@ -147,7 +147,7 @@ function SubmitAvailiblity ()  {
     
 
 
-export default SubmitAvailiblity;
+export default ReceiveAvailiblity;
 
 
 

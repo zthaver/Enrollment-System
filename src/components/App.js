@@ -37,6 +37,7 @@ import UpdateProgram from './Admin/UpdateProgram/UpdateProgram';
 import UpdateDepartment from "./Admin/UpdateDepartment/UpdateDepartments";
 import SearchCourses from './Student/SearchCourses/SearchCourses';
 import SubmitAvailiblity from './Professor/SubmitAvailbility/SubmitAvailibility';
+import ReceiveAvailiblity from './Admin/RecieveAvailibility/RecieveAvailiblity';
 
 
 
@@ -65,6 +66,7 @@ function App() {
             <AdminRoute exact path = "/createProgram" component={CreateProgram}></AdminRoute>
             <AdminRoute exact path = "/updateCourse/:id" component={UpdateCourse}></AdminRoute>
             <AdminRoute exact path = "/updateProgram/:id" component={UpdateProgram}></AdminRoute>
+            <AdminRoute exact path = "/receiveAvailibility" component={ReceiveAvailiblity}></AdminRoute>
             <AdminRoute exact path = "/viewCourse" component={ManageCourse}></AdminRoute>
             <AdminRoute exact path = "/manageProgram" component={ManageProgram}></AdminRoute>
             <AdminRoute exact path="/updateDepartment/:id" component= {()=><UpdateDepartment/>}></AdminRoute>
