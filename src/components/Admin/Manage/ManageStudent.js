@@ -17,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
 function ManageStudent(){ 
     const studentUser = firebase.firestore().collection("student");
     const programStudent = firebase.firestore().collection("programs");
-    const courseStudent = firebase.firestore().collection("programs");
+    const courseStudent = firebase.firestore().collection("courses")
+    //const courseQuery = courseStudent.where("Progra", "==", courseStudent.programName);
     const [loading, setLoading] = useState(false);
     const [students, setStudent] = useState([]);
     const [changeFName, setfName] = useState("");
@@ -28,6 +29,7 @@ function ManageStudent(){
     const [changePhone, setPhone] = useState("");
     const [changeProgram, setProgram] = useState([]);
     const [changeProgramName, setProgramName] = useState("");
+    const [courseData, setCourse] = useState([]);
     const [error,setError] = useState("");
     const { deleteUserAuth } = useAuth();
     const classes = useStyles();
@@ -137,7 +139,7 @@ function ManageStudent(){
         setLoading();
         studentUser
         .doc(student.id)
-        .update({program: student.program})
+        .update({programName: student.programName})
         .then(()=>{
              window.location.reload();
         })
@@ -250,17 +252,22 @@ function ManageStudent(){
                                     </p>
                                     <p>Program:
                                         <select onChange={(value) =>{
-                                            console.log(changeProgram);
                                             let selectedIndex = value.target.options.selectedIndex;
-                                            console.log(selectedIndex);
                                             //setProgram(value.target.options[selectedIndex].getAttribute('program-id'));
                                             setProgramName(value.target.options[selectedIndex].getAttribute('program-name'))
                                         }}>
+                                            <option> </option>
                                             {changeProgram.map((program) =>
-                                            <option key={program.id} program-id={program.id} program-name={program.programName}> {program.programName} </option>)};
+                                            <option key={program.id} program-id={program.id} program-name={program.programName}>{program.programName}</option>)};
                                         </select> 
                                         <button onClick={()=> 
-                                            updateprogram({ program: changeProgramName, id: student.id})}>Update</button>
+                                            updateprogram({ programName: changeProgramName, id: student.id})}>Update</button>
+                                    </p>
+                                    <p>Courses:
+                                        <select>
+                                            {students.map(() =>
+                                            <option> {student.coursesTaken} </option>)};
+                                        </select> 
                                     </p>
                                     <button onClick={()=>deleteStudent(student)}>Delete {student.firstname} {student.lastname}</button>
                                 </div>
