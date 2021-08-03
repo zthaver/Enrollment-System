@@ -54,6 +54,7 @@ function CreateProfessor()
                     "email": email.current.value,
                     "firstname": firstName.current.value,
                     "lastname": lastName.current.value,
+                    "availability": [],
                     "isDepartmentHead":false,
                     id: user
                 }).then((val)=>{
