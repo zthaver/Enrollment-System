@@ -83,7 +83,7 @@ function Enrollment() {
     const user = (firebase.auth().currentUser).uid;
     const uid = user;
     const studentUser = firebase.firestore().collection("student").doc(uid);
-    const programName = studentUser.programName;
+    const programName = studentUser.programID;
     //schema to validate course name
     const [courseData, setCourseData] = useState([])
     const programStudent = firebase.firestore().collection("programs");
@@ -101,6 +101,7 @@ function Enrollment() {
             setProgram(items);
             setLoading(false);
         });
+        firestore.collection("programs").doc(id).collection("courses").get()
         
     }, [])
     return (
