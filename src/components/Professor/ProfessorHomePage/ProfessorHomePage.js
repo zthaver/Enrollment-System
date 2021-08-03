@@ -156,21 +156,26 @@ function ProfessorHomePage()
         profUser.get().then((appointmentsData) => {
             if(appointmentsData.exists){
             console.log("Document data:", appointmentsData.data().availability);
-            setAppointments(appointmentsData.data().availability.map((appointment => 
-                {
-                console.log(appointment.start.toDate())
-                    let convertedAppointment = {};
-                    // appointment.data();
-                    convertedAppointment.start = appointment.start.toDate();
-                    convertedAppointment.end = appointment.end.toDate();
-                    // convertedAppointment.description = appointment.get("description");
-                    // convertedAppointment.subject = appointment.get("subject");
-                    console.log("convertedAppointment")
-                    console.log(convertedAppointment)
-                    // console.log(appointment.data())
-                    return convertedAppointment;
-                }
-            )));
+            
+            if(appointmentsData.data().availability){
+                setAppointments(appointmentsData.data().availability.map((appointment => 
+                    {
+                    console.log(appointment.start.toDate())
+                        let convertedAppointment = {};
+                        // appointment.data();
+                        convertedAppointment.start = appointment.start.toDate();
+                        convertedAppointment.end = appointment.end.toDate();
+                        // convertedAppointment.description = appointment.get("description");
+                        // convertedAppointment.subject = appointment.get("subject");
+                        console.log("convertedAppointment")
+                        console.log(convertedAppointment)
+                        // console.log(appointment.data())
+                        return convertedAppointment;
+                    }
+                )));
+            }
+            
+
             } else {
             console.log("No availability");
             }

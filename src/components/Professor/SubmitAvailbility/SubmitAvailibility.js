@@ -93,7 +93,9 @@ function SubmitAvailiblity()
   const user = (firebase.auth().currentUser).uid;
   const uid = user;
   const profUser = firebase.firestore().collection("professors").doc(uid);
-  const department = firebase.firestore().collection("department").doc(uid);
+  const departmentCollection = firebase.firestore().collection("department");
+  const [profDepartment, setProfDepartment] = useState("");
+
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [day, setDay] = useState("");
@@ -118,7 +120,9 @@ function SubmitAvailiblity()
          
     profUser.get().then((appointmentsData) => {
       if(appointmentsData.exists){
-        console.log("Document data:", appointmentsData.data().availability);
+
+        console.log("Document data:", appointmentsData.data().departmentid);
+                
         setAppointments(appointmentsData.data().availability.map((appointment => 
           {
             console.log(appointment.start.toDate())
@@ -134,6 +138,12 @@ function SubmitAvailiblity()
               return convertedAppointment;
           }
       )));
+      
+        //retrieve the department for this professor
+        setProfDepartment(appointmentsData.data().departmentid)
+        console.log("profDepartment")
+        console.log(profDepartment);
+
       } else {
         console.log("No availability");
       }
@@ -196,6 +206,17 @@ function SubmitAvailiblity()
     .then(()=>{
       console.log("Availability has been updated ");
       alert(`Availability added`);
+    })
+    .catch((err) => {
+      console.log("Handle Update Error: ", err);
+    })
+
+    departmentCollection.doc(profDepartment).update({
+      availability: timesArray,
+    })
+    .then(()=>{
+      console.log("Availability has been updated in the department");
+      alert(`Availability added to department`);
     })
     .catch((err) => {
       console.log("Handle Update Error: ", err);
