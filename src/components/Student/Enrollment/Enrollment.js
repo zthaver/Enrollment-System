@@ -1,6 +1,5 @@
 import { useState, useEffect, forwardRef } from "react";
-import  firebase  from '../../../firebase';
-import  {firestore}  from '../../../firebase';
+import { firestore } from '../../../firebase';
 import { useHistory } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, TextField } from '@material-ui/core';
@@ -80,29 +79,18 @@ function Enrollment() {
         ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
       };
           //get current user UID
-    const user = (firebase.auth().currentUser).uid;
-    const uid = user;
-    const studentUser = firebase.firestore().collection("student").doc(uid);
-    const programName = studentUser.programID;
+    // const user = (firestore.auth().currentUser).uid;
+    // const uid = user;
+    // const studentUser = firestore.firestore().collection("student").doc(uid);
     //schema to validate course name
     const [courseData, setCourseData] = useState([])
-    const programStudent = firebase.firestore().collection("programs");
-    const [changeProgram, setProgram] = useState([]);
-    const [loading, setLoading] = useState(false);
     const [error, setError] = useState("")
     const classes = useStyles();
     // get the course data
     useEffect(() => {
-       firestore.collection("courses").get().then((courses) => {
+        firestore.collection("courses").get().then((courses) => {
             setCourseData(courses.docs.map((course => course.data())));
-        });
-        programStudent.get().then((program)=>{
-            const items = program.docs.map((program)=> program.data())
-            setProgram(items);
-            setLoading(false);
-        });
-        firestore.collection("programs").doc(id).collection("courses").get()
-        
+        })
     }, [])
     return (
         <div className={classes.root}>
@@ -114,11 +102,11 @@ function Enrollment() {
             <br></br>
             <br></br>
             <div>
-            <h3>{programName}</h3>
+
             </div>
            <MaterialTable
             icons={tableIcons}
-            title= "Student Available Courses"
+            title="Student Availabe Courses"
             columns={col}
             data={courseData}
           
