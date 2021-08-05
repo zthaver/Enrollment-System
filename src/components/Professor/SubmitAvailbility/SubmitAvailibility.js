@@ -200,27 +200,75 @@ function SubmitAvailiblity()
   function submit(e){
     e.preventDefault();
 
-    profUser.update({
-      availability: timesArray,
-    })
-    .then(()=>{
-      console.log("Availability has been updated ");
-      alert(`Availability added`);
-    })
-    .catch((err) => {
-      console.log("Handle Update Error: ", err);
-    })
+    //update information in prof collection
+    // profUser.update({
+    //   availability: timesArray,
+    // })
+    // .then(()=>{
+    //   console.log("Availability has been updated ");
+    //   alert(`Prof Availability added`);
+    // })
+    // .catch((err) => {
+    //   console.log("Handle Update Error: ", err);
+    // })
 
-    departmentCollection.doc(profDepartment).update({
-      availability: timesArray,
-    })
-    .then(()=>{
-      console.log("Availability has been updated in the department");
-      alert(`Availability added to department`);
-    })
-    .catch((err) => {
-      console.log("Handle Update Error: ", err);
-    })
+    timesArray.forEach(element => {
+      profUser.collection("availabilities").add({
+        "start": element.start,
+        "end": element.end,
+        "professorId": uid,
+      })
+      .then(()=>{
+        console.log("Availability has been updated ");
+        alert(`Prof Availability added`);
+      })
+      .catch((err) => {
+        console.log("Handle Update Error: ", err);
+      })
+
+      //create availlabilities collection
+      departmentCollection.doc(profDepartment).collection("availabilities").add({
+        "start": element.start,
+        "end": element.end,
+        "professorId": uid,
+      })
+      .then(()=>{
+        console.log("Availability has been updated in the department");
+        alert(`Availability added to department`);
+      })
+      .catch((err) => {
+        console.log("Handle Update Error: ", err);
+      })
+    });
+
+
+            //update information in the
+
+        // departmentCollection.doc(profDepartment).update({
+        //     availability: timesArray,
+        //   })
+        //   .then(()=>{
+        //     console.log("Availability has been updated in the department");
+        //     alert(`Availability added to department`);
+        //   })
+        //   .catch((err) => {
+        //     console.log("Handle Update Error: ", err);
+        //   })
+
+    // alert("Doesn't exist")
+        
+    //     //create availlabilities collection
+    //     departmentCollection.doc(profDepartment).collection("availabilities").add({
+    //       "availability": timesArray,
+    //       "professorId": uid,
+    //     })
+    //     .then(()=>{
+    //       console.log("Availability has been updated in the department");
+    //       alert(`Availability added to department`);
+    //     })
+    //     .catch((err) => {
+    //       console.log("Handle Update Error: ", err);
+    //     })
 
   }
 
