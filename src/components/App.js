@@ -38,6 +38,8 @@ import UpdateDepartment from "./Admin/UpdateDepartment/UpdateDepartments";
 import SearchCourses from './Student/SearchCourses/SearchCourses';
 import SubmitAvailiblity from './Professor/SubmitAvailbility/SubmitAvailibility';
 import Enrollment from './Student/Enrollment/Enrollment';
+import ReceiveAvailiblity from './Admin/RecieveAvailibility/RecieveAvailiblity';
+import FcalendarTest from './Professor/SubmitAvailbility/FcalendarTest';
 
 
 
@@ -52,6 +54,7 @@ function App() {
                 <Login></Login>
               </Route>
             <Route exact path="/" component={ HomePage } />
+            <Route exact path="/calendar" component={ FcalendarTest } />
        
             <ProfessorRoute exact path ="/professor" component={ProfessorHomePage}></ProfessorRoute>
             <ProfessorRoute exact path="/submitAvailibility" component={SubmitAvailiblity}></ProfessorRoute>
@@ -59,13 +62,14 @@ function App() {
             <AdminRoute exact path ="/createAdmin" component={CreateAdmin}></AdminRoute>
             <AdminRoute exact path ="/admin" component={AdminHomePage}></AdminRoute>
             <AdminRoute exact path ="/createProfessor" component={CreateProfessor}></AdminRoute>
-            <AdminRoute exact path ="/manageStudent" component={ManageStudent}></AdminRoute>
+            <AdminRoute exact path ="/manageStudent" component={ManageStudent}></AdminRoute>gi
             <AdminRoute exact path ="/manageProfessor" component={ManageProfessor}></AdminRoute>
             <AdminRoute exact path ="/createDepartment" component={createDepartment}></AdminRoute>
             <AdminRoute exact path = "/createCourse" component={CreateCourse}></AdminRoute>
             <AdminRoute exact path = "/createProgram" component={CreateProgram}></AdminRoute>
             <AdminRoute exact path = "/updateCourse/:id" component={UpdateCourse}></AdminRoute>
             <AdminRoute exact path = "/updateProgram/:id" component={UpdateProgram}></AdminRoute>
+            <AdminRoute exact path = "/receiveAvailibility" component={ReceiveAvailiblity}></AdminRoute>
             <AdminRoute exact path = "/viewCourse" component={ManageCourse}></AdminRoute>
             <AdminRoute exact path = "/manageProgram" component={ManageProgram}></AdminRoute>
             <AdminRoute exact path="/updateDepartment/:id" component= {()=><UpdateDepartment/>}></AdminRoute>

@@ -104,6 +104,7 @@ function Enrollment() {
   const classes = useStyles();
   // get the course data
 
+
   async function deleteCourse(id)
   {
       await studentUser.collection("takenCourses").doc(id).delete()
@@ -115,6 +116,7 @@ function Enrollment() {
           setStudentCourses(courses.docs.map((course=>course.data())))
       })
   }
+
   useEffect(() => {
     studentUser
       .get()
@@ -173,6 +175,8 @@ function Enrollment() {
                         value.update({"takenID": value.id});
                     });
                 })
+
+
             }
           }
         ]}
@@ -182,6 +186,7 @@ function Enrollment() {
         title="Student Added Courses"
         columns={col}
         data={studentCourses}
+
         // editable={{
         //     onRowDelete: oldData =>
         //     new Promise((resolve, reject) => {         
@@ -192,11 +197,13 @@ function Enrollment() {
         //         }, 2000);
         //     })
         // }}
+
         actions={[
           {
             icon: tableIcons.Delete,
             tooltip: 'delete course',
             onClick: (event, rowData) => {
+
                 deleteCourse(rowData.takenID);
                 // studentUser.collection('takenCourses')
                 // .doc(rowData)
@@ -207,6 +214,7 @@ function Enrollment() {
                 // .catch((err) =>{
                 //     console.error("Error: ", err)
                 // })
+
             }
           }
         ]}

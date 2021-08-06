@@ -3,8 +3,6 @@ import { Paper, TextField } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { firestore } from "../../../firebase";
 import AdminNav from "../AdminNavbar/AdminNav";
-
-
 import * as Yup from "yup";
 import { useState, useEffect } from "react";
 
@@ -17,15 +15,12 @@ const DepartmentSchema = Yup.object().shape({
 
 });
 
-
-
 function CreateDepartment() {
     const paperStyle = { padding: 20, height: '70vh', width: 280, margin: "20px auto" }
 
     let [error, setError] = useState("");
     let [programId, setProgramId] = useState("");
     let [programData, setProgramData] = useState([]);
-
 
     //get data for programs
     useEffect(() => {
@@ -107,6 +102,8 @@ function CreateDepartment() {
                                     <option key={program.id} program-id={program.id}> {program.programName} </option>)};
                                 <br></br><br></br>
                             </select>
+                            <br></br><br></br>
+
                             <h1>{formikProps.errors.programName}</h1>
                             <br></br><br></br>
                             <button type="submit">Submit</button>
