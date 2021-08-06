@@ -52,7 +52,6 @@ export default function ProfNav({isDepartmentHead:userIsDepartmentHead}){
                 </Typography>
                 
                 <Button component={Link} to="/viewProf" color="inherit">Account</Button>
-                <Button color="inherit">Schedule</Button>
                 { userIsDepartmentHead?<Button color="inherit" component={Link} to="/submitAvailibility">Submit Availibility</Button>:<h1></h1>}
                 <Button color="inherit" onClick={handleLogout}>Logout</Button>
                 </Toolbar>
