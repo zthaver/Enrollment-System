@@ -100,6 +100,7 @@ function Enrollment() {
 
   const [studentData, setStudentData] = useState([]);
 
+<<<<<<< HEAD
   const classes = useStyles();
   // get the course data
 
@@ -179,6 +180,42 @@ function Enrollment() {
       });
   }, []);
 
+=======
+
+  const classes = useStyles();
+  // get the course data
+  useEffect(() => {
+    studentUser
+      .get()
+      .then((student) => {
+        if (student.exists) {
+          console.log("Document data:", student.data());
+          setStudentData(student.data());
+          firestore
+          .collection("courses")
+          .where("programName", "==", student.data().programName)
+          .get()
+          .then((courses) => {
+            setCourseData(courses.docs.map((course) => course.data()));
+          });
+          
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+      })
+      .catch((error) => {
+        console.log("Error getting document:", error);
+      });
+      studentUser.collection('takenCourses').get().then((takenCourses)=>{
+        setStudentCourses(takenCourses.docs.map(course => course.data().rowData));
+        console.log("my taken:", takenCourses.docs.map(course => course.data().rowData));
+      });
+      
+ 
+  }, []);
+
+>>>>>>> 9fe6b1a9e419a9063f1d285871c64f5c3a67650f
   return (
     <div className={classes.root}>
       <StudentNav />
@@ -199,11 +236,23 @@ function Enrollment() {
         actions={[
           {
             icon: tableIcons.Add,
+<<<<<<< HEAD
             tooltip: "Add taken course",
             onClick: (event, rowData) => {
               addCourse(rowData);
             },
           },
+=======
+            tooltip: 'Add taken course',
+            onClick: (event, rowData) => {
+              studentUser.collection('takenCourses').add({rowData});
+              studentUser.collection('takenCourses').get().then((takenCourses)=>{
+                setStudentCourses(takenCourses.docs.map(course => course.data().rowData));
+                console.log("my taken:", takenCourses.docs.map(course => course.data().rowData));
+              });
+            }
+          }
+>>>>>>> 9fe6b1a9e419a9063f1d285871c64f5c3a67650f
         ]}
       />
       <MaterialTable
@@ -211,6 +260,7 @@ function Enrollment() {
         title="Student Added Courses"
         columns={col}
         data={studentCourses}
+<<<<<<< HEAD
         // editable={{
         //     onRowDelete: oldData =>
         //     new Promise((resolve, reject) => {
@@ -229,6 +279,17 @@ function Enrollment() {
               deleteCourse(rowData.takenID);
             },
           },
+=======
+        actions={[
+          {
+            icon: tableIcons.Delete,
+            tooltip: 'delete course',
+            onClick: (event, rowData) => {
+              // Do save operation
+              //studentUser.collection('takenCourses').doc()
+            }
+          }
+>>>>>>> 9fe6b1a9e419a9063f1d285871c64f5c3a67650f
         ]}
       />
     </div>
