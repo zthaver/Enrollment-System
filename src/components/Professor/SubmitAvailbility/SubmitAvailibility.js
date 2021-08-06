@@ -3,84 +3,6 @@ import ProfNav from '../ProfessorNavbar/ProfNav';
 import { TextField } from '@material-ui/core';
 import firebase from '../../../firebase';
 import 'jqwidgets-scripts/jqwidgets/styles/jqx.base.css';
-<<<<<<< HEAD
-import app, { firestore } from '../../../firebase';
-import MaterialTable from 'material-table';
-import AddBox from '@material-ui/icons/AddBox';
-import ArrowDownward from '@material-ui/icons/ArrowDownward';
-import Check from '@material-ui/icons/Check';
-import ChevronLeft from '@material-ui/icons/ChevronLeft';
-import ChevronRight from '@material-ui/icons/ChevronRight';
-import Clear from '@material-ui/icons/Clear';
-import DeleteOutline from '@material-ui/icons/DeleteOutline';
-import Edit from '@material-ui/icons/Edit';
-import FilterList from '@material-ui/icons/FilterList';
-import FirstPage from '@material-ui/icons/FirstPage';
-import LastPage from '@material-ui/icons/LastPage';
-import Remove from '@material-ui/icons/Remove';
-import SaveAlt from '@material-ui/icons/SaveAlt';
-import Search from '@material-ui/icons/Search';
-import ViewColumn from '@material-ui/icons/ViewColumn';
-
-const tableIcons = {
-    Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
-    Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
-    Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-    Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
-    DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-    Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
-    Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
-    Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
-    FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-    LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-    NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-    PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
-    ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-    Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
-    SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
-    ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
-    ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
-  };
-
-function SubmitAvailiblity ()  {
-
-    let [dataFetched,setDataFetched] = useState(false);
-    let [appointmentData,setAppointmentData] = useState([]);
-    let [data,setData] = useState([
-      {description: "",
-      end: "Mon Nov 19 2018 02:30:00 GMT-0500 (Eastern Standard Time)",
-      id: "6a4F6qQpoGXSY7S1rKh1sR7hpe03",
-      start: "Mon Nov 19 2018 02:00:00 GMT-0500 (Eastern Standard Time)",
-    },
-      {description: "",
-      end: "Mon Nov 19 2018 02:30:00 GMT-0500 (Eastern Standard Time)",
-      id: "6a4F6qQpoGXSY7S1rKh1sR7hpe03",
-      start: "Mon Nov 19 2018 02:00:00 GMT-0500 (Eastern Standard Time)",
-        }
-    ])
-    
-  
-    const col = [
-
-      {
-          title:'To',
-          field:'end'
-      },
-      {
-          title:'Appointnment Id',
-          field:'id'
-      },
-      {
-          title:'Start',
-          field:'start'
-      },
-
-
-  ]
-
-
-   
-=======
 import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -163,7 +85,6 @@ const useStyles = makeStyles((theme) => ({
             wordSpacing:'5px',
         }
 }));
->>>>>>> 51195e5faf0c5f1912818534771bb8782e909b51
 
 function SubmitAvailiblity()
 {
@@ -189,21 +110,11 @@ function SubmitAvailiblity()
 
     //authenticate usert to view submit availability in the navbar
     useEffect(() => {
-<<<<<<< HEAD
-        let arrayAppointments = [];
-        firestore.collection("appointments").get().then((appointmentsData) => {
-       setAppointmentData(appointmentsData.docs.map((appointment => 
-              {
-            return appointment.data();
-
-               
-=======
       console.log("in use effect");
       firestore.collection("professors").doc((firebase.auth().currentUser).uid).get().then((val)=>{
           setDepartmentHead(val.data().isDepartmentHead);
       })
   }, [])
->>>>>>> 51195e5faf0c5f1912818534771bb8782e909b51
 
   useEffect(() => {
          
@@ -243,54 +154,6 @@ function SubmitAvailiblity()
     appointments.push(appointment);  
   })
 
-<<<<<<< HEAD
-  
-    return (
-      <MaterialTable
-        title="Remote Data Preview"
-        icons={tableIcons}
-        columns={col}
-        data={appointmentData}
-        editable={{
-          onRowAdd: async newData =>
-          new Promise((resolve, reject) => {
-            const addedRow = [...appointmentData,newData];
-            console.log(addedRow);
-              setTimeout(() => {
-                firestore.collection("appointments").add({
-                  "start":newData.start,
-                  "end":newData.end
-                }).then((data)=>{
-                  data.update({"id":data.id})
-                })
-                setAppointmentData(addedRow);
-                console.log(data);
-                  resolve();
-              }, 2000);
-          }),
-          onRowUpdate:  (newData, oldData) =>
-          new Promise((resolve, reject) => {
-            setTimeout(() => {
-              console.log(oldData);
-            },2000);
-
-          }),
-          onRowDelete:  oldData =>
-          new Promise((resolve, reject) => {
-            
-              setTimeout(() => {
-                console.log(oldData)
-
-
-                  resolve();
-              }, 2000);
-          })
-        }}
-
-        
-      />
-    )
-=======
   const appointment1 = {
     calendar: 'Room 1',
     description: 'George brings projector for presentations.',
@@ -312,7 +175,6 @@ function SubmitAvailiblity()
     console.log(`sTART time:::: ${startTime}`)
     console.log(`End time:::: ${endTime}`)
     console.log(`Day :::: ${day}`)
->>>>>>> 51195e5faf0c5f1912818534771bb8782e909b51
     
     // setTimesObj({ 
     //   day: day,
