@@ -100,9 +100,49 @@ function Enrollment() {
 
   const [studentData, setStudentData] = useState([]);
 
-
   const classes = useStyles();
   // get the course data
+
+  async function deleteCourse(id) {
+    await studentUser.collection("takenCourses").doc(id).delete();
+    studentUser
+      .collection("takenCourses")
+      .get()
+      .then((takenCourses) => {
+        setStudentCourses(
+          takenCourses.docs.map((course) => course.data().rowData)
+        );
+
+        console.log(
+          "my taken:",
+          takenCourses.docs.map((course) => course.data())
+        );
+      });
+  }
+  async function addCourse(rowData) {
+    await studentUser
+      .collection("takenCourses")
+      .add({ rowData })
+      .then((value) => {
+        studentUser
+          .collection("takenCourses")
+          .doc(value.id)
+          .update({ "rowData.takenID": value.id });
+        studentUser
+          .collection("takenCourses")
+          .get()
+          .then((takenCourses) => {
+            setStudentCourses(
+              takenCourses.docs.map((course) => course.data().rowData)
+            );
+
+            console.log(
+              "my taken:",
+              takenCourses.docs.map((course) => course.data())
+            );
+          });
+      });
+  }
   useEffect(() => {
     studentUser
       .get()
@@ -111,13 +151,12 @@ function Enrollment() {
           console.log("Document data:", student.data());
           setStudentData(student.data());
           firestore
-          .collection("courses")
-          .where("programName", "==", student.data().programName)
-          .get()
-          .then((courses) => {
-            setCourseData(courses.docs.map((course) => course.data()));
-          });
-          
+            .collection("courses")
+            .where("programName", "==", student.data().programName)
+            .get()
+            .then((courses) => {
+              setCourseData(courses.docs.map((course) => course.data()));
+            });
         } else {
           // doc.data() will be undefined in this case
           console.log("No such document!");
@@ -126,12 +165,18 @@ function Enrollment() {
       .catch((error) => {
         console.log("Error getting document:", error);
       });
-      studentUser.collection('takenCourses').get().then((takenCourses)=>{
-        setStudentCourses(takenCourses.docs.map(course => course.data().rowData));
-        console.log("my taken:", takenCourses.docs.map(course => course.data().rowData));
+    studentUser
+      .collection("takenCourses")
+      .get()
+      .then((takenCourses) => {
+        setStudentCourses(
+          takenCourses.docs.map((course) => course.data().rowData)
+        );
+        console.log(
+          "my taken:",
+          takenCourses.docs.map((course) => course.data().rowData)
+        );
       });
-      
- 
   }, []);
 
   return (
@@ -154,15 +199,11 @@ function Enrollment() {
         actions={[
           {
             icon: tableIcons.Add,
-            tooltip: 'Add taken course',
+            tooltip: "Add taken course",
             onClick: (event, rowData) => {
-              studentUser.collection('takenCourses').add({rowData});
-              studentUser.collection('takenCourses').get().then((takenCourses)=>{
-                setStudentCourses(takenCourses.docs.map(course => course.data().rowData));
-                console.log("my taken:", takenCourses.docs.map(course => course.data().rowData));
-              });
-            }
-          }
+              addCourse(rowData);
+            },
+          },
         ]}
       />
       <MaterialTable
@@ -173,12 +214,11 @@ function Enrollment() {
         actions={[
           {
             icon: tableIcons.Delete,
-            tooltip: 'delete course',
-            onClick: (event, rowData) => {
-              // Do save operation
-              //studentUser.collection('takenCourses').doc()
-            }
-          }
+            tooltip: "delete course",
+            onClick: async (event, rowData) => {
+              deleteCourse(rowData.takenID);
+            },
+          },
         ]}
       />
     </div>
