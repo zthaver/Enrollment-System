@@ -157,6 +157,10 @@ function Enrollment() {
             tooltip: 'Add taken course',
             onClick: (event, rowData) => {
               studentUser.collection('takenCourses').add({rowData});
+              studentUser.collection('takenCourses').get().then((takenCourses)=>{
+                setStudentCourses(takenCourses.docs.map(course => course.data().rowData));
+                console.log("my taken:", takenCourses.docs.map(course => course.data().rowData));
+              });
             }
           }
         ]}
