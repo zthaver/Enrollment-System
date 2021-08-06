@@ -99,7 +99,7 @@ function Enrollment() {
   const [studentCourses, setStudentCourses] = useState([]);
 
   const [studentData, setStudentData] = useState([]);
-  const [studentProrgram, setStudentProrgam] = useState("");
+
 
   const classes = useStyles();
   // get the course data
@@ -117,6 +117,7 @@ function Enrollment() {
           .then((courses) => {
             setCourseData(courses.docs.map((course) => course.data()));
           });
+          
         } else {
           // doc.data() will be undefined in this case
           console.log("No such document!");
@@ -124,6 +125,10 @@ function Enrollment() {
       })
       .catch((error) => {
         console.log("Error getting document:", error);
+      });
+      studentUser.collection('takenCourses').get().then((takenCourses)=>{
+        setStudentCourses(takenCourses.docs.map(course => course.data().rowData));
+        console.log("my taken:", takenCourses.docs.map(course => course.data().rowData));
       });
       
  
@@ -146,11 +151,31 @@ function Enrollment() {
         title="Student Available Courses"
         columns={col}
         data={courseData}
+        actions={[
+          {
+            icon: tableIcons.Add,
+            tooltip: 'Add taken course',
+            onClick: (event, rowData) => {
+              studentUser.collection('takenCourses').add({rowData});
+            }
+          }
+        ]}
       />
       <MaterialTable
         icons={tableIcons}
         title="Student Added Courses"
         columns={col}
+        data={studentCourses}
+        actions={[
+          {
+            icon: tableIcons.Delete,
+            tooltip: 'delete course',
+            onClick: (event, rowData) => {
+              // Do save operation
+              //studentUser.collection('takenCourses').doc()
+            }
+          }
+        ]}
       />
     </div>
   );
