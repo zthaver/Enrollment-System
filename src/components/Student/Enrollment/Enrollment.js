@@ -188,15 +188,6 @@ function Enrollment() {
             tooltip: 'delete course',
             onClick: (event, rowData) => {
                 deleteCourse(rowData.takenID);
-                // studentUser.collection('takenCourses')
-                // .doc(rowData)
-                // .delete()
-                // .then((value)=>{
-                //     console.log('test');
-                // })
-                // .catch((err) =>{
-                //     console.error("Error: ", err)
-                // })
             }
           }
         ]}
