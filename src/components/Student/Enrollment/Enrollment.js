@@ -108,9 +108,10 @@ function Enrollment() {
   {
       await studentUser.collection("takenCourses").doc(id).delete()
       .then((value)=>{
+          console.log(id)
           console.log("Taken Course removed")
       });
-      studentUser.collection("takenCourses").get().then((courses) =>{
+      await studentUser.collection("takenCourses").get().then((courses) =>{
           setStudentCourses(courses.docs.map((course=>course.data())))
       })
   }
@@ -172,7 +173,6 @@ function Enrollment() {
                         value.update({"takenID": value.id});
                     });
                 })
-                
             }
           }
         ]}
@@ -182,12 +182,31 @@ function Enrollment() {
         title="Student Added Courses"
         columns={col}
         data={studentCourses}
+        // editable={{
+        //     onRowDelete: oldData =>
+        //     new Promise((resolve, reject) => {         
+        //         setTimeout(() => {
+        //             console.log(oldData.takenID);
+        //             deleteCourse(oldData.takenID);
+        //             resolve();
+        //         }, 2000);
+        //     })
+        // }}
         actions={[
           {
             icon: tableIcons.Delete,
             tooltip: 'delete course',
             onClick: (event, rowData) => {
                 deleteCourse(rowData.takenID);
+                // studentUser.collection('takenCourses')
+                // .doc(rowData)
+                // .delete()
+                // .then((value)=>{
+                //     console.log('test');
+                // })
+                // .catch((err) =>{
+                //     console.error("Error: ", err)
+                // })
             }
           }
         ]}
