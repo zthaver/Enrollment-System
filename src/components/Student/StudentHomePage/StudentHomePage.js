@@ -14,9 +14,7 @@ function StudentHomePage()
 
     useEffect(() => {
     console.log("in use effect");
-    firestore.collection("student").doc(location.state).get().then((val)=>{
-        console.log("query" + val.data().id)
-    })
+   
     }, [])
 
     function handleLogout()

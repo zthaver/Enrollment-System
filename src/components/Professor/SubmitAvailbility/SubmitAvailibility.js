@@ -1,4 +1,3 @@
-
 import {react,useEffect,useState,useRef,forwardRef} from 'react';
 import JqxScheduler, {  jqx } from 'jqwidgets-scripts/jqwidgets-react-tsx/jqxscheduler';
 import 'jqwidgets-scripts/jqwidgets/styles/jqx.base.css';
@@ -147,7 +146,6 @@ function SubmitAvailiblity ()  {
 
     }
     
-
 
 
 export default SubmitAvailiblity;
