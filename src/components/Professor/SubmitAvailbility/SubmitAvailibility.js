@@ -107,6 +107,9 @@ function SubmitAvailiblity()
   const appointments = new Array();
 
   let [departmentHead,setDepartmentHead] = useState(false);
+  
+  //appointment id when adding a new appointment
+  const [aptId, setAptId] = useState(1);
 
     //authenticate usert to view submit availability in the navbar
     useEffect(() => {
@@ -162,39 +165,63 @@ function SubmitAvailiblity()
     start: new Date(2018, 10, 23, 9, 0, 0),
 };
 
+  // var listItems = timesArray.map((time) =>  
+  // <li key={time.id}>
+  //     <span key={time.start}> {time.start.toString()} </span> to 
+  //     <span key={time.end}> {time.end.toString()} </span>    
+  //     <button type="button" onClick={() => handleRemove(time.id)}> Remove </button>                                                                                                                    
+  // </li>);
+
   var listItems = timesArray.map((time) =>  
-  <li >
-      <span key={time.start}> {time.start.toString()} </span> to 
-      <span key={time.end}> {time.end.toString()} </span>                                                                                                                                    
+  <li key={time.id}>
+      <span > {time.start.toString()} </span> to 
+      <span > {time.end.toString()} </span>    
+      <button type="button" onClick={() => handleRemove(time.id)}> Remove </button>                                                                                                                    
   </li>);
 
-
   function add(){
-    console.log("working");    
-    console.log(`Total time: ${time}`)
-    console.log(`sTART time:::: ${startTime}`)
-    console.log(`End time:::: ${endTime}`)
-    console.log(`Day :::: ${day}`)
-    
-    // setTimesObj({ 
-    //   day: day,
-    //   start: startTime,
-    //   end: endTime
-    // })
 
-    const myObj = {
-      start: new Date(`${day}, 2018 ${startTime}`),
-      end: new Date(`${day}, 2018 ${endTime}`)
+    if(day == null || day === "" || startTime === "" || endTime === ""){
+      alert("Please Select Fields");
+    } else {
+      console.log("Apppointment ID")
+      console.log(aptId)
+      console.log("working");    
+      console.log(`Total time: ${time}`)
+      console.log(`sTART time:::: ${startTime}`)
+      console.log(`End time:::: ${endTime}`)
+      console.log(`Day :::: ${day}`)
+
+      // setTimesObj({ 
+      //   day: day,
+      //   start: startTime,
+      //   end: endTime
+      // })
+
+      const myObj = {
+        id: aptId,
+        start: new Date(`${day}, 2018 ${startTime}`),
+        end: new Date(`${day}, 2018 ${endTime}`)
+      }
+      // setTimesArray( arr => [...arr, time]);
+      // setTimesArray( arr => [...arr, timesObj]);
+      timesArray.push(myObj);
+      
+      setDay(null);
+      setStartTime("");
+      setEndTime("");
+      
+      let newId = aptId+1
+      setAptId(newId);
+      // aptId = aptId +1;
     }
-    // setTimesArray( arr => [...arr, time]);
-    // setTimesArray( arr => [...arr, timesObj]);
-    timesArray.push(myObj);
     
-    setDay(null);
-    setStartTime("");
-    setEndTime("");
-    
+  }
 
+  function handleRemove(id){
+    console.log(id)
+    const newArr = timesArray.filter((item) => item.id !== id);
+    setTimesArray(newArr);
   }
 
   function submit(e){
@@ -306,7 +333,7 @@ return (
           <form  noValidate>
 
             <label>Please select a day: </label>
-            <select onChange={(e)=> setDay(e.target.value)}>
+            <select id="daySelect" onChange={(e)=> setDay(e.target.value)}>
                 <option value="">- -</option>
                 <option value="November 19">Monday</option>
                 <option value="November 20">Tuesday</option>
