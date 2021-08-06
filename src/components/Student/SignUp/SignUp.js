@@ -99,6 +99,12 @@ function SignUp()
                     id: user,
                     semester:1,
                     latestPrerequisite:"",
+<<<<<<< HEAD
+                    programName: ""
+=======
+                    program: ""
+
+>>>>>>> 9fe6b1a9e419a9063f1d285871c64f5c3a67650f
                 })
                 .then(() => {
                     emailjs.send('service_39awvvo','template_gkw4bkq',e.target,"user_oGearzYTZGyhVqlL710SX")
