@@ -100,7 +100,10 @@ function SignUp()
                     semester:1,
                     latestPrerequisite:"",
 
+
+
                     programName: ""
+
 
                 })
                 .then(() => {
