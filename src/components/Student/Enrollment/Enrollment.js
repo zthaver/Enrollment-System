@@ -33,6 +33,7 @@ function Enrollment() {
       marginLeft: "240px",
     },
   }));
+
   const col = [
     {
       title: "Course Name",
@@ -122,12 +123,13 @@ function Enrollment() {
   async function addCourse(rowData) {
     await studentUser
       .collection("takenCourses")
-      .add({ rowData })
+      .add({
+        rowData,
+      })
       .then((value) => {
-        studentUser
-          .collection("takenCourses")
-          .doc(value.id)
-          .update({ "rowData.takenID": value.id });
+        studentUser.collection("takenCourses").doc(value.id).update({
+          "rowData.takenID": value.id,
+        });
         studentUser
           .collection("takenCourses")
           .get()
@@ -182,15 +184,11 @@ function Enrollment() {
   return (
     <div className={classes.root}>
       <StudentNav />
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
+      <br> </br> <br> </br> <br> </br> <br> </br>
+      <br> </br>{" "}
       <div>
-        <h3>Student Program: {studentData.programName}</h3>
-      </div>
+        <h3> Student Program: {studentData.programName} </h3>{" "}
+      </div>{" "}
       <MaterialTable
         icons={tableIcons}
         title="Student Available Courses"
@@ -205,7 +203,7 @@ function Enrollment() {
             },
           },
         ]}
-      />
+      />{" "}
       <MaterialTable
         icons={tableIcons}
         title="Student Added Courses"
@@ -220,7 +218,7 @@ function Enrollment() {
             },
           },
         ]}
-      />
+      />{" "}
     </div>
   );
 }
