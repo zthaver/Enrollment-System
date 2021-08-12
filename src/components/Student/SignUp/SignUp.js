@@ -107,7 +107,6 @@ function SignUp()
 
                 })
                 .then(() => {
-                    emailjs.send('service_39awvvo','template_gkw4bkq',e.target,"user_oGearzYTZGyhVqlL710SX")
                     alert('successful  sign up')
                     history.push("/login")
                 })
