@@ -16,6 +16,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 const drawerWidth = 240;
 
+//CSS styles
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -86,28 +87,31 @@ const useStyles = makeStyles((theme) => ({
 
 function ProfessorHomePage()
 {
-    
     const classes = useStyles();
 
-    //retrieve professor id
+    //retrieve professor id from firebase
     const user = (firebase.auth().currentUser).uid;
     const uid = user;
     const profUser = firebase.firestore().collection("professors").doc(uid);
+
+    //retrieve availabilities subCollection from the professor collection
     const profAppointments = firebase.firestore().collection("professors").doc(uid).collection("availabilities");
     console.log(profUser)
     console.log(profAppointments)
+
     let [departmentHead,setDepartmentHead] = useState(false);
     console.log((firebase.auth().currentUser).uid)
-
     let  myScheduler = useRef();
+
+    //variables for the appointment data retrieved from the DB    
     const [appointmentData, setAppointments] = useState([]);
-    
     const appointments = new Array();
 
     appointmentData.forEach((appointment)=>{
         appointments.push(appointment);  
       })
 
+    // setting up JQX Scheduler 
     const source = {
         dataFields: [
             { name: 'id', type: 'string' },
@@ -154,12 +158,15 @@ function ProfessorHomePage()
         })
     }, [])
 
-    //retrieve appointments from the firestore db
+    //retrieve availabilities from the firestore db
     useEffect(() => {
 
         profUser.collection("availabilities").get().then((querySnapshot) => {
             let tempArray = [];
 
+            //Check if the data exists
+            //If it does push each doc into the temporary array
+            //Convert firestore timestamp to javascript dates
             if(querySnapshot){
                 querySnapshot.forEach((doc) => {
                     console.log(doc.id, " => ", doc.data());
