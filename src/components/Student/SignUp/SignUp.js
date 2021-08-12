@@ -99,7 +99,11 @@ function SignUp()
                     id: user,
                     semester:1,
                     latestPrerequisite:"",
-                    program: ""
+
+
+
+                    programName: ""
+
 
                 })
                 .then(() => {
