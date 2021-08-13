@@ -178,7 +178,7 @@ function SubmitAvailiblity()
   <li key={time.id}>
       <span > {time.start.toString()} </span> to 
       <span > {time.end.toString()} </span>    
-      <button type="button" onClick={() => handleRemove(time.id)}> Remove </button>                                                                                                                    
+      <Button color="secondary" type="button" onClick={() => handleRemove(time.id)}> Remove </Button>                                                                                                                    
   </li>);
 
   function add(){
