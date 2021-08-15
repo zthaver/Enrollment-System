@@ -24,16 +24,15 @@ import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
 import * as Yup from "yup";
 
-const useStyles = makeStyles((theme) => ({
-  content: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(3),
-    marginLeft: "80px 60px 60px 60px",
-  }
-}));
-
 function Enrollment() {
+  const useStyles = makeStyles((theme) => ({
+    content: {
+      flexGrow: 1,
+      backgroundColor: theme.palette.background.default,
+      padding: theme.spacing(3),
+      marginLeft: "240px",
+    },
+  }));
 
   const col = [
     {
@@ -65,7 +64,6 @@ function Enrollment() {
       field: "programName",
     },
   ];
-
   const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
     Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -104,10 +102,7 @@ function Enrollment() {
   const [studentData, setStudentData] = useState([]);
 
   const classes = useStyles();
-
-
   // get the course data
-
 
   async function deleteCourse(id) {
     await studentUser.collection("takenCourses").doc(id).delete();
@@ -128,12 +123,13 @@ function Enrollment() {
   async function addCourse(rowData) {
     await studentUser
       .collection("takenCourses")
-      .add({ rowData })
+      .add({
+        rowData,
+      })
       .then((value) => {
-        studentUser
-          .collection("takenCourses")
-          .doc(value.id)
-          .update({ "rowData.takenID": value.id });
+        studentUser.collection("takenCourses").doc(value.id).update({
+          "rowData.takenID": value.id,
+        });
         studentUser
           .collection("takenCourses")
           .get()
@@ -149,7 +145,6 @@ function Enrollment() {
           });
       });
   }
-
   useEffect(() => {
     studentUser
       .get()
@@ -189,66 +184,41 @@ function Enrollment() {
   return (
     <div className={classes.root}>
       <StudentNav />
-
-      <main className={classes.content}>
-        <br/>
-        <br/>
-        <br/>
-
-        <div>
-          <h3>Student Program: {studentData.programName}</h3>
-        </div>
-        <br />
-        <p><strong>Add courses to current course schedule</strong></p>
-        <MaterialTable
-          icons={tableIcons}
-          title="Student Available Courses"
-          columns={col}
-          data={courseData}
-          actions={[
-            {
-              icon: tableIcons.Add,
-              tooltip: "Add taken course",
-              onClick: (event, rowData) => {
-                addCourse(rowData);
-              },
-            },]}
-          />
-
-        <br/>
-        <br/>
-        <br/>
-
-        <p><strong>View current course schedule and remove unnecessary courses</strong></p>
-        <MaterialTable
-          icons={tableIcons}
-          title="Student Added Courses"
-          columns={col}
-          data={studentCourses}
-
-          // editable={{
-          //     onRowDelete: oldData =>
-          //     new Promise((resolve, reject) => {         
-          //         setTimeout(() => {
-          //             console.log(oldData.takenID);
-          //             deleteCourse(oldData.takenID);
-          //             resolve();
-          //         }, 2000);
-          //     })
-          // }}
-
-          actions={[
-            {
-              icon: tableIcons.Delete,
-              tooltip: "delete course",
-              onClick: async (event, rowData) => {
-                deleteCourse(rowData.takenID);
-              },
+      <br> </br> <br> </br> <br> </br> <br> </br>
+      <br> </br>{" "}
+      <div>
+        <h3> Student Program: {studentData.programName} </h3>{" "}
+      </div>{" "}
+      <MaterialTable
+        icons={tableIcons}
+        title="Student Available Courses"
+        columns={col}
+        data={courseData}
+        actions={[
+          {
+            icon: tableIcons.Add,
+            tooltip: "Add taken course",
+            onClick: (event, rowData) => {
+              addCourse(rowData);
             },
-
-          ]}
-        />
-      </main>
+          },
+        ]}
+      />{" "}
+      <MaterialTable
+        icons={tableIcons}
+        title="Student Added Courses"
+        columns={col}
+        data={studentCourses}
+        actions={[
+          {
+            icon: tableIcons.Delete,
+            tooltip: "delete course",
+            onClick: async (event, rowData) => {
+              deleteCourse(rowData.takenID);
+            },
+          },
+        ]}
+      />{" "}
     </div>
   );
 }
