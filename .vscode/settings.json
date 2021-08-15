@@ -1,0 +1,6 @@
+{
+    "html-css-class-completion.enableEmmetSupport": true,
+    "editor.fontFamily": " Consolas, 'Courier New', monospace",
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true
+}
