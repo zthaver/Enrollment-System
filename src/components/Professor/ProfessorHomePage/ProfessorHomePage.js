@@ -13,6 +13,7 @@ import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import { Grid } from '@material-ui/core';
 
 const drawerWidth = 240;
 
@@ -107,9 +108,41 @@ function ProfessorHomePage()
     const [appointmentData, setAppointments] = useState([]);
     const appointments = new Array();
 
+        //set
+        const [userFname, setUserFname] = useState();
+        const [userEmail, setUserEmail] = useState();
+        const [userLname, setUserLname] = useState();
+        const [userPhone, setUserPhone] = useState();
+        const [userAddress, setUserAddress] = useState();
+        const [errorMsg, setErrorMsg] = useState();
+
     appointmentData.forEach((appointment)=>{
         appointments.push(appointment);  
-      })
+    })
+
+    //retrieve professor information
+        // if user id exists , get data from firestore
+        if (user !== null) {
+            console.log(uid);
+    
+            profUser.get().then((doc) => {
+                if (doc.exists) {
+                    console.log("Document data:", doc.data());
+                    setUserFname(doc.data().firstname);
+                    setUserLname(doc.data().lastname);
+                    setUserEmail(doc.data().email);
+                    setUserPhone(doc.data().phone);
+                    setUserAddress(doc.data().address);
+                    setDepartmentHead(doc.data().isDepartmentHead)
+                } else {
+                    // doc.data() will be undefined in this case
+                    console.log("No such document!");
+                }
+            }).catch((error) => {
+                console.log("Error getting document:", error);
+            });
+    
+        }
 
     // setting up JQX Scheduler 
     const source = {
@@ -187,33 +220,6 @@ function ProfessorHomePage()
                 console.log("Doesn't exist");
             }
         });
-
-        //old code
-        // profUser.get().then((appointmentsData) => {
-        //     if(appointmentsData.exists){
-        //     console.log("Document data:", appointmentsData.data());
-            
-        //         if(appointmentsData.data().availability){
-        //             setAppointments(appointmentsData.data().availability.map((appointment => 
-        //                 {
-        //                 console.log(appointment.start.toDate())
-        //                     let convertedAppointment = {};
-        //                     // appointment.data();
-        //                     convertedAppointment.start = appointment.start.toDate();
-        //                     convertedAppointment.end = appointment.end.toDate();
-        //                     // convertedAppointment.description = appointment.get("description");
-        //                     // convertedAppointment.subject = appointment.get("subject");
-        //                     console.log("convertedAppointment")
-        //                     console.log(convertedAppointment)
-        //                     // console.log(appointment.data())
-        //                     return convertedAppointment;
-        //                 }
-        //             )));
-        //         }
-        //     } else {
-        //     console.log("No availability");
-        //     }
-        // })
     }, [])
     
     return(
@@ -245,7 +251,28 @@ function ProfessorHomePage()
             </div>
             </Drawer>
 
-            <div container className={classes.gridContainer}>
+            <div  className={classes.gridContainer}>
+
+                {/* DISPLAY PROF INFO */}  
+                <h2>{userFname}'s account information</h2>
+                <Grid container md={8} className={classes.profDetails}>
+                    
+                    <Grid item md={6}>
+                        <p><strong>Professor:</strong> {userFname} {userLname}</p>
+                    </Grid>
+
+                    <Grid item md={4}>
+                        <p><strong>Contact:</strong> {userEmail}</p>
+                    </Grid>
+
+                    <Grid item md={6}>
+                    <p><strong>Phone: </strong>{userPhone}</p>
+                    </Grid>
+
+                    <Grid item md={4}>
+                    <p><strong>Address: </strong>{userAddress}</p>
+                    </Grid>
+                </Grid>
                 <h3>My Schedule</h3>
                 <JqxScheduler ref={myScheduler}
                     height={height}

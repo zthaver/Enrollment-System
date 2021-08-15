@@ -110,7 +110,7 @@ function ViewDepartments() {
                 )}
             </tbody>
         </table> */}
-
+        <h4>Would you like to create a new department: <Link to="/createDepartment"> Create Department </Link></h4>
             <TableContainer component={Paper}>
                 <Table className={classes.table} aria-label="customized table">
                     <TableHead>
@@ -136,7 +136,9 @@ function ViewDepartments() {
 
                             <StyledTableCell>
                                 <Button className={classes.myBtns} onClick={()=>deleteDepartment(department.id)}>Delete Department</Button>
-                                <Button className={classes.myBtns} onClick={()=> history.push("/updateDepartment/"+ department.id )}> Update Department Information</Button>
+                                <br/>
+                                <br/>
+                                <Button className={classes.myBtns} onClick={()=> history.push("/updateDepartment/"+ department.id )}> Update Department</Button>
                             </StyledTableCell>
                         </StyledTableRow>
                         )
@@ -145,10 +147,6 @@ function ViewDepartments() {
                     </TableBody>
                 </Table>
             </TableContainer>
-
-            
-            <p>Would you like to create a new department: <Link to="/createDepartment"> Create Department </Link></p>
-
             </main>
         </div>
 

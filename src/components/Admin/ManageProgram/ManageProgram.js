@@ -155,7 +155,9 @@ function ManageProgram() {
 
                         <StyledTableCell>
                             <Button onClick={()=>deleteProgram(program.id)} className={classes.myBtns}>Delete Program</Button>
-                            <Button onClick={()=> history.push("/updateProgram/"+ program.id )} className={classes.myBtns}> Update Program Information</Button>
+                            <br/>
+                            <br/>
+                            <Button onClick={()=> history.push("/updateProgram/"+ program.id )} className={classes.myBtns}> Update Program</Button>
                         </StyledTableCell> 
                     </StyledTableRow>
                     )

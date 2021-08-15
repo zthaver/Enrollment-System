@@ -114,6 +114,7 @@ function ManageCourse() {
                 )}
             </tbody>
         </table> */}
+        <h4>Would you like to create a new course: <Link to="/createCourse"> Create Course </Link></h4>
             <TableContainer component={Paper}>
                 <Table className={classes.table} aria-label="customized table">
                     <TableHead>
@@ -143,7 +144,9 @@ function ManageCourse() {
 
                                     <StyledTableCell>
                                         <Button className={classes.myBtns} onClick={()=>deleteCourse(course.id)}>Delete Course</Button>
-                                        <Button className={classes.myBtns} onClick={()=> history.push("/updateCourse/"+ course.id )}> Update Course Information</Button>
+                                        <br/>
+                                        <br/>
+                                        <Button className={classes.myBtns} onClick={()=> history.push("/updateCourse/"+ course.id )}> Update Course</Button>
                                     </StyledTableCell>
                                 </StyledTableRow>
                             )
@@ -152,9 +155,7 @@ function ManageCourse() {
                     </TableBody>
                 </Table>
             </TableContainer>
-
-            <p>Would you like to create a new course: <Link to="/createCourse"> Create Course </Link></p>
-
+        
             </main>
         </div>
         
