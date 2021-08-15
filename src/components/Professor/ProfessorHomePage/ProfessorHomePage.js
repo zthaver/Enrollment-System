@@ -242,11 +242,9 @@ function ProfessorHomePage()
                 </List>
                 <Divider />
                 <List>
-                {['Details', 'Course List', 'Advisors'].map((text, index) => (
-                    <ListItem button key={text}>
-                    <ListItemText primary={text} />
+                    <ListItem button component={Link} to="/viewProf">
+                    <ListItemText primary="Details" style={{paddingTop: "20px"}}/>
                     </ListItem>
-                ))}
                 </List>
             </div>
             </Drawer>

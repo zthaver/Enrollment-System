@@ -71,7 +71,7 @@ async function handleSubmit(e)
          .then((value)=>{
              if(value.admin)
              {
-                history.push("/admin",value.user_id)
+                history.push("/manageProfessor",value.user_id)
              }
              if(value.professor)
              {

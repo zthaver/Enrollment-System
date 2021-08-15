@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
         },
   
         profUpdateInfo:{
-            background: '#E3DFFF',
+            background: '#e9ecef',
             padding:'20px',
         },
   
@@ -237,16 +237,14 @@ function ProfessorAccount(){
           <div className={classes.drawerContainer}>
             <List>
                 <ListItem button component={Link} to="/professor">
-                  <ListItemText primary="Home" />
+                  <ListItemText primary="Home" style={{paddingTop: "20px"}}/>
                 </ListItem>
             </List>
             <Divider />
             <List>
-              {['Details', 'Course List', 'Advisors'].map((text, index) => (
-                <ListItem button key={text}>
-                  <ListItemText primary={text} />
+                <ListItem button component={Link} to="/viewProf">
+                  <ListItemText primary="Details" style={{paddingTop: "20px"}}/>
                 </ListItem>
-              ))}
             </List>
           </div>
         </Drawer>

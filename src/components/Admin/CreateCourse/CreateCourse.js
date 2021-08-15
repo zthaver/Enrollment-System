@@ -1,10 +1,11 @@
 import { Formik  } from "formik";
-import { Paper, TextField} from '@material-ui/core';
+import { Container, Paper, TextField, Button} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { firestore } from "../../../firebase";
 import * as Yup from "yup";
 import { useState, useEffect } from "react";
 import AdminNav from '../AdminNavbar/AdminNav';
+
 
 
 const CourseSchema = Yup.object().shape({
@@ -42,7 +43,7 @@ const CourseSchema = Yup.object().shape({
     
 });
 function CreateCourse() {
-    const paperStyle = { padding: 20, height: '90vh', width: 280, margin: "20px auto" }
+    const paperStyle = { padding: 20, height: 'auto', width: 280, margin: "20px auto" }
 
 
     let [error, setError] = useState("");
@@ -66,120 +67,159 @@ function CreateCourse() {
             <AdminNav/>
             <Grid>
                 <Paper elavation="20" style={paperStyle}>
-                    <Grid >
-                        <h2>Create Course</h2>
-                    </Grid>
-                    <Formik validationSchema={CourseSchema} initialValues={{ courseName: '', courseCode: '', courseDescription: '',professorName: '', programName: '',semester:0,capacity:0}} onSubmit={async (values, props) => {
-                        console.log(values)
-                        props.setSubmitting(true);
-                        await firestore.collection("courses").add({
-                            "courseName":values.courseName,
-                            "courseDescription":values.courseDescription,
-                            "courseCode":values.courseCode,
-                            "professorName":values.professorName,
-                            "programName":values.programName,
-                            "semester":values.semester,
-                            "capacity":values.capacity,
-                            "programId":programId
+                    <Container>
+                    <h2>Create Course</h2>
+                    
+                        <Formik validationSchema={CourseSchema} initialValues={{ courseName: '', courseCode: '', courseDescription: '',professorName: '', programName: '',semester:0,capacity:0}} onSubmit={async (values, props) => {
+                            console.log(values)
+                            props.setSubmitting(true);
+                            await firestore.collection("courses").add({
+                                "courseName":values.courseName,
+                                "courseDescription":values.courseDescription,
+                                "courseCode":values.courseCode,
+                                "professorName":values.professorName,
+                                "programName":values.programName,
+                                "semester":values.semester,
+                                "capacity":values.capacity,
+                                "programId":programId
 
 
 
-                        }).then(async(val)=>{
-                           await val.update({ "id": val.id });
-                           if(programId!="")
-                           {
-                           await firestore.collection("programs").doc(programId).collection("courses").add({
-                            "courseName":values.courseName,
-                            "courseDescription":values.courseDescription,
-                            "courseCode":values.courseCode,
-                            "professorName":values.professorName,
-                            "courseId":val.id
-                           })
-                        }
+                            }).then(async(val)=>{
+                            await val.update({ "id": val.id });
+                            if(programId!="")
+                            {
+                            await firestore.collection("programs").doc(programId).collection("courses").add({
+                                "courseName":values.courseName,
+                                "courseDescription":values.courseDescription,
+                                "courseCode":values.courseCode,
+                                "professorName":values.professorName,
+                                "courseId":val.id
+                            })
+                            }
 
 
-                            alert("Course Successfully Created")
-                        }).catch((err)=>{
-                            console.log(err);
-                        })
+                                alert("Course Successfully Created")
+                            }).catch((err)=>{
+                                console.log(err);
+                            })
 
 
-                    }} validateOnChange={true}
-                       >
-                        {props => (
-                            <form onSubmit={props.handleSubmit}>
-                                <label htmlFor="courseName">Course Name</label>
-                                <TextField type="text"
-                                    name="courseName"
-                                    onChange={props.handleChange}
-                                    value={props.values.courseName}
-                                    helperText={props.errors.courseName}
-                                    error={props.errors.courseName}
-                                />
-                                <label htmlFor="courseCode">Course Code</label>
-                                <TextField type="text"
-                                    name="courseCode"
-                                    onChange={props.handleChange}
-                                    value={props.values.courseCode}
-                                    helperText={props.errors.courseCode}
-                                    error={props.errors.courseCode}
-                                />
-                                <label> Professor Name</label>
-                                <br></br>
-                                <br></br>
-                                <select  onChange={(value)=>{props.values.professorName = value.target.value; console.log(props.values.professorName)}}>
-                                    {professorData.map((professor) =>
-                                    <option key={professor.email}> {professor.firstname} {professor.lastname}</option>)};
-                             </select>
-                      
-                                <br></br><br></br>
-                                <label> Program Name</label>
-                                <br></br>
-                                <br></br>
-                                <select  error={props.errors.programName}  onChange={(value) => { props.values.programName = value.target.value; 
-                                console.log(props.values.programName)
-                                     let selectedIndex = value.target.options.selectedIndex;
-                                     setProgramId(value.target.options[selectedIndex].getAttribute('program-id'));
-                                }}>
-                                    {programData.map((program) =>
-                                        <option key={program.id} program-id={program.id}> {program.programName} </option>)};
-                             </select>
-                             <h1> {props.errors.programName}</h1>
-                                <br></br><br></br>        
-                                <label> Course Description</label>
-                                <TextField type="text"
-                                    multiline={true}
-                                    name="courseDescription"
-                                    onChange={props.handleChange}
-                                    value={props.values.courseDescription}
-                                    helperText={props.errors.courseDescription}
-                                    error={!!props.errors.courseDescription}
-                                />
-                                   <br></br><br></br>      
-                                     
-                                <label> Capacity</label>
-                                <br></br><br></br>  
-                                       <TextField type="number"
-                                    multiline={true}
-                                    name="capacity"
-                                    onChange={props.handleChange}
-                                    value={props.values.capacity}
-                                />
-                                  <br></br><br></br>  
-                                  <br></br><br></br>        
-                                <label> Semester </label>
-                                       <TextField type="number"
-                                    multiline={true}
-                                    name="semester"
-                                    onChange={props.handleChange}
-                                    value={props.values.semester}
-                                />
-                                  <br></br><br></br>  
-                                  <br></br><br></br>  
-                                <button type="submit">Submit</button>
-                            </form>
-                        )}
-                    </Formik>
+                        }} validateOnChange={true}
+                        >
+                            {props => (
+                                <form onSubmit={props.handleSubmit}>
+                                    {/* <label htmlFor="courseName">Course Name</label> */}
+                                    <TextField type="text"
+                                        margin="dense"
+                                        label="Course Name"
+                                        variant="outlined"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                          }}
+                                        name="courseName"
+                                        onChange={props.handleChange}
+                                        value={props.values.courseName}
+                                        helperText={props.errors.courseName}
+                                        error={props.errors.courseName}
+                                    />
+
+                                    <br/>
+                                    <br/>
+                                    {/* <label htmlFor="courseCode">Course Code</label> */}
+                                    <TextField type="text"
+                                        margin="dense"
+                                        label="Course Code"
+                                        variant="outlined"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                          }}
+                                        name="courseCode"
+                                        onChange={props.handleChange}
+                                        value={props.values.courseCode}
+                                        helperText={props.errors.courseCode}
+                                        error={props.errors.courseCode}
+                                    />
+                                    <br/>
+                                    <br/>
+
+                                    <label> Professor Name</label>
+                                    <br></br>
+                                    <select  onChange={(value)=>{props.values.professorName = value.target.value; console.log(props.values.professorName)}}>
+                                        {professorData.map((professor) =>
+                                        <option key={professor.email}> {professor.firstname} {professor.lastname}</option>)};
+                                    </select>
+                                    <br/>
+                                    <br/>
+
+                                    <label> Program Name</label>
+                                    <br/>
+                                    <select  error={props.errors.programName}  onChange={(value) => { props.values.programName = value.target.value; 
+                                    console.log(props.values.programName)
+                                        let selectedIndex = value.target.options.selectedIndex;
+                                        setProgramId(value.target.options[selectedIndex].getAttribute('program-id'));
+                                    }}>
+                                        {programData.map((program) =>
+                                            <option key={program.id} program-id={program.id}> {program.programName} </option>)};
+                                    </select>
+
+                                    <br/>
+                                    <br/>
+
+                                    {/* <label> Course Description</label> */}
+                                    <TextField type="text"
+                                        margin="dense"
+                                        label="Course Description"
+                                        variant="outlined"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        multiline={true}
+                                        name="courseDescription"
+                                        onChange={props.handleChange}
+                                        value={props.values.courseDescription}
+                                        helperText={props.errors.courseDescription}
+                                        error={!!props.errors.courseDescription}
+                                    />
+                                    <br></br><br></br>      
+                                        
+                                    {/* <label> Capacity</label> */} 
+                                        <TextField type="number"
+                                        margin="dense"
+                                        label="Course Capacity"
+                                        variant="outlined"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                          }}
+                                        multiline={true}
+                                        name="capacity"
+                                        onChange={props.handleChange}
+                                        value={props.values.capacity}
+                                    />
+                                    <br/>
+                                    <br/>
+                                    {/* <label> Semester </label> */}
+                                        <TextField type="number"
+                                        margin="dense"
+                                        label="Semester"
+                                        variant="outlined"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                          }}
+                                        multiline={true}
+                                        name="semester"
+                                        onChange={props.handleChange}
+                                        value={props.values.semester}
+                                    />
+                                    <br></br><br></br>  
+                                    <Button color="primary" variant="outlined" type="submit">Submit</Button>
+                                    <h3> {props.errors.programName}</h3>
+                                </form>
+                            )}
+                        </Formik>
+                    </Container>
+                    
+                    
                 </Paper>
             </Grid>
         </article>

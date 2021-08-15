@@ -312,34 +312,8 @@ function ManageStudent(){
                                         <Button color="primary" className={classes.myBtn} variant="outlined" size="small" onClick={()=> updatephone({ phone: changePhone, id: student.id})}>Update</Button>
                                     </Grid>
 
-                                    <Grid item xs={3}>
-                                    
-                                    {/* <TextField 
-                                            id="outlined-select-currency"
-                                            select
-                                            placeholder={student.phone}
-                                            value={changePhone}
-                                            onChange={(value) =>{
-                                                console.log("OPTIONS:");
-                                                console.log(value.target.options);
-                                                let selectedIndex = value.target.options.selectedIndex;
-                                                //setProgram(value.target.options[selectedIndex].getAttribute('program-id'));
-                                                setProgramName(value.target.options[selectedIndex].getAttribute('program-name'))
-                                            }}
-                                            helperText="Please select a program"
-                                            label="Program"
-                                            variant="outlined"
-                                            SelectProps={{
-                                                native: true,
-                                              }}
-                                        >
-                                            {changeProgram.map((program) =>
-                                            <MenuItem key={program.id} program-id={program.id} program-name={program.programName}>{program.programName}</MenuItem>)};
-                                        </TextField> 
-
-                                        <Button onClick={()=> updatephone({ phone: changePhone, id: student.id})}>Update</Button> */}
-                                        
-                                        <p>Program:
+                                    <Grid item xs={8}>        
+                                        <p><strong>Program: </strong> 
                                             <select onChange={(value) =>{
                                                                                                 console.log("OPTIONS:");
                                                                                                 console.log(value.target.options);
@@ -351,13 +325,13 @@ function ManageStudent(){
                                                 {changeProgram.map((program) =>
                                                 <option key={program.id} program-id={program.id} program-name={program.programName}>{program.programName}</option>)};
                                             </select> 
-                                            <button onClick={()=> 
-                                                updateprogram({ programName: changeProgramName, id: student.id})}>Update</button>
+                                            <Button  size="small" color="primary" variant="outlined" onClick={()=> 
+                                                updateprogram({ programName: changeProgramName, id: student.id})}>Update</Button>
                                         </p>
                                     </Grid>
 
                                     <Grid item xs={3}>
-                                    <p>Courses:
+                                    <p> <strong>Courses: </strong>
                                             <select>
                                                 {students.map(() =>
                                                 <option> {student.coursesTaken} </option>)};
