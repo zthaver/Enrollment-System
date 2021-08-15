@@ -5,6 +5,7 @@ import { firestore } from "../../../firebase";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import * as Yup from "yup";
+import AdminNav from "../AdminNavbar/AdminNav";
 
 
 
@@ -61,6 +62,7 @@ function UpdateProgram() {
 
     return (
         <article>
+            <AdminNav />
             <Grid>
                 <Paper elavation="20" style={paperStyle}>
                     <Grid >

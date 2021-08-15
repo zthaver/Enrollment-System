@@ -15,15 +15,15 @@ import { v4 as uuidv4 } from "uuid";
 import Link from "@material-ui/core/Link";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    height: "100vh",
-  },
+  root: {height: "100vh" },
+
   image: {
     backgroundRepeat: "no-repeat",
     backgroundColor: "#D92A1D",
     backgroundSize: "cover",
     backgroundPosition: "center",
   },
+
   myBtns: {
     background: "#D92A1D",
     color: "#fff",
@@ -31,9 +31,9 @@ const useStyles = makeStyles((theme) => ({
       color: "#D92A1D",
     },
   },
-  error: {
-    color: "#D92A1D",
-  },
+
+  error: { color: "#D92A1D" },
+
   inputBox: {
     border: "none",
     borderBottom: "1px solid black",
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     "&:focus": {
       borderBottom: "1px solid #90CAF9",
       outline: "none",
-    },
+    }
   },
   inputBox2: {
     width: "100%",
@@ -54,68 +54,20 @@ const useStyles = makeStyles((theme) => ({
       borderBottom: "1px solid #90CAF9",
       outline: "none",
     },
-<<<<<<< HEAD
   },
-}));
 
-const paperStyle = {
-  padding: 20,
-  height: "70vh",
-  width: 500,
-  margin: "40px auto",
-};
-
-function SignUp() {
-  const classes = useStyles();
-  // reference variables
-  const password = useRef();
-  const email = useRef();
-  const fName = useRef();
-  const lName = useRef();
-  const history = useHistory();
-
-  //use states
-  const [userEmail, setEmail] = useState("");
-  const [firstName, setfName] = useState("");
-  const [lastName, setlName] = useState("");
-  const [error, setError] = useState("");
-
-  const { signupStudent } = useAuth();
-
-  // firebase student collection
-  const studentUser = firebase.firestore().collection("student");
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    console.log("here1");
-
-    await signupStudent(userEmail, password.current.value).then((value) => {
-      //get Current user ID
-      const user = firebase.auth().currentUser.uid;
-      //add student info to the firestore database
-      studentUser
-        .doc(user)
-        .set({
-          firstname: firstName,
-          lastname: lastName,
-          email: userEmail,
-          id: user,
-          semester: 1,
-          latestPrerequisite: "",
-          program: "",
-=======
-    inputBox2:{
-        width:'100%',
-        border:"none",
-        borderBottom:"1px solid black",
-        fontSize:'1.1em',
-        padding:"10px 0",
-        '&:focus':{
-            borderBottom:"1px solid #90CAF9",
-            outline:"none"
-        },
-    }
-  }));
+  inputBox2:{
+    width:'100%',
+    border:"none",
+    borderBottom:"1px solid black",
+    fontSize:'1.1em',
+    padding:"10px 0",
+    '&:focus':{
+        borderBottom:"1px solid #90CAF9",
+        outline:"none"
+    },
+  }
+}))
 
 const paperStyle={padding:20, height:'70vh',width:500, margin:"40px auto"}
 
@@ -143,13 +95,14 @@ function SignUp()
 
     async function handleSubmit(e)
     {
-        e.preventDefault();
-        console.log("here1")
+      e.preventDefault();
+      console.log("here1")
 
             await signupStudent(userEmail,password.current.value)
             .then((value)=>{
                 //get Current user ID
                 const user = (firebase.auth().currentUser).uid;
+
                 //add student info to the firestore database
                 studentUser.doc(user).set({
                     firstname: firstName,
@@ -158,12 +111,7 @@ function SignUp()
                     id: user,
                     semester:1,
                     latestPrerequisite:"",
-
-
-
                     programName: ""
-
-
                 })
                 .then(() => {
                     alert('successful  sign up')
@@ -178,7 +126,6 @@ function SignUp()
                 setError(err)
                 
             })
->>>>>>> 66f2e76ecaaf43002285808c9d7a24d14010aa15
         })
         .then(() => {
           alert("successful  sign up");
@@ -192,7 +139,6 @@ function SignUp()
           console.log("success" + err);
           setError(err);
         });
-    });
   }
 
   return (
@@ -270,11 +216,11 @@ function SignUp()
               />
               <br />
               <br />
-              <br> </br>
+              <br/>
               <Button type="submit" className={classes.myBtns}>
                 Sign Up{" "}
               </Button>
-              <br> </br> <br> </br>{" "}
+              <br />{" "}
               {error ? (
                 <h4 align center className={classes.error}>
                   {" "}

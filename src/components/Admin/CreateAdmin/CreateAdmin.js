@@ -1,5 +1,5 @@
-import { TextField } from '@material-ui/core';
-import { Button } from "react-bootstrap";
+import { Container, TextField } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import './CreateAdmin.css'
 import {useRef, useState} from 'react';
 import { firestore } from '../../../firebase';
@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import emailjs from "emailjs-com";
 import AdminNav from '../AdminNavbar/AdminNav';
 import { makeStyles } from '@material-ui/core/styles';
+import { Paper } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -17,6 +18,21 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
     marginLeft:'240px',
   },
+  formLabel:{
+    display:'block',
+    marginTop:'20px',
+},
+inputBox2:{
+    width:'100%',
+    border:"none",
+    borderBottom:"1px solid black",
+    fontSize:'1.1em',
+    padding:"10px 0",
+    '&:focus':{
+        borderBottom:"1px solid #90CAF9",
+        outline:"none"
+    },
+}
 }))
 
 function CreateAdmin()
@@ -63,43 +79,46 @@ function CreateAdmin()
           setLoading(false);
         }
     }
-
+    const paperStyle={padding:20,height:'70vh',width:280, margin:"40px auto"}
     return(
       <div className={classes.root}>
         <AdminNav/>
         <main className={classes.content}>
-          <form onSubmit={handleSubmit}>
-            <h2>Admin Creation</h2>
+          <Paper elavation="20" style={paperStyle}>
+            <Container>
+              <form onSubmit={handleSubmit}>
+                <h2>Admin Creation</h2>
 
-            <label id="label">First Name </label>
-             <br></br><br></br>
+                <label className={classes.formLabel} id="label">First Name </label>
+    
+                <input  className={classes.inputBox2} name="firstName" ref={firstName}>
+                </input>
+
+                <br></br><br></br> 
+                <label className={classes.formLabel} id="label">
+                  Last name   
+                </label>
+
+                <input  className={classes.inputBox2} name="lastName" ref={lastName}>
+                </input>
+
+                <br></br><br></br> 
+                <label className={classes.formLabel} id="label">
+                    Email   
+                  </label>
+
+                <input className={classes.inputBox2} name="email" ref={email}>
+                </input>
+                <br></br><br></br>
+
+                <h1> {error}</h1>
+                <Button color="primary" variant="outlined" type="submit" disabled={loading}> Create Admin </Button>
+
+              </form>
+            </Container>
             
-            <input  name="firstName" ref={firstName}>
-           </input>
-
-           <br></br><br></br> 
-           <label id="label">
-              Last name   
-            </label>
-             <br></br><br></br>
-
-           <input  name="lastName" ref={lastName}>
-           </input>
-
-           <br></br><br></br> 
-           <label id="label">
-              Email   
-             </label>
-             <br></br><br></br>
-
-           <input name="email" ref={email}>
-           </input>
-           <br></br><br></br>
-
-           <h1> {error}</h1>
-           <Button type="submit" disabled={loading}> Create Admin </Button>
-
-         </form>
+          </Paper>
+          
        </main>
        </div>
        

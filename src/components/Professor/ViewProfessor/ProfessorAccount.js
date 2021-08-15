@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
         },
   
         profUpdateInfo:{
-            background: '#e3e3e3',
+            background: '#e9ecef',
             padding:'20px',
         },
   
@@ -237,75 +237,76 @@ function ProfessorAccount(){
           <div className={classes.drawerContainer}>
             <List>
                 <ListItem button component={Link} to="/professor">
-                  <ListItemText primary="Home" />
+                  <ListItemText primary="Home" style={{paddingTop: "20px"}}/>
                 </ListItem>
             </List>
             <Divider />
             <List>
-              {['Details', 'Course List', 'Advisors'].map((text, index) => (
-                <ListItem button key={text}>
-                  <ListItemText primary={text} />
+                <ListItem button component={Link} to="/viewProf">
+                  <ListItemText primary="Details" style={{paddingTop: "20px"}}/>
                 </ListItem>
-              ))}
             </List>
           </div>
         </Drawer>
         
         <Grid container className={classes.gridContainer}>
-            <Grid item md={8} className={classes.profUpdateInfo}>
-                <Box><strong><h1>Update your account Information</h1></strong></Box>
-            
+            <Grid item md={12} className={classes.profUpdateInfo}>
+                <Box>
+                    <strong><h1>Update professor account Information</h1></strong>
+                    <h4>Please enter information to update to individually update your account information</h4>
+                </Box>
+                <br/>
+                <br/>
+
                 <Container maxwidth="sm">
                     <Grid container className={classes.infoItem}>
-                        <Grid md={2}>
-                            <p>First Name:</p>                            
-                        </Grid>
 
-                        <Grid md={10}>
-                            <TextField  id="standard-basic" 
+                        <Grid md={6}>
+                            <TextField  id="outlined-basic" 
                                         placeholder={userFname}
+                                        label="First Name"
+                                        variant="outlined"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                          }}
                                         onChange={(e)=> updateFname(e.target.value)} type="text" />
                             <Button className={classes.updateBtn} onClick={(e) => handleUpdate('firstname', e)}>update</Button>
                         </Grid>
 
-                    </Grid>
-
-                    <Grid container className={classes.infoItem}>
-                        <Grid md={2}>
-                            <p>Last Name:</p>                            
-                        </Grid>
-
-                        <Grid md={10}>
-                            <TextField  id="standard-basic" 
+                        <Grid md={6}>
+                            <TextField  id="outlined-basic" 
                                         placeholder={userLname}
+                                        label="Last Name"
+                                        variant="outlined"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                          }}
                                         onChange={(e)=> updateLname(e.target.value)} type="text" />
                             <Button className={classes.updateBtn} onClick={(e) => handleUpdate('lastname', e)}>update</Button>
                         </Grid>
-
                     </Grid>
 
                     <Grid container className={classes.infoItem}>
-                        <Grid md={2}>
-                            <p>Phone:</p>                            
-                        </Grid>
-
-                        <Grid md={10}>
-                            <TextField  id="standard-basic" 
+                        <Grid md={6}>
+                            <TextField  id="outlined-basic" 
                                         placeholder={userPhone}
+                                        label="Phone"
+                                        variant="outlined"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                          }}
                                         onChange={(e)=> updatePhone(e.target.value)} type="text" />
                             <Button className={classes.updateBtn} onClick={(e) => handleUpdate('phone', e)}>update</Button>
                         </Grid>
 
-                    </Grid>
-
-                    <Grid container className={classes.infoItem}>
-                        <Grid md={2}>
-                            <p>Address:</p>                            
-                        </Grid>
-
-                        <Grid md={10}>
-                            <TextField  id="standard-basic" 
+                        <Grid md={6}>
+                            <TextField  id="outlined-basic" 
                                         placeholder={userAddress}
+                                        label="Address "
+                                        variant="outlined"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                          }}
                                         onChange={(e)=> updateAddress(e.target.value)} type="text" />
                             <Button className={classes.updateBtn} onClick={(e) => handleUpdate('address', e)}>update</Button>                    
                         </Grid>
@@ -318,16 +319,6 @@ function ProfessorAccount(){
                     
                 </Container>
             </Grid>
-
-        {/* DISPLAY PROF INFO */}  
-          <Grid item md={4} className={classes.profDetails}>
-              <Box><h2>{userFname}'s account information</h2></Box>
-              <p>{userFname} {userLname}</p>
-              <p>{userEmail}</p>
-              <p>{userPhone}</p>
-              <p>{userAddress}</p>
-          
-          </Grid>
         </Grid>
       </section>
 

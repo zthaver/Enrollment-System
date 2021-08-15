@@ -90,7 +90,7 @@ export default function AdminNav(){
                     }}
                     anchor="left"
                 >
-                    <ListItem button component={Link} to="/admin">
+                    <ListItem button component={Link} to="/createAdmin">
                     <h2 align="center">Seneca College</h2>
                     </ListItem>
                     <Divider />

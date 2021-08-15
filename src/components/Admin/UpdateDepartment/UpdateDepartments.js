@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import { firestore } from "../../../firebase";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import AdminNav from "../AdminNavbar/AdminNav";
 
 function UpdateDepartments()
 {
@@ -17,6 +18,7 @@ function UpdateDepartments()
 console.log(id)
     return(
         <article>
+        <AdminNav />
         <Grid>
             <Paper elavation="20" style={paperStyle}>
                 <Grid >

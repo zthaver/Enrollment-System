@@ -3,6 +3,11 @@ import React, { useState, useEffect, Fragment } from "react";
 import { Link } from "react-router-dom";
 import AdminNav from '../AdminNavbar/AdminNav';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
+import {Grid, 
+    TextField,
+    Button, 
+    MenuItem,
+    Checkbox} from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     content: {
@@ -10,7 +15,18 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.background.default,
       padding: theme.spacing(3),
       marginLeft:'240px',
+    },
+    gridContainer:{
+        border:"1px solid #E3DFFF",
+        borderRadius:"5px",
+        padding:"10px",
+        margin:"25px 0",
+    },
+    myBtn:{
+        marginTop:"13px",
+        marginLeft:"4px",
     }
+
   }))
 
 function ManageProfessor(){
@@ -156,88 +172,165 @@ function ManageProfessor(){
             <main className={classes.content}>
             <Fragment>
             <h1>Manage Professor</h1>
-            <td>
-                <Link to="/admin"> Home </Link>
-            </td>
+
             <hr />
             {loading ? <h1>Loading...</h1> : null}
             {students.map((prof)=>(
                 <div className="professor" key={prof.id}>
-                    <h3>ID: {prof.id}</h3>
-                    <div>
-                        <p>First Name:
-                            <input 
+                    <h3>{prof.firstname} {prof.lastname}</h3>
+                    <p>ID: {prof.id}</p>
+                    <Grid className={classes.gridContainer} container spacing={1}>
+                        <Grid md={3} sm={6} xs={12}>
+                            <TextField
+                                    margin="dense" 
+                                    type="text"
+                                    id="outlined-basic"
+                                    placeholder={prof.firstname}
+                                    value={changeFName}
+                                    label="First Name"
+                                                variant="outlined"
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
+                                    onChange={(e)=> setfName(e.target.value)}
+                                /> 
+                                <Button variant="outlined" 
+                                        size="small"
+                                        color="primary"
+                                        className={classes.myBtn} 
+                                        onClick={()=> 
+                                        updatefname({ firstname: changeFName, id: prof.id})}>Update</Button>
+                        </Grid>
+
+                        <Grid md={3} sm={6} xs={12}>
+                            <TextField 
+                                margin="dense"
                                 type="text"
-                                placeholder={prof.firstname}
-                                value={changeFName}
-                                onChange={(e)=> setfName(e.target.value)}
-                            /> 
-                            <button onClick={()=> 
-                                updatefname({ firstname: changeFName, id: prof.id})}>Update</button>
-                        </p> 
-                        <p>Last Name:
-                            <input 
-                                type="text"
+                                id="outlined-basic"
                                 placeholder={prof.lastname}
                                 value={changeLName}
+                                label="Last Name"
+                                                variant="outlined"
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
                                 onChange={(e)=> setlName(e.target.value)}
                             /> 
-                            <button onClick={()=> 
-                                updatelname({ lastname: changeLName, id: prof.id})}>Update</button>
-                        </p> 
-                        <p>Email:
-                            <input 
+                            <Button variant="outlined" 
+                                    size="small" 
+                                    color="primary"
+                                    className={classes.myBtn}
+                                    onClick={()=> 
+                                    updatelname({ lastname: changeLName, id: prof.id})}>Update</Button>
+                        </Grid>
+
+                        <Grid md={3} sm={6} xs={12}>
+                            <TextField 
+                                margin="dense"
                                 type="text"
+                                id="outlined-basic"
                                 placeholder={prof.email}
                                 value={changeEmail}
+                                label="Email"
+                                                variant="outlined"
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
                                 onChange={(e)=> setEmail(e.target.value)}
                             /> 
-                            <button onClick={()=> 
-                                updateemail({ email: changeEmail, id: prof.id})}>Update</button>
-                        </p>
-                        <p>Address:
-                            <input 
+                            <Button variant="outlined" 
+                                    size="small"
+                                    color="primary"
+                                    className={classes.myBtn}
+                                    onClick={()=> 
+                                    updateemail({ email: changeEmail, id: prof.id})}>Update</Button>
+                        </Grid>
+
+                        <Grid md={3} sm={6} xs={12}>
+                            <TextField 
+                                margin="dense"
                                 type="text"
+                                id="outlined-basic"
                                 placeholder={prof.address}
+                                label="Address"
+                                variant="outlined"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
                                 value={changeAddress}
                                 onChange={(e)=> setAddress(e.target.value)}
                             /> 
-                            <button onClick={()=> 
-                                updateaddress({ address: changeAddress, id: prof.id})}>Update</button>
-                        </p>
-                        <p>Date of Birth:
-                            <input 
-                                type="text"
+                            <Button variant="outlined" 
+                                    size="small" 
+                                    color="primary"
+                                    className={classes.myBtn}
+                                    onClick={()=> 
+                                    updateaddress({ address: changeAddress, id: prof.id})}>Update</Button>
+                        </Grid>
+
+                        <Grid md={3} sm={6} xs={12}>
+                            <TextField 
+                                margin="dense"
+                                type="date"
                                 placeholder={prof.dateofbirth}
+                                label="Date of Birth"
+                                variant="outlined"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
                                 value={changeDate}
                                 onChange={(e)=> setDate(e.target.value)}
                             /> 
-                            <button onClick={()=> 
-                                updatedate({ dateofbirth: changeDate, id: prof.id})}>Update</button>
-                        </p>
-                        <p>Phone Number:
-                            <input 
+                            <Button variant="outlined" 
+                                    size="small" 
+                                    color="primary"
+                                    className={classes.myBtn}
+                                    onClick={()=> 
+                                    updatedate({ dateofbirth: changeDate, id: prof.id})}>Update</Button>
+                        </Grid>
+
+                        <Grid item md={3} sm={6} xs={12}>
+                            <TextField 
+                                margin="dense"
                                 type="text"
                                 placeholder={prof.phone}
+                                label="Phone Number"
+                                variant="outlined"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
                                 value={changePhone}
                                 onChange={(e)=> setPhone(e.target.value)}
                             /> 
-                            <button onClick={()=> 
-                                updatephone({ phone: changePhone, id: prof.id})}>Update</button>
-                        </p>
-                        <p>
+                            <Button variant="outlined" 
+                                    size="small" 
+                                    color="primary"
+                                    className={classes.myBtn}
+                                    onClick={()=> 
+                                    updatephone({ phone: changePhone, id: prof.id})}>Update</Button>
+                        </Grid>
+                            
+                        
+                        <Grid item md={3} sm={6} xs={12}>
                             Department Head: {String(prof.isDepartmentHead)}
-                            <input
-                                type="checkbox"
+                            <Checkbox
                                 value={changeDhead}
                                 onChange={(e)=> setDhead(e.target.checked)}
                             />
-                            <button onClick={()=> 
-                                updateDHead({ departmenthead: changeDhead, id: prof.id})}>Update</button>
-                        </p>
+                            <Button variant="outlined" 
+                                    size="small" 
+                                    color="primary"
+                                    className={classes.myBtn}
+                                    onClick={()=> 
+                                    updateDHead({ departmenthead: changeDhead, id: prof.id})}>Update</Button>
+                        </Grid>
 
-                        <button onClick={()=>deleteProf(prof)}>Delete {prof.firstname} {prof.lastname}</button>
-                    </div>
+                        <Grid item md={3} sm={6} xs={12}>
+
+                        </Grid>
+
+                        <Button color="secondary" variant="outlined" onClick={()=>deleteProf(prof)}>Delete {prof.firstname} {prof.lastname}</Button>
+                    </Grid>
                 </div>
             ))}
         </Fragment>

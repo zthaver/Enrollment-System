@@ -1,5 +1,5 @@
-import { TextField } from '@material-ui/core';
-import { Button } from "react-bootstrap";
+import { Container, TextField } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import './CreateProfessor.css'
 import { useAuth } from "../../../Contexts/AuthContext";
 import {useRef, useState} from 'react';
@@ -9,6 +9,7 @@ import firebase from '../../../firebase';
 import emailjs from 'emailjs-com';
 import AdminNav from '../AdminNavbar/AdminNav';
 import { makeStyles } from '@material-ui/core/styles';
+import { Paper } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     content: {
@@ -17,6 +18,27 @@ const useStyles = makeStyles((theme) => ({
       padding: theme.spacing(3),
       marginLeft:'240px',
     },
+    content: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.default,
+        padding: theme.spacing(3),
+        marginLeft:'240px',
+      },
+      formLabel:{
+        display:'block',
+        marginTop:'20px',
+    },
+    inputBox2:{
+        width:'100%',
+        border:"none",
+        borderBottom:"1px solid black",
+        fontSize:'1.1em',
+        padding:"10px 0",
+        '&:focus':{
+            borderBottom:"1px solid #90CAF9",
+            outline:"none"
+        },
+    }
   }))
 /*
 The file to create a professor, add them to the database and then sned their credentials to them via email.
@@ -77,45 +99,46 @@ function CreateProfessor()
         }
     }
 
-
-
+    const paperStyle={padding:20,height:'70vh',width:280, margin:"40px auto"}
      return(
          <article className={classes.root}>
              <AdminNav/>
              <main className={classes.content}>
-                <h2>Create Professor</h2>
-                <form onSubmit={handleSubmit}>
-                <label id="label">
-                First Name 
-                </label>
-                <br></br><br></br>
+                <Paper elavation="20" style={paperStyle}>
+                    <Container>
+                    <h2>Create Professor</h2>
+                        <form onSubmit={handleSubmit}>
+                        <label className={classes.formLabel} id="label">
+                        First Name 
+                        </label>
 
-            <input  name="firstName" ref={firstName}>
-            </input>
+                    <input className={classes.inputBox2} name="firstName" ref={firstName}>
+                    </input>
 
-            <br></br><br></br> 
-            <label id="label">
-                Last name   
-                </label>
-                <br></br><br></br>
+                    <br></br><br></br> 
+                    <label className={classes.formLabel} id="label">
+                        Last name   
+                        </label>
 
-            <input  name="lastName" ref={lastName}>
-            </input>
+                    <input  className={classes.inputBox2} name="lastName" ref={lastName}>
+                    </input>
 
-            <br></br><br></br> 
-            <label id="label">
-                Email   
-                </label>
-                <br></br><br></br>
+                    <br></br><br></br> 
+                    <label className={classes.formLabel} id="label">
+                        Email   
+                        </label>
 
-            <input  name="email" ref={email}>
-            </input>
-            <br></br><br></br>
+                    <input  className={classes.inputBox2} name="email" ref={email}>
+                    </input>
+                    <br></br><br></br>
 
-            <h1> {error.message}</h1>
-            <Button type="submit" disabled={loading}> Create Professor </Button>
+                    <h1> {error.message}</h1>
+                    <Button color="primary" variant="outlined" type="submit" disabled={loading}> Create Professor </Button>
 
-            </form>
+                    </form>
+                    </Container>
+                </Paper>
+                
         </main>
              
          </article>

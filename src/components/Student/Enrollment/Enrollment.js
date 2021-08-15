@@ -3,7 +3,7 @@ import firebase from "../../../firebase";
 import { firestore } from "../../../firebase";
 import { useHistory } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
-import { Paper, TextField } from "@material-ui/core";
+import { Grid, Paper, TextField } from "@material-ui/core";
 import StudentNav from "../StudentNavbar/StudentNav";
 import { Formik } from "formik";
 import MaterialTable from "material-table";
@@ -32,6 +32,9 @@ function Enrollment() {
       padding: theme.spacing(3),
       marginLeft: "240px",
     },
+    myTable: {
+      margin: "0 auto"
+    }
   }));
 
   const col = [
@@ -184,41 +187,63 @@ function Enrollment() {
   return (
     <div className={classes.root}>
       <StudentNav />
-      <br> </br> <br> </br> <br> </br> <br> </br>
-      <br> </br>{" "}
-      <div>
-        <h3> Student Program: {studentData.programName} </h3>{" "}
-      </div>{" "}
-      <MaterialTable
-        icons={tableIcons}
-        title="Student Available Courses"
-        columns={col}
-        data={courseData}
-        actions={[
-          {
-            icon: tableIcons.Add,
-            tooltip: "Add taken course",
-            onClick: (event, rowData) => {
-              addCourse(rowData);
-            },
-          },
-        ]}
-      />{" "}
-      <MaterialTable
-        icons={tableIcons}
-        title="Student Added Courses"
-        columns={col}
-        data={studentCourses}
-        actions={[
-          {
-            icon: tableIcons.Delete,
-            tooltip: "delete course",
-            onClick: async (event, rowData) => {
-              deleteCourse(rowData.takenID);
-            },
-          },
-        ]}
-      />{" "}
+      <br />  
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      {" "}
+      
+      <Grid container>
+        <div className={classes.myTable}>
+
+          <div>
+            <h3> Student Program: {studentData.programName} </h3>{" "}
+            <br />
+          </div>{" "}
+
+          <MaterialTable  
+            icons={tableIcons}
+            title="Student Available Courses"
+            columns={col}
+            data={courseData}
+            actions={[
+              {
+                icon: tableIcons.Add,
+                tooltip: "Add taken course",
+                onClick: (event, rowData) => {
+                  addCourse(rowData);
+                },
+              },
+            ]}
+          />{" "}
+                  <br/>
+        </div>
+        
+
+
+
+        <div className={classes.myTable}>
+        <br/>
+          <MaterialTable
+            icons={tableIcons}
+            title="Student Added Courses"
+            columns={col}
+            data={studentCourses}
+            actions={[
+              {
+                icon: tableIcons.Delete,
+                tooltip: "delete course",
+                onClick: async (event, rowData) => {
+                  deleteCourse(rowData.takenID);
+                },
+              },
+            ]}
+          />{" "}
+        </div>
+        
+      </Grid>
+      
     </div>
   );
 }
