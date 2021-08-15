@@ -54,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
       borderBottom: "1px solid #90CAF9",
       outline: "none",
     },
+<<<<<<< HEAD
   },
 }));
 
@@ -102,6 +103,82 @@ function SignUp() {
           semester: 1,
           latestPrerequisite: "",
           program: "",
+=======
+    inputBox2:{
+        width:'100%',
+        border:"none",
+        borderBottom:"1px solid black",
+        fontSize:'1.1em',
+        padding:"10px 0",
+        '&:focus':{
+            borderBottom:"1px solid #90CAF9",
+            outline:"none"
+        },
+    }
+  }));
+
+const paperStyle={padding:20, height:'70vh',width:500, margin:"40px auto"}
+
+function SignUp()
+{
+    const classes = useStyles();
+    // reference variables
+    const password = useRef();
+    const email = useRef();
+    const fName = useRef();   
+    const lName = useRef();   
+    const history = useHistory();
+
+    //use states
+    const [userEmail, setEmail] = useState("");
+    const [firstName, setfName] = useState("");
+    const [lastName, setlName] = useState("");
+    const [error,setError] = useState("");
+
+    const { signupStudent } = useAuth();
+
+
+    // firebase student collection
+    const studentUser = firebase.firestore().collection("student");
+
+    async function handleSubmit(e)
+    {
+        e.preventDefault();
+        console.log("here1")
+
+            await signupStudent(userEmail,password.current.value)
+            .then((value)=>{
+                //get Current user ID
+                const user = (firebase.auth().currentUser).uid;
+                //add student info to the firestore database
+                studentUser.doc(user).set({
+                    firstname: firstName,
+                    lastname: lastName,
+                    email: userEmail,
+                    id: user,
+                    semester:1,
+                    latestPrerequisite:"",
+
+
+
+                    programName: ""
+
+
+                })
+                .then(() => {
+                    alert('successful  sign up')
+                    history.push("/login")
+                })
+                .catch((err)=>{
+                    console.log("success" +err)
+                    setError(err)
+                
+            }).catch((err)=>{
+                console.log("success" +err)
+                setError(err)
+                
+            })
+>>>>>>> 66f2e76ecaaf43002285808c9d7a24d14010aa15
         })
         .then(() => {
           alert("successful  sign up");

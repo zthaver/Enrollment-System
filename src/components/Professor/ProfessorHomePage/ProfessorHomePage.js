@@ -16,6 +16,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 const drawerWidth = 240;
 
+//CSS styles
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -88,22 +89,29 @@ function ProfessorHomePage()
 {
     const classes = useStyles();
 
+    //retrieve professor id from firebase
     const user = (firebase.auth().currentUser).uid;
     const uid = user;
     const profUser = firebase.firestore().collection("professors").doc(uid);
 
+    //retrieve availabilities subCollection from the professor collection
+    const profAppointments = firebase.firestore().collection("professors").doc(uid).collection("availabilities");
+    console.log(profUser)
+    console.log(profAppointments)
+
     let [departmentHead,setDepartmentHead] = useState(false);
     console.log((firebase.auth().currentUser).uid)
-
     let  myScheduler = useRef();
+
+    //variables for the appointment data retrieved from the DB    
     const [appointmentData, setAppointments] = useState([]);
-    
     const appointments = new Array();
 
     appointmentData.forEach((appointment)=>{
         appointments.push(appointment);  
       })
 
+    // setting up JQX Scheduler 
     const source = {
         dataFields: [
             { name: 'id', type: 'string' },
@@ -150,36 +158,62 @@ function ProfessorHomePage()
         })
     }, [])
 
-    //retrieve appointments from the firestore db
+    //retrieve availabilities from the firestore db
     useEffect(() => {
-         
-        profUser.get().then((appointmentsData) => {
-            if(appointmentsData.exists){
-            console.log("Document data:", appointmentsData.data().availability);
-            
-            if(appointmentsData.data().availability){
-                setAppointments(appointmentsData.data().availability.map((appointment => 
-                    {
-                    console.log(appointment.start.toDate())
-                        let convertedAppointment = {};
-                        // appointment.data();
-                        convertedAppointment.start = appointment.start.toDate();
-                        convertedAppointment.end = appointment.end.toDate();
-                        // convertedAppointment.description = appointment.get("description");
-                        // convertedAppointment.subject = appointment.get("subject");
-                        console.log("convertedAppointment")
-                        console.log(convertedAppointment)
-                        // console.log(appointment.data())
-                        return convertedAppointment;
-                    }
-                )));
-            }
-            
 
+        profUser.collection("availabilities").get().then((querySnapshot) => {
+            let tempArray = [];
+
+            //Check if the data exists
+            //If it does push each doc into the temporary array
+            //Convert firestore timestamp to javascript dates
+            if(querySnapshot){
+                querySnapshot.forEach((doc) => {
+                    console.log(doc.id, " => ", doc.data());
+                    console.log(typeof doc.data());
+
+                    tempArray.push(doc.data());
+                });
+                setAppointments(tempArray.map((item) => {
+                    console.log(item);
+                    let tempObj = {}
+                    tempObj.start =  item.start.toDate()
+                    tempObj.end =  item.end.toDate()
+                    console.log("tempObj")
+                    console.log(tempObj)
+                    return tempObj;
+                }));
             } else {
-            console.log("No availability");
+                console.log("Doesn't exist");
             }
-        })
+        });
+
+        //old code
+        // profUser.get().then((appointmentsData) => {
+        //     if(appointmentsData.exists){
+        //     console.log("Document data:", appointmentsData.data());
+            
+        //         if(appointmentsData.data().availability){
+        //             setAppointments(appointmentsData.data().availability.map((appointment => 
+        //                 {
+        //                 console.log(appointment.start.toDate())
+        //                     let convertedAppointment = {};
+        //                     // appointment.data();
+        //                     convertedAppointment.start = appointment.start.toDate();
+        //                     convertedAppointment.end = appointment.end.toDate();
+        //                     // convertedAppointment.description = appointment.get("description");
+        //                     // convertedAppointment.subject = appointment.get("subject");
+        //                     console.log("convertedAppointment")
+        //                     console.log(convertedAppointment)
+        //                     // console.log(appointment.data())
+        //                     return convertedAppointment;
+        //                 }
+        //             )));
+        //         }
+        //     } else {
+        //     console.log("No availability");
+        //     }
+        // })
     }, [])
     
     return(

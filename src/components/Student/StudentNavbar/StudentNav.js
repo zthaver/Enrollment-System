@@ -26,7 +26,10 @@ const useStyles = makeStyles((theme) => ({
     },
     title: {
         flexGrow: 1,
-      }
+      },
+    homeBtn: {
+        fontSize: "1.1em"
+    }
 }))
 
 
@@ -48,7 +51,7 @@ export default function StudentNav(){
                 <Toolbar>
         
                 <Typography variant="h6" className={classes.title}>
-                    Seneca College
+                    <Button className={classes.homeBtn} component={Link} to="/student" color="inherit">Seneca College</Button>
                 </Typography>
                 
                 <Button component={Link} to="/viewStudent" color="inherit">Account</Button>

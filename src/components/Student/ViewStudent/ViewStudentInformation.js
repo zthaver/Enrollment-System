@@ -255,7 +255,7 @@ function ViewStudentInformation(){
             </List>
             <Divider />
             <List>
-              {['Details', 'Academic Records', 'Advisors'].map((text, index) => (
+              {['Advisors'].map((text, index) => (
                 <ListItem button key={text}>
                   <ListItemText primary={text} />
                 </ListItem>
@@ -266,7 +266,7 @@ function ViewStudentInformation(){
         
         {/* UPDATE STUDENT INFO */}  
         <Grid container className={classes.gridContainer}>
-          <Grid item md={8} className={classes.studentUpdateInfo}>
+          <Grid item md={6} className={classes.studentUpdateInfo}>
               <Box><strong><h1>Update your account Information</h1></strong></Box>
 
                   <Container maxwidth="sm">
@@ -366,12 +366,12 @@ function ViewStudentInformation(){
           </Grid>
   
           {/* DISPLAY STUDENT INFO */}  
-          <Grid item md={4} className={classes.studentDetails}>
+          <Grid item md={6} className={classes.studentDetails}>
               <Box> <h2>{userFname}'s account information </h2></Box>
-              <p>{userFname} {userLname}</p>
-              <p>{userEmail}</p>
-              <p>{userPhone}</p>
-              <p>{userAddress}</p>
+              <p><strong>Full Name: </strong>{userFname} {userLname}</p>
+              <p><strong>Email: </strong>{userEmail}</p>
+              <p><strong>Phone: </strong>{userPhone}</p>
+              <p><strong>Adderss: </strong>{userAddress}</p>
           </Grid>
           
         </Grid>
