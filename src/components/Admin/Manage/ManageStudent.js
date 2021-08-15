@@ -17,9 +17,19 @@ const useStyles = makeStyles((theme) => ({
       marginLeft:'240px',
     },
     gridContainer:{
-        border:"1px solid black",
+        border:"1px solid #E3DFFF",
+        borderRadius:"5px",
+        padding:"10px",
+        margin:"25px 0",
+    },
+    myBtn:{
+        marginTop:"13px",
+        marginLeft:"4px",
     }
+
   }))
+
+
 
 function ManageStudent(){ 
     const studentUser = firebase.firestore().collection("student");
@@ -194,11 +204,13 @@ function ManageStudent(){
                         {students.map((student)=>(
 
                             <div className="student" key={student.id}>
-                                <h3>Student Id:: {student.id}</h3>
+                                <h3>{student.firstname} {student.lastname}</h3>
+                                <p>Student Id:: {student.id}</p>
                                 
                                 <Grid className={classes.gridContainer} container spacing={1}>                                    
                                     <Grid item md={3} sm={6} xs={12} >                                        
                                         <TextField 
+                                            margin="dense"
                                             type="text"
                                             id="outlined-basic"
                                             placeholder={student.lastname}
@@ -210,11 +222,12 @@ function ManageStudent(){
                                                 shrink: true,
                                               }}
                                         /> 
-                                        <Button variant="outlined" size="small" onClick={()=> updatelname({ lastname: changeLName, id: student.id})}>Update</Button>
+                                        <Button color="primary" className={classes.myBtn} variant="outlined" size="small" onClick={()=> updatelname({ lastname: changeLName, id: student.id})}>Update</Button>
                                     </Grid>
 
                                     <Grid item md={3} sm={6} xs={12}>
                                     <TextField 
+                                            margin="dense"
                                             type="text"
                                             id="outlined-basic"
                                             placeholder={student.firstname}
@@ -226,11 +239,12 @@ function ManageStudent(){
                                                 shrink: true,
                                               }}
                                         /> 
-                                        <Button variant="outlined" size="small" onClick={()=> updatefname({ firstname: changeFName, id: student.id})}>Update</Button>
+                                        <Button color="primary" className={classes.myBtn} variant="outlined" size="small" onClick={()=> updatefname({ firstname: changeFName, id: student.id})}>Update</Button>
                                     </Grid>
 
                                     <Grid item md={3} sm={6} xs={12}>
                                     <TextField 
+                                            margin="dense"
                                             type="email"
                                             id="outlined-basic"
                                             placeholder={student.email}
@@ -242,11 +256,12 @@ function ManageStudent(){
                                                 shrink: true,
                                               }}
                                         /> 
-                                        <Button variant="outlined" size="small" onClick={()=> updateemail({ email: changeEmail, id: student.id})}>Update</Button>
+                                        <Button color="primary" className={classes.myBtn} variant="outlined" size="small" onClick={()=> updateemail({ email: changeEmail, id: student.id})}>Update</Button>
                                     </Grid>
 
                                     <Grid item md={3} sm={6} xs={12}>
                                     <TextField 
+                                            margin="dense"
                                             type="text"
                                             id="outlined-basic"
                                             placeholder={student.address}
@@ -258,12 +273,13 @@ function ManageStudent(){
                                                 shrink: true,
                                               }}
                                         /> 
-                                        <Button variant="outlined" size="small" onClick={()=> updateaddress({ address: changeAddress, id: student.id})}>Update</Button>
+                                        <Button color="primary" className={classes.myBtn} variant="outlined" size="small" onClick={()=> updateaddress({ address: changeAddress, id: student.id})}>Update</Button>
 
                                     </Grid>
 
                                     <Grid item md={3} sm={6} xs={12}>
                                     <TextField 
+                                            margin="dense"
                                             type="date"
                                             id="outlined-basic"
                                             placeholder={student.dateofbirth}
@@ -275,12 +291,13 @@ function ManageStudent(){
                                                 shrink: true,
                                               }}
                                         /> 
-                                        <Button variant="outlined" size="small" onClick={()=> updatedate({ dateofbirth: changeDate, id: student.id})}>Update</Button>
+                                        <Button color="primary" className={classes.myBtn} variant="outlined" size="small" onClick={()=> updatedate({ dateofbirth: changeDate, id: student.id})}>Update</Button>
 
                                     </Grid>
 
                                     <Grid item md={3} sm={6} xs={12}>
                                         <TextField 
+                                            margin="dense"
                                             type="text"
                                             id="outlined-basic"
                                             placeholder={student.phone}
@@ -292,7 +309,7 @@ function ManageStudent(){
                                                 shrink: true,
                                               }}
                                         /> 
-                                        <Button variant="outlined" size="small" onClick={()=> updatephone({ phone: changePhone, id: student.id})}>Update</Button>
+                                        <Button color="primary" className={classes.myBtn} variant="outlined" size="small" onClick={()=> updatephone({ phone: changePhone, id: student.id})}>Update</Button>
                                     </Grid>
 
                                     <Grid item xs={3}>
@@ -347,7 +364,7 @@ function ManageStudent(){
                                             </select> 
                                         </p>
                                     </Grid>
-                                    <Button variant="outlined" size="medium" onClick={()=>deleteStudent(student)}>Delete {student.firstname} {student.lastname}</Button>
+                                    <Button color="secondary" variant="outlined" size="medium" onClick={()=>deleteStudent(student)}>Delete {student.firstname} {student.lastname}</Button>
 
                                 </Grid>
                             </div>                            
