@@ -216,11 +216,11 @@ function SignUp()
               />
               <br />
               <br />
-              <br> </br>
+              <br/>
               <Button type="submit" className={classes.myBtns}>
                 Sign Up{" "}
               </Button>
-              <br> </br> <br> </br>{" "}
+              <br />{" "}
               {error ? (
                 <h4 align center className={classes.error}>
                   {" "}
