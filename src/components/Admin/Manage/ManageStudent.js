@@ -4,6 +4,10 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../../Contexts/AuthContext" 
 import AdminNav from '../AdminNavbar/AdminNav';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
+import {Grid, 
+        TextField,
+        Button, 
+        MenuItem} from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     content: {
@@ -11,6 +15,9 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.background.default,
       padding: theme.spacing(3),
       marginLeft:'240px',
+    },
+    gridContainer:{
+        border:"1px solid black",
     }
   }))
 
@@ -176,105 +183,174 @@ function ManageStudent(){
     return(
         <div className={classes.root}>
             <AdminNav/>
-                <main className={classes.content}>
-                    <Fragment>
             
-                        <h1>Manage Student</h1>
-                            <td>
-                                <Link to="/admin"> Home </Link>
-                            </td>
-
-                            <hr />
+                <main className={classes.content}>
+                    
+                    <Fragment>
+                        <h1>Manage Students Information</h1>
+                        <hr />
 
                         {loading ? <h1>Loading...</h1> : null}
                         {students.map((student)=>(
 
                             <div className="student" key={student.id}>
-                                <h3>ID: {student.id}</h3>
+                                <h3>Student Id:: {student.id}</h3>
                                 
-                                <div>
-                                    <p>First Name:
-                                        <input 
+                                <Grid className={classes.gridContainer} container spacing={1}>                                    
+                                    <Grid item md={3} sm={6} xs={12} >                                        
+                                        <TextField 
                                             type="text"
-                                            placeholder={student.firstname}
-                                            value={changeFName}
-                                            onChange={(e)=> setfName(e.target.value)}
-                                        /> 
-                                        <button onClick={()=> 
-                                            updatefname({ firstname: changeFName, id: student.id})}>Update</button>
-                                    </p> 
-                                    <p>Last Name:
-                                        <input 
-                                            type="text"
+                                            id="outlined-basic"
                                             placeholder={student.lastname}
                                             value={changeLName}
                                             onChange={(e)=> setlName(e.target.value)}
+                                            label="Last Name"
+                                            variant="outlined"
+                                            InputLabelProps={{
+                                                shrink: true,
+                                              }}
                                         /> 
-                                        <button onClick={()=> 
-                                            updatelname({ lastname: changeLName, id: student.id})}>Update</button>
-                                    </p> 
-                                    <p>Email:
-                                        <input 
+                                        <Button variant="outlined" size="small" onClick={()=> updatelname({ lastname: changeLName, id: student.id})}>Update</Button>
+                                    </Grid>
+
+                                    <Grid item md={3} sm={6} xs={12}>
+                                    <TextField 
                                             type="text"
+                                            id="outlined-basic"
+                                            placeholder={student.firstname}
+                                            value={changeFName}
+                                            onChange={(e)=> setfName(e.target.value)}
+                                            label="First Name"
+                                            variant="outlined"
+                                            InputLabelProps={{
+                                                shrink: true,
+                                              }}
+                                        /> 
+                                        <Button variant="outlined" size="small" onClick={()=> updatefname({ firstname: changeFName, id: student.id})}>Update</Button>
+                                    </Grid>
+
+                                    <Grid item md={3} sm={6} xs={12}>
+                                    <TextField 
+                                            type="email"
+                                            id="outlined-basic"
                                             placeholder={student.email}
                                             value={changeEmail}
                                             onChange={(e)=> setEmail(e.target.value)}
+                                            label="Email"
+                                            variant="outlined"
+                                            InputLabelProps={{
+                                                shrink: true,
+                                              }}
                                         /> 
-                                        <button onClick={()=> 
-                                            updateemail({ email: changeEmail, id: student.id})}>Update</button>
-                                    </p>
-                                    <p>Address:
-                                        <input 
+                                        <Button variant="outlined" size="small" onClick={()=> updateemail({ email: changeEmail, id: student.id})}>Update</Button>
+                                    </Grid>
+
+                                    <Grid item md={3} sm={6} xs={12}>
+                                    <TextField 
                                             type="text"
+                                            id="outlined-basic"
                                             placeholder={student.address}
                                             value={changeAddress}
                                             onChange={(e)=> setAddress(e.target.value)}
+                                            label="Address"
+                                            variant="outlined"
+                                            InputLabelProps={{
+                                                shrink: true,
+                                              }}
                                         /> 
-                                        <button onClick={()=> 
-                                            updateaddress({ address: changeAddress, id: student.id})}>Update</button>
-                                    </p>
-                                    <p>Date of Birth:
-                                        <input 
-                                            type="text"
+                                        <Button variant="outlined" size="small" onClick={()=> updateaddress({ address: changeAddress, id: student.id})}>Update</Button>
+
+                                    </Grid>
+
+                                    <Grid item md={3} sm={6} xs={12}>
+                                    <TextField 
+                                            type="date"
+                                            id="outlined-basic"
                                             placeholder={student.dateofbirth}
                                             value={changeDate}
                                             onChange={(e)=> setDate(e.target.value)}
+                                            label="Date of Birth"
+                                            variant="outlined"
+                                            InputLabelProps={{
+                                                shrink: true,
+                                              }}
                                         /> 
-                                        <button onClick={()=> 
-                                            updatedate({ dateofbirth: changeDate, id: student.id})}>Update</button>
-                                    </p>
-                                    <p>Phone Number:
-                                        <input 
+                                        <Button variant="outlined" size="small" onClick={()=> updatedate({ dateofbirth: changeDate, id: student.id})}>Update</Button>
+
+                                    </Grid>
+
+                                    <Grid item md={3} sm={6} xs={12}>
+                                        <TextField 
                                             type="text"
+                                            id="outlined-basic"
                                             placeholder={student.phone}
                                             value={changePhone}
                                             onChange={(e)=> setPhone(e.target.value)}
+                                            label="Phone Number"
+                                            variant="outlined"
+                                            InputLabelProps={{
+                                                shrink: true,
+                                              }}
                                         /> 
-                                        <button onClick={()=> 
-                                            updatephone({ phone: changePhone, id: student.id})}>Update</button>
-                                    </p>
-                                    <p>Program:
-                                        <select onChange={(value) =>{
-                                            let selectedIndex = value.target.options.selectedIndex;
-                                            //setProgram(value.target.options[selectedIndex].getAttribute('program-id'));
-                                            setProgramName(value.target.options[selectedIndex].getAttribute('program-name'))
-                                        }}>
-                                            <option> </option>
+                                        <Button variant="outlined" size="small" onClick={()=> updatephone({ phone: changePhone, id: student.id})}>Update</Button>
+                                    </Grid>
+
+                                    <Grid item xs={3}>
+                                    
+                                    {/* <TextField 
+                                            id="outlined-select-currency"
+                                            select
+                                            placeholder={student.phone}
+                                            value={changePhone}
+                                            onChange={(value) =>{
+                                                console.log("OPTIONS:");
+                                                console.log(value.target.options);
+                                                let selectedIndex = value.target.options.selectedIndex;
+                                                //setProgram(value.target.options[selectedIndex].getAttribute('program-id'));
+                                                setProgramName(value.target.options[selectedIndex].getAttribute('program-name'))
+                                            }}
+                                            helperText="Please select a program"
+                                            label="Program"
+                                            variant="outlined"
+                                            SelectProps={{
+                                                native: true,
+                                              }}
+                                        >
                                             {changeProgram.map((program) =>
-                                            <option key={program.id} program-id={program.id} program-name={program.programName}>{program.programName}</option>)};
-                                        </select> 
-                                        <button onClick={()=> 
-                                            updateprogram({ programName: changeProgramName, id: student.id})}>Update</button>
-                                    </p>
+                                            <MenuItem key={program.id} program-id={program.id} program-name={program.programName}>{program.programName}</MenuItem>)};
+                                        </TextField> 
+
+                                        <Button onClick={()=> updatephone({ phone: changePhone, id: student.id})}>Update</Button> */}
+                                        
+                                        <p>Program:
+                                            <select onChange={(value) =>{
+                                                                                                console.log("OPTIONS:");
+                                                                                                console.log(value.target.options);
+                                                let selectedIndex = value.target.options.selectedIndex;
+                                                //setProgram(value.target.options[selectedIndex].getAttribute('program-id'));
+                                                setProgramName(value.target.options[selectedIndex].getAttribute('program-name'))
+                                            }}>
+                                                <option> </option>
+                                                {changeProgram.map((program) =>
+                                                <option key={program.id} program-id={program.id} program-name={program.programName}>{program.programName}</option>)};
+                                            </select> 
+                                            <button onClick={()=> 
+                                                updateprogram({ programName: changeProgramName, id: student.id})}>Update</button>
+                                        </p>
+                                    </Grid>
+
+                                    <Grid item xs={3}>
                                     <p>Courses:
-                                        <select>
-                                            {students.map(() =>
-                                            <option> {student.coursesTaken} </option>)};
-                                        </select> 
-                                    </p>
-                                    <button onClick={()=>deleteStudent(student)}>Delete {student.firstname} {student.lastname}</button>
-                                </div>
-                            </div>
+                                            <select>
+                                                {students.map(() =>
+                                                <option> {student.coursesTaken} </option>)};
+                                            </select> 
+                                        </p>
+                                    </Grid>
+                                    <Button variant="outlined" size="medium" onClick={()=>deleteStudent(student)}>Delete {student.firstname} {student.lastname}</Button>
+
+                                </Grid>
+                            </div>                            
                         ))}
                     </Fragment>
             </main>
