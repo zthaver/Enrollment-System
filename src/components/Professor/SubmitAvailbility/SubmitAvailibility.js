@@ -1,3 +1,5 @@
+
+// import * as React from 'react';
 import React, {useState, useEffect, useRef } from 'react';
 import ProfNav from '../ProfessorNavbar/ProfNav';
 import { TextField } from '@material-ui/core';
@@ -380,6 +382,7 @@ export default SubmitAvailiblity;
 
 
 // import {react,useEffect,useState,useRef,forwardRef} from 'react';
+
 // import JqxScheduler, {  jqx } from 'jqwidgets-scripts/jqwidgets-react-tsx/jqxscheduler';
 // import 'jqwidgets-scripts/jqwidgets/styles/jqx.base.css';
 // import { firestore } from '../../../firebase';
@@ -436,95 +439,8 @@ export default SubmitAvailiblity;
 //         },
 //       ]);
     
-//       const [data, setData] = useState([
-//         { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
-//         { name: 'Zerya Betül', surname: 'Baran', birthYear: 2017, birthCity: 34 },
-//       ]);
 
-//     const col = [
-//         {
-//             title:'Description',
-//             field:'description'
-//         },
-//         {
-//             title:'To',
-//             field:'end'
-//         },
-//         {
-//             title:'Appointnment Id',
-//             field:'id'
-//         },
-//         {
-//             title:'Start',
-//             field:'start'
-//         },
-//         {
-//             title:'Subject',
-//             field:'subject'
-//         },
-
-//     ]
-
-//     useEffect(() => {
-//         let arrayAppointments = [];
-//         firestore.collection("appointments").get().then((appointmentsData) => {
-//        setAppointmentData(appointmentsData.docs.map((appointment => 
-//               {
-//             let convertedAppointment = {};
-//             appointment.data();
-//             convertedAppointment.start = appointment.get("start").toDate().toString();
-//             convertedAppointment.end = appointment.get("end").toDate().toString();
-//             convertedAppointment.description = appointment.get("description");
-//             convertedAppointment.id = appointment.get("id");
-//             convertedAppointment.subject = appointment.get("subject");
-//             arrayAppointments.push(convertedAppointment);
-//                return convertedAppointment;
-               
 
 //             }
             
-            
-//        )));
-//        setDataFetched(true);
-//     }, [])})
-
-
-  
-//         return (
-//             dataFetched?
-//             <MaterialTable
-//             icons={tableIcons}
-//             title="Editable Preview"
-//             columns={col}
-//             data={appointmentData}
-//             editable={{
-//               onRowAdd: newData =>
-//                 new Promise((resolve, reject) => {
-//                     const UpdatedRow = [...appointmentData,newData];
-//                     setAppointmentData(UpdatedRow);
-//                 }),
-//               onRowUpdate: (newData, oldData) =>
-//                 new Promise((resolve, reject) => {
-                    
-//                     resolve();
-//                 }),
-//               onRowDelete: oldData =>
-//                 new Promise((resolve, reject) => {
-//                   setTimeout(() => {
-//                     const dataDelete = [...appointmentData];
-//                     const index = oldData.tableData.id;
-//                     dataDelete.splice(index, 1);
-//                     setAppointmentData([...dataDelete]);
-                    
-//                     resolve()
-//                   }, 1000)
-//                 }),
-//             }}
-//           />
-//             :null
-//         );
-    
-
-//     }
-    
-//     export default SubmitAvailiblity;
+      

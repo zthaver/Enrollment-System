@@ -104,6 +104,7 @@ function Enrollment() {
   const classes = useStyles();
   // get the course data
 
+
   async function deleteCourse(id) {
     await studentUser.collection("takenCourses").doc(id).delete();
     studentUser
@@ -145,6 +146,7 @@ function Enrollment() {
           });
       });
   }
+
   useEffect(() => {
     studentUser
       .get()
@@ -202,6 +204,8 @@ function Enrollment() {
               addCourse(rowData);
             },
           },
+
+
         ]}
       />{" "}
       <MaterialTable
@@ -209,6 +213,18 @@ function Enrollment() {
         title="Student Added Courses"
         columns={col}
         data={studentCourses}
+
+        // editable={{
+        //     onRowDelete: oldData =>
+        //     new Promise((resolve, reject) => {         
+        //         setTimeout(() => {
+        //             console.log(oldData.takenID);
+        //             deleteCourse(oldData.takenID);
+        //             resolve();
+        //         }, 2000);
+        //     })
+        // }}
+
         actions={[
           {
             icon: tableIcons.Delete,
@@ -217,6 +233,7 @@ function Enrollment() {
               deleteCourse(rowData.takenID);
             },
           },
+
         ]}
       />{" "}
     </div>
