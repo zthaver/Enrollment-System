@@ -1,6 +1,16 @@
-import React, { useContext, useState, useEffect } from "react"
-import { auth, firestore, functions } from "../firebase"
-import { useHistory } from "react-router-dom";
+import React, {
+  useContext,
+  useState,
+  useEffect
+} from "react"
+import {
+  auth,
+  firestore,
+  functions
+} from "../firebase"
+import {
+  useHistory
+} from "react-router-dom";
 /*
 The file containing the context to deal with all aspects of authentication.
 Including login,signup.
@@ -11,44 +21,44 @@ export function useAuth() {
   return useContext(AuthContext)
 }
 
-export function AuthProvider({ children }) {
+export function AuthProvider({
+  children
+}) {
   let [currentUser, setCurrentUser] = useState();
   let [loading, setLoading] = useState(true);
   let [isAdmin, setIsAdmin] = useState();
-  let [isProfessor, setIsProfessor] = useState(false); 
-  let [isStudent, setIsStudent] = useState(false); 
+  let [isProfessor, setIsProfessor] = useState(false);
+  let [isStudent, setIsStudent] = useState(false);
 
   async function signupAdmin(email, password) {
     //assigns the role to the user (admin in this case)
-    
+
     let signUpResult = null;
     let signUpError = null;
     const addAdminRole = functions.httpsCallable("addAdminRole");
     await auth.createUserWithEmailAndPassword(email, password).then((user) => {
       signUpResult = user;
-      console.log("sucess is "+ signUpResult);
-      addAdminRole({ email: email }).then(result => {
-        
-        
-      }).catch((err) => {
-      })
-    }).catch((err)=>{
+      console.log("sucess is " + signUpResult);
+      addAdminRole({
+        email: email
+      }).then(result => {
+
+
+      }).catch((err) => {})
+    }).catch((err) => {
       signUpError = err;
-      console.log("fail is "+ signUpError);
+      console.log("fail is " + signUpError);
       console.log(err);
     })
 
-    return new Promise((resolve,reject) =>{
-       if(signUpResult)
-       {
+    return new Promise((resolve, reject) => {
+      if (signUpResult) {
         console.log(signUpResult)
-         resolve(signUpResult)
-       }
-       else
-       {
-         console.log(signUpError)
-         reject(signUpError)
-       }
+        resolve(signUpResult)
+      } else {
+        console.log(signUpError)
+        reject(signUpError)
+      }
     })
   }
 
@@ -60,21 +70,20 @@ export function AuthProvider({ children }) {
     const addStudentRole = functions.httpsCallable("addStudentRole");
     await auth.createUserWithEmailAndPassword(email, password).then((user) => {
       signUpResult = user;
-      addStudentRole({ email: email }).then(result => {   
+      addStudentRole({
+        email: email
+      }).then(result => {
         console.log(result)
       }).catch((err) => {
         signUpError = err;
       })
     })
-    return new Promise((resolve,reject) =>{
-     if(signUpResult)
-     {
-       resolve(signUpResult);
-     }
-     else
-     {
-       reject(signUpError);
-     }
+    return new Promise((resolve, reject) => {
+      if (signUpResult) {
+        resolve(signUpResult);
+      } else {
+        reject(signUpError);
+      }
 
     })
   }
@@ -84,27 +93,27 @@ export function AuthProvider({ children }) {
     let signUpResult = null;
     let signUpError = null;
     const addProfessorRole = functions.httpsCallable("addProfessorRole");
-     await auth.createUserWithEmailAndPassword(email, password).then((user) => {
+    await auth.createUserWithEmailAndPassword(email, password).then((user) => {
       signUpResult = user;
-      addProfessorRole({ email: email }).then(result => {
-       
+      addProfessorRole({
+        email: email
+      }).then(result => {
+
         console.log(result)
       }).catch((err) => {
         signUpError = err;
       })
     })
-    return new Promise((resolve,reject) =>{
-     if(signUpResult)
-     {
-       resolve(signUpResult);
-     }
-     else
-     {
-       reject(signUpError);
-     }
+    return new Promise((resolve, reject) => {
+      if (signUpResult) {
+        resolve(signUpResult);
+      } else {
+        reject(signUpError);
+      }
 
     })
   }
+
   function logout() {
     auth.signOut();
     setCurrentUser(null)
@@ -115,111 +124,104 @@ export function AuthProvider({ children }) {
     let authResult = null;
     let tokenClaims;
     let loginError = null;
-     await auth.signInWithEmailAndPassword(email, password)
-     .then((result)=>{
-       result.user.getIdTokenResult().then((tokenResult)=>{
-         tokenClaims = tokenResult.claims
-         console.log(tokenClaims)
-         {
-           //sets the type of user according to  the user's custom claims set by firebase
-          if(tokenResult && tokenResult.claims.admin)
-          {
-            console.log("admin is being set"+ tokenClaims.admin)
+    await auth.signInWithEmailAndPassword(email, password)
+      .then((result) => {
+        result.user.getIdTokenResult().then((tokenResult) => {
+          tokenClaims = tokenResult.claims
+          console.log(tokenClaims)
+
+          //sets the type of user according to  the user's custom claims set by firebase
+          if (tokenResult && tokenResult.claims.admin) {
+            console.log("admin is being set" + tokenClaims.admin)
             setIsAdmin(true);
           }
-          if(tokenResult && tokenResult.claims.professor)
-          {
-            console.log("prof is being set"+ tokenClaims.professor)
+          if (tokenResult && tokenResult.claims.professor) {
+            console.log("prof is being set" + tokenClaims.professor)
             setIsProfessor(true);
           }
-          if(tokenResult && tokenResult.claims.student)
-          {
+          if (tokenResult && tokenResult.claims.student) {
             console.log("student is being set")
             setIsStudent(true);
           }
-         }
-       }) 
-       setCurrentUser(result.user.uid) 
-       authResult = result;
-       console.log("admin is " + isAdmin)       
-       console.log(authResult)
-     }).catch((err)=>{
-       loginError = err;
-     })
-  
-   return new Promise((resolve,reject)=>{
-     if(authResult)
-     {
-      console.log("rizolve"+tokenClaims)
-       resolve( tokenClaims)
-     }
-     else
-     {
-      console.log("reject")
-       return reject({error:loginError})
-     }
-   })
+
+        })
+        setCurrentUser(result.user.uid)
+        authResult = result;
+        console.log("admin is " + isAdmin)
+        console.log(authResult)
+      }).catch((err) => {
+        loginError = err;
+      })
+
+    return new Promise((resolve, reject) => {
+      if (authResult) {
+        console.log("rizolve" + tokenClaims)
+        resolve(tokenClaims)
+      } else {
+        console.log("reject")
+        return reject({
+          error: loginError
+        })
+      }
+    })
   }
 
-// async function deleteUserAuth(){
-//   let deleteResult = null;
-//   let deleteError = null;
-//   const deleteUser = functions.httpsCallable("deleteUser");
+  // async function deleteUserAuth(){
+  //   let deleteResult = null;
+  //   let deleteError = null;
+  //   const deleteUser = functions.httpsCallable("deleteUser");
 
-//   //change to delete user
-//   await auth.createUserWithEmailAndPassword(email, password)
-//     .then((user) => {
-//     deleteResult = user;
-//     deleteUser({ email: email })
-//     .then(result => {
-//       console.log(result)
-//     })
-//     .catch((err) => {
-//       deleteError = err;
-//     })
-//   })
+  //   //change to delete user
+  //   await auth.createUserWithEmailAndPassword(email, password)
+  //     .then((user) => {
+  //     deleteResult = user;
+  //     deleteUser({ email: email })
+  //     .then(result => {
+  //       console.log(result)
+  //     })
+  //     .catch((err) => {
+  //       deleteError = err;
+  //     })
+  //   })
 
-//   return new Promise((resolve,reject) => {
-//     if(deleteResult)
-//     {
-//       resolve(deleteResult);
-//     }
-//     else
-//     {
-//       reject(deleteError);
-//     }
-//     })
-//   }
-/*
-Function called when a user signs in or signs out.
-*/
+  //   return new Promise((resolve,reject) => {
+  //     if(deleteResult)
+  //     {
+  //       resolve(deleteResult);
+  //     }
+  //     else
+  //     {
+  //       reject(deleteError);
+  //     }
+  //     })
+  //   }
+  /*
+  Function called when a user signs in or signs out.
+  */
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged( async user => {
+    const unsubscribe = auth.onAuthStateChanged(async user => {
       console.log(user);
-      if(user)
-      
-       await user.getIdTokenResult().then((token)=>{
-        if(token.claims.admin)
-        {
-          setIsAdmin(true);
-          console.log(" set admin is " + isAdmin)
-          setLoading(false)
-        }
-        if(token.claims.professor)
-        {
-          setIsProfessor(true);
-          setLoading(false)
-        }
-        if(token.claims.student)
-        {
+      if (user)
 
-          setIsStudent(true);
-          setLoading(false)
+        await user.getIdTokenResult().then((token) => {
+          if (token.claims.admin) {
+            setIsAdmin(true);
+            console.log(" set admin is " + isAdmin)
+            setLoading(false)
+          }
+          if (token.claims.professor) {
+            setIsProfessor(true);
+            setLoading(false)
+          }
+          if (token.claims.student) {
 
-        }
-      })
+            setIsStudent(true);
+            setLoading(false)
+
+          }
+        })
       //setCurrentUser(user)
-      
+
       setLoading(false)
     })
 
@@ -239,10 +241,13 @@ Function called when a user signs in or signs out.
   }
 
 
-  
-  return (
-    <AuthContext.Provider value={value}>
-      {!loading && children}
-    </AuthContext.Provider>
+
+  return ( <
+    AuthContext.Provider value = {
+      value
+    } > {
+      !loading && children
+    } <
+    /AuthContext.Provider>
   )
 }

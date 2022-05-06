@@ -207,15 +207,15 @@ function ProfessorHomePage()
 
                     tempArray.push(doc.data());
                 });
-                setAppointments(tempArray.map((item) => {
-                    console.log(item);
-                    let tempObj = {}
-                    tempObj.start =  item.start.toDate()
-                    tempObj.end =  item.end.toDate()
-                    console.log("tempObj")
-                    console.log(tempObj)
-                    return tempObj;
-                }));
+               // setAppointments(tempArray.map((item) => {
+                 ///   console.log(item);
+                   // let tempObj = {}
+                    //tempObj.start =  item.start.toDate()
+                    //tempObj.end =  item.end.toDate()
+                    //console.log("tempObj")
+                    //console.log(tempObj)
+                    //return tempObj;
+                //}));
             } else {
                 console.log("Doesn't exist");
             }
